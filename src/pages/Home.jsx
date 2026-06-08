@@ -19,19 +19,23 @@ export default function Home() {
       
       {/* Banner Cards - Dark Section */}
       <BannerCards />
-
+ <AboutUs></AboutUs>
       {/* White Features Section */}
-      <Features />
       <BestSellers></BestSellers>
-      <LatestNews></LatestNews>
+      <CallToAction></CallToAction>
+      <Features />
+      
+      
       <AllProducts></AllProducts>
       
       
-      <AboutUs></AboutUs>
-      <CallToAction></CallToAction>
+     
+      
       <FlashDeals></FlashDeals>
-      <Newsletter></Newsletter>
+   
       <IconsBar></IconsBar>
+
+      <LatestNews></LatestNews>
     </>
   );
 }

@@ -81,7 +81,7 @@ const Footer = () => {
 
       <div className="border-t border-slate-800/50 relative z-10">
         <div className="max-w-7xl mx-auto px-5 py-6 flex flex-col md:flex-row items-center justify-between justify-center gap-4">
-          <p className="text-slate-600 text-sm">© 2026 24hrfremonttireservice. All Rights Reserved by Nexvia.com.</p>
+          <p className="text-slate-600 text-sm">© 2026 24hrfremonttireservice. All Rights Reserved by <span className="text-blue-500">Nexvia.com</span>.</p>
          
         </div>
       </div>

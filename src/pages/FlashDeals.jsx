@@ -108,8 +108,7 @@ export default function FlashDeals() {
               <span className="text-red-600 text-[10px] font-bold tracking-[3px] uppercase">Limited Time</span>
             </div>
 
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-3 leading-none"
-                style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: "0.02em" }}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-3 leading-none tracking-tight">
               <span className="text-gray-900">Flash </span>
               <span className="text-red-600">Deals</span>
             </h2>

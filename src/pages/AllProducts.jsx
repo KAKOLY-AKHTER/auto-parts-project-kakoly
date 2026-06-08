@@ -34,100 +34,86 @@ function ProductCard({ product, index, vis }) {
 
   return (
     <div
-      className="group relative bg-white overflow-hidden cursor-pointer"
+      className="group relative bg-gradient-to-br from-blue-50 to-white overflow-hidden cursor-pointer"
       style={{
-        borderRadius: "10px",
+        borderRadius: "12px",
         opacity: vis ? 1 : 0,
         transform: vis ? "translateY(0)" : "translateY(30px)",
         transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay}`,
-        border: "1px solid #f0f0f0",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        border: "1px solid #e5e7eb",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
       }}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
     >
-      <div
-        className="absolute inset-0 rounded-[10px] pointer-events-none transition-all duration-400"
+      <div className="absolute inset-0 rounded-[12px] pointer-events-none transition-all duration-300"
         style={{
-          boxShadow: hov ? "0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06)" : "none",
+          boxShadow: hov ? "0 12px 40px rgba(0,0,0,0.08), 0 0 0 1px #2563eb20" : "none",
           opacity: hov ? 1 : 0,
         }}
       />
 
-      <div className="relative overflow-hidden" style={{ background: "#fafafa" }}>
+      <div className="relative overflow-hidden bg-blue-50/50">
         <div style={{ aspectRatio: "1/1" }}>
           <img
             src={product.img}
             alt={product.title}
-            className="w-full h-full transition-all duration-700 ease-out"
+            className="w-full h-full transition-all duration-500"
             style={{
               objectFit: "contain",
-              transform: hov ? "scale(1.08)" : "scale(1)",
-              padding: "24px",
-              filter: hov ? "brightness(1.02)" : "brightness(0.98)",
+              transform: hov ? "scale(1.1)" : "scale(1)",
+              padding: "20px",
             }}
           />
         </div>
 
-        <div className="absolute inset-0 pointer-events-none transition-opacity duration-400"
-          style={{
-            background: "linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.04))",
-            opacity: hov ? 1 : 0,
-          }}
-        />
-
         {product.sale && (
-          <span className="absolute top-2.5 left-2.5 inline-flex items-center justify-center w-9 h-9 bg-red-600 text-white text-[10px] font-bold rounded-full shadow-sm z-10"
-            style={{
-              animation: vis ? `popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${delay} both` : "none",
-            }}>
+          <span className="absolute top-2 left-2 z-10 px-2 py-0.5 bg-red-600 text-white text-[10px] font-bold rounded-md shadow-sm">
             -{product.sale}%
           </span>
         )}
 
         <button
-          className="absolute top-2.5 right-2.5 z-10 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300"
+          className="absolute top-2 right-2 z-10 w-7 h-7 flex items-center justify-center rounded-full transition-all duration-300 bg-white shadow-sm"
           style={{
-            background: hov ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.8)",
             color: hov ? "#dc2626" : "#9ca3af",
-            boxShadow: hov ? "0 2px 8px rgba(0,0,0,0.08)" : "none",
-            opacity: hov ? 1 : 0.7,
+            opacity: hov ? 1 : 0.6,
             transform: hov ? "scale(1)" : "scale(0.9)",
           }}
         >
-          <svg viewBox="0 0 24 24" fill={hov ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          <svg viewBox="0 0 24 24" fill={hov ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" className="w-3 h-3"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
         </button>
 
-        <div className="absolute inset-x-3 bottom-3 z-10 flex flex-col gap-2"
+        <div className="absolute inset-x-2 bottom-2 z-10 flex flex-col gap-1.5"
           style={{
             opacity: hov ? 1 : 0,
-            transform: hov ? "translateY(0)" : "translateY(10px)",
-            transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+            transform: hov ? "translateY(0)" : "translateY(8px)",
+            transition: "all 0.25s ease",
             transitionDelay: hov ? "0.03s" : "0s",
           }}
         >
-          <button className="w-full py-2.5 bg-white text-gray-800 hover:text-white hover:bg-red-600 text-[11px] font-bold uppercase tracking-[1px] rounded-lg transition-all duration-300 border border-gray-200 hover:border-red-600 flex items-center justify-center gap-2 shadow-sm">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+          <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-semibold uppercase tracking-[1px] rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
             Add to Cart
           </button>
-          <button className="w-full py-2 bg-white/80 backdrop-blur-sm text-gray-500 hover:text-gray-900 text-[10px] font-medium tracking-[0.5px] rounded-lg transition-all duration-300 border border-gray-100 hover:border-gray-300 flex items-center justify-center gap-1.5">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <button className="w-full py-1.5 bg-white/90 text-gray-600 hover:text-gray-900 text-[9px] font-medium tracking-[0.5px] rounded-lg transition-all duration-200 border border-gray-200 flex items-center justify-center gap-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-2.5 h-2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             Quick View
           </button>
         </div>
       </div>
 
-      <div className="p-4 pt-3.5">
+      <div className="p-3.5">
         <StarRating rating={product.rating} />
-        <h4 className="text-sm font-semibold leading-snug mt-1.5 mb-1.5 text-gray-900 transition-colors duration-300"
-            style={{ color: hov ? "#dc2626" : "#111827" }}>
+        <h4 className="text-sm font-semibold leading-snug mt-1.5 mb-1 text-gray-900 transition-colors duration-200"
+            style={{ color: hov ? "#2563eb" : "#111827" }}>
           {product.title}
         </h4>
-        <div className="flex items-baseline gap-2.5 mb-3">
+        <div className="flex items-baseline gap-2 mb-2.5">
           {product.sale ? (
             <>
               <span className="text-base font-bold text-gray-900">${(product.price * (1 - product.sale / 100)).toFixed(2)}</span>
-              <span className="text-xs text-gray-400 line-through">${product.price.toFixed(2)}</span>
+              <span className="text-[11px] text-gray-400 line-through">${product.price.toFixed(2)}</span>
             </>
           ) : (
             <span className="text-base font-bold text-gray-900">${product.price.toFixed(2)}</span>
@@ -135,10 +121,10 @@ function ProductCard({ product, index, vis }) {
         </div>
         <a
           href="#"
-          className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[1.5px] text-gray-400 hover:text-red-600 transition-all duration-300 group/link"
+          className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[1px] text-gray-400 hover:text-blue-600 transition-all duration-200 group/link"
         >
           View Details
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className="w-2.5 h-2.5 transition-transform duration-300 group-hover/link:translate-x-1">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className="w-2.5 h-2.5 transition-transform duration-200 group-hover/link:translate-x-1">
             <path d="M6 12L10 8 6 4" />
           </svg>
         </a>
@@ -166,7 +152,7 @@ export default function AllProducts() {
   }, []);
 
   return (
-    <section ref={ref} className="bg-white py-16 md:py-20 px-5">
+    <section ref={ref} className="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-16 md:py-20 px-5">
       <style>{`
         @keyframes popIn {
           0% { transform: scale(0) rotate(-8deg); opacity: 0; }
@@ -182,14 +168,15 @@ export default function AllProducts() {
             transition: "all 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
           }}
         >
-          <span className="inline-block px-6 py-2.5 bg-red-100 text-red-600 text-xs font-bold tracking-[2.5px] rounded-full mb-4">
+          <span className="inline-block px-6 py-2.5 bg-red-100 text-red-600 text-xs font-bold tracking-[2.5px] rounded-full mb-4 border border-red-200/50">
             OUR PRODUCTS
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5 tracking-tight">
-            All Of Our Products
+          <h2 className="text-4xl md:text-5xl font-bold mb-5 tracking-tight">
+            <span className="text-gray-900">All Of Our </span>
+            <span className="text-red-600">Products</span>
           </h2>
-          <p className="max-w-lg mx-auto text-gray-600 text-lg">
-            All best seller product are now available for you and you can buy this product from here any time anywhere so shop now
+          <p className="max-w-lg mx-auto text-gray-500 text-base">
+            Premium auto parts at the best prices — shop our complete collection
           </p>
         </div>
 

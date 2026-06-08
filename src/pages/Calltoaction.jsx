@@ -38,8 +38,8 @@ export default function CallToAction() {
         />
 
         {/* top accent line */}
-        <div className="absolute top-0 left-0 right-0 h-[3px] z-10"
-          style={{ background:"linear-gradient(90deg,#dc2626 0%,#1d4ed8 50%,#dc2626 100%)" }} />
+        {/* <div className="absolute top-0 left-0 right-0 h-[3px] z-10"
+          style={{ background:"linear-gradient(90deg,#dc2626 0%,#1d4ed8 50%,#dc2626 100%)" }} /> */}
 
         {/* ── TEXT BLOCK ── */}
         <div className={`relative z-10 pt-16 pb-4 px-6 text-center ${vis ? "anim-txt" : "opacity-0"}`}>

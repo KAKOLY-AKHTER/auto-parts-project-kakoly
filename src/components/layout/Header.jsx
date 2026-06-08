@@ -139,18 +139,19 @@ export default function Header() {
             style={{ background:"linear-gradient(90deg,transparent,rgba(29,78,216,0.2),transparent)" }} />
 
           {/* LOGO */}
-          <a href="/" className="group flex items-center gap-3 no-underline flex-shrink-0">
+          <a href="/" className="flex items-center gap-4 no-underline flex-shrink-0 ml-6 md:ml-10">
             <img
               src="/logo.png"
               alt="AutoParts"
-              className="h-[52px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-              style={{ filter:"brightness(1.18) contrast(1.06) drop-shadow(0 2px 12px rgba(30,64,175,0.5))" }}
+              className="h-[60px] md:h-[68px] w-auto object-contain transition-transform duration-300 hover:scale-105"
+              style={{ filter:"brightness(1.3) contrast(1.15) drop-shadow(0 2px 16px rgba(30,64,175,0.6))" }}
               onError={(e) => { e.target.style.display = "none"; }}
             />
-            <div className="w-px h-[30px] flex-shrink-0" style={{ background:"linear-gradient(to bottom,transparent,rgba(255,255,255,0.15),transparent)" }} />
-            <span className="font-['Bebas_Neue'] text-[26px] tracking-[0.16em] uppercase text-[#e8eeff] leading-none whitespace-nowrap">
-              AUTO<em className="not-italic text-red-500">PARTS</em>
-            </span>
+            <div className="w-px h-[34px] bg-white/10 flex-shrink-0" />
+            <div className="flex flex-col leading-tight">
+              <span className="text-sm md:text-base font-bold text-white tracking-wide">24hrfremonttireservice</span>
+              <span className="text-[10px] md:text-[11px] text-gray-400 tracking-wider">by nexviya.com</span>
+            </div>
           </a>
 
           {/* NAV — center */}

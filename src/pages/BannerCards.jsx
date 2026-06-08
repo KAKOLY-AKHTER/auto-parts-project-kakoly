@@ -37,7 +37,7 @@ export default function BannerCards() {
     <>
       <style>{`
         .banners {
-          background: transparent;
+          background: linear-gradient(to bottom, transparent 180px, #1e293f 180px);
           padding: 40px 5% 110px;
           margin-top: -120px;
           position: relative;
