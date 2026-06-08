@@ -5,7 +5,7 @@ import BestSellers from "./BestSellers";
 import CallToAction from "./Calltoaction";
 import Features from "./Features";
 import Hero from "./Hero";
-import LatestNews from "./LatestNews";
+import LatestNews from "./Latestnews";
 import AllProducts from "./AllProducts";
 import FlashDeals from "./FlashDeals";
 import Newsletter from "./Newsletter";
