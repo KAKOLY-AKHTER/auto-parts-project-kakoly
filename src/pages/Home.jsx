@@ -6,7 +6,10 @@ import CallToAction from "./Calltoaction";
 import Features from "./Features";
 import Hero from "./Hero";
 import LatestNews from "./LatestNews";
-
+import AllProducts from "./AllProducts";
+import FlashDeals from "./FlashDeals";
+import Newsletter from "./Newsletter";
+import IconsBar from "./IconsBar";
 
 export default function Home() {
   return (
@@ -20,11 +23,15 @@ export default function Home() {
       {/* White Features Section */}
       <Features />
       <BestSellers></BestSellers>
+      <LatestNews></LatestNews>
+      <AllProducts></AllProducts>
+      
+      
       <AboutUs></AboutUs>
-<CallToAction></CallToAction>
-<LatestNews></LatestNews>
-      {/* Rest of your sections (Why Choose Us, Categories, CTA) */}
-      {/* ... your other sections here */}
+      <CallToAction></CallToAction>
+      <FlashDeals></FlashDeals>
+      <Newsletter></Newsletter>
+      <IconsBar></IconsBar>
     </>
   );
 }

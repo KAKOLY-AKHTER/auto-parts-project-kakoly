@@ -141,7 +141,7 @@ export default function Header() {
           {/* LOGO */}
           <a href="/" className="group flex items-center gap-3 no-underline flex-shrink-0">
             <img
-              src="/auto-logo-removebg-preview (1).png"
+              src="/logo.png"
               alt="AutoParts"
               className="h-[52px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               style={{ filter:"brightness(1.18) contrast(1.06) drop-shadow(0 2px 12px rgba(30,64,175,0.5))" }}

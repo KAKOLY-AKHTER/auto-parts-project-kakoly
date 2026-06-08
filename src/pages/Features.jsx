@@ -63,17 +63,17 @@ function FeatureCard({ item, index }) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         className="relative bg-white rounded-3xl p-8 h-full overflow-hidden border border-gray-100
-                   hover:border-red-300 hover:shadow-2xl transition-all duration-500"
+                   hover:border-red-400 hover:shadow-[0_20px_60px_-12px_rgba(220,38,38,0.25)] transition-all duration-500"
       >
         {/* Bright Top Accent */}
-        <div className={`absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-red-500 via-red-500 to-orange-500 
+        <div className={`absolute top-0 left-0 right-0 h-[5px] bg-gradient-to-r from-rose-600 via-red-500 to-amber-400 
                         transition-transform duration-700 origin-left ${hovered ? 'scale-x-100' : 'scale-x-0'}`} />
 
         {/* Icon + Tag */}
         <div className="flex justify-between items-start mb-10">
-          <div className={`w-20 h-20 rounded-2xl flex items-center justify-center bg-gradient-to-br from-red-50 to-white 
+          <div className={`w-20 h-20 rounded-2xl flex items-center justify-center bg-gradient-to-br from-rose-50 via-white to-amber-50 
                           border transition-all duration-500 shadow-sm
-                          ${hovered ? 'border-red-300 -rotate-6 scale-110 shadow-red-100' : 'border-gray-100'}`}>
+                          ${hovered ? 'border-red-300 -rotate-6 scale-110 shadow-red-200' : 'border-gray-100'}`}>
             <img 
               src={item.img} 
               alt={item.title} 
@@ -82,24 +82,24 @@ function FeatureCard({ item, index }) {
           </div>
 
           <div className={`text-xs font-bold tracking-widest px-5 py-2 rounded-full border transition-all duration-500
-                          ${hovered ? 'bg-red-600 text-white border-red-600' : 'bg-red-50 text-red-600 border-red-100'}`}>
+                          ${hovered ? 'bg-gradient-to-r from-rose-600 to-red-500 text-white border-transparent shadow-lg shadow-red-200' : 'bg-rose-50 text-rose-600 border-rose-200'}`}>
             {item.tag}
           </div>
         </div>
 
         {/* Content */}
-        <h3 className={`text-2xl font-semibold mb-4 transition-colors duration-300 ${hovered ? 'text-red-600' : 'text-gray-900'}`}>
+        <h3 className={`text-2xl font-semibold mb-4 transition-all duration-300 ${hovered ? 'text-rose-700' : 'text-gray-900'}`}>
           {item.title}
         </h3>
 
-        <p className="text-gray-600 leading-relaxed mb-8 text-[15px]">
+        <p className="text-gray-500 leading-relaxed mb-8 text-[15px]">
           {item.desc}
         </p>
 
         {/* Stat - Brighter */}
         <div className={`inline-flex items-center gap-4 px-6 py-4 rounded-2xl backdrop-blur-md border transition-all duration-500
-                        ${hovered ? 'bg-red-50 border-red-200 shadow-sm' : 'bg-gray-50 border-gray-100'}`}>
-          <span className={`text-3xl font-bold transition-colors ${hovered ? 'text-red-600' : 'text-red-600'}`}>
+                        ${hovered ? 'bg-gradient-to-br from-rose-50 to-amber-50 border-rose-200 shadow-md' : 'bg-gray-50 border-gray-100'}`}>
+          <span className={`text-3xl font-bold transition-colors duration-300 ${hovered ? 'text-rose-700' : 'text-rose-600'}`}>
             {item.stat}
           </span>
           <div className="text-xs leading-tight">
@@ -122,7 +122,7 @@ export default function Features() {
           ref={secRef}
           className={`text-center mb-16 transition-all duration-700 ${secVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
-          <span className="inline-block px-6 py-2.5 bg-red-100 text-red-600 text-xs font-bold tracking-[2.5px] rounded-full mb-4">
+          <span className="inline-block px-6 py-2.5 bg-rose-100 text-rose-700 text-xs font-bold tracking-[2.5px] rounded-full mb-4">
             OUR PROMISE
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5 tracking-tight">
