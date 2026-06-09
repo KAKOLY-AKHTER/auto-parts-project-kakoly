@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
 const banners = [
-  { img: "/img1.png", href: "#" },
-  { img: "/img2.png", href: "#" },
-  { img: "/img3.png", href: "#" },
+  { img: "/mobile-mechanic.png", href: "/fleet-services" },
+  { img: "/oil-change-service.png",     href: "/services"       },
+  { img: "/roadside-assistance.png",    href: "/fleet-services" },
 ];
 
 export default function BannerCards() {
@@ -177,15 +177,15 @@ export default function BannerCards() {
         .bn-label-arrow {
           width: 32px; height: 32px;
           border-radius: 50%;
-          background: rgba(220,38,38,0.25);
-          border: 1px solid rgba(220,38,38,0.45);
+          background: rgba(37,99,235,0.25);
+          border: 1px solid rgba(37,99,235,0.45);
           display: flex; align-items: center; justify-content: center;
-          color: #f87171;
+          color: #60a5fa;
           transition: background 0.3s, transform 0.3s cubic-bezier(.22,.68,0,1.2);
           flex-shrink: 0;
         }
         .bn:hover .bn-label-arrow {
-          background: rgba(220,38,38,0.45);
+          background: rgba(37,99,235,0.45);
           transform: rotate(-45deg);
         }
         .bn-label-arrow svg { width: 14px; height: 14px; }
@@ -224,8 +224,8 @@ export default function BannerCards() {
       <section className="banners">
         <div className="banners-grid">
           {banners.map((b, i) => {
-            const labels = ["New Arrivals", "Top Rated", "Best Deals"];
-            const badges = ["Featured", "Popular", "Sale"];
+            const labels = ["Truck & Fleet Tire Service", "Mobile Oil Change", "24/7 Roadside Assistance"];
+            const badges = ["Fleet Service", "From $49", "24/7 Available"];
             return (
               <a
                 key={i}

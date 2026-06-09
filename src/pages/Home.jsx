@@ -10,7 +10,8 @@ import Hero from "./Hero";
 import LatestNews from "./Latestnews";
 import AllProducts from "./AllProducts";
 import FlashDeals from "./FlashDeals";
-import Newsletter from "./Newsletter";
+import RoadsideSection from "./RoadsideSection";
+// import Newsletter from "./Newsletter";
 import IconsBar from "./IconsBar";
 
 export default function Home() {
@@ -21,7 +22,8 @@ export default function Home() {
       
       {/* Banner Cards - Dark Section */}
       <BannerCards />
- <AboutUs></AboutUs>
+      <RoadsideSection />
+      <AboutUs></AboutUs>
       <DealsSection />
       {/* White Features Section */}
       <BestSellers></BestSellers>

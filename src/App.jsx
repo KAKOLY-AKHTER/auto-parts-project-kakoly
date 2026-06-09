@@ -12,6 +12,7 @@ import Blog from './pages/Blog';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import ReturnPolicy from './pages/ReturnPolicy';
+import FleetServices from './pages/FleetServices';
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/return-policy"  element={<Layout><ReturnPolicy /></Layout>} />
         <Route path="/money-back"     element={<Layout><ReturnPolicy /></Layout>} />
         <Route path="/support"        element={<Layout><Contact /></Layout>} />
+        <Route path="/fleet-services" element={<Layout><FleetServices /></Layout>} />
       </Routes>
     </Router>
   );
