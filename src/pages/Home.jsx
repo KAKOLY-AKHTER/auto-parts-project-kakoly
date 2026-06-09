@@ -1,8 +1,10 @@
 import Header from "../components/layout/Header";
 import AboutUs from "./AboutUs";
+import AwardBanner from "./AwardBanner";
 import BannerCards from "./BannerCards";
 import BestSellers from "./BestSellers";
 import CallToAction from "./Calltoaction";
+import DealsSection from "./DealsSection";
 import Features from "./Features";
 import Hero from "./Hero";
 import LatestNews from "./Latestnews";
@@ -20,12 +22,13 @@ export default function Home() {
       {/* Banner Cards - Dark Section */}
       <BannerCards />
  <AboutUs></AboutUs>
+      <DealsSection />
       {/* White Features Section */}
       <BestSellers></BestSellers>
       <CallToAction></CallToAction>
       <Features />
-      
-      
+      <AwardBanner />
+
       <AllProducts></AllProducts>
       
       

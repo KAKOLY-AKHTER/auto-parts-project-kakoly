@@ -103,17 +103,17 @@ export default function FlashDeals() {
               transition: "all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
             }}
           >
-            <div className="flex items-center gap-2.5 mb-4">
-              <span className="inline-block w-1 h-5 bg-red-600 rounded-full" />
-              <span className="text-red-600 text-[10px] font-bold tracking-[3px] uppercase">Limited Time</span>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-red-600" />
+              <span className="text-[11px] font-black tracking-[3px] uppercase text-red-600">Limited Time</span>
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-bold mb-3 leading-none tracking-tight">
+            <h2 className="text-[28px] md:text-[36px] font-black mb-3 leading-none tracking-tight">
               <span className="text-gray-900">Flash </span>
               <span className="text-red-600">Deals</span>
             </h2>
 
-            <div className="w-12 h-0.5 bg-gradient-to-r from-red-600 to-red-400 rounded-full mb-4" />
+            <div className="w-12 h-0.5 bg-linear-to-r from-red-600 to-red-400 rounded-full mb-4" />
 
             <p className="text-gray-500 text-sm max-w-sm mb-6 leading-relaxed">
               Hurry up and get <span className="text-red-600 font-bold">25% discount</span> on premium auto parts. Limited time offer!

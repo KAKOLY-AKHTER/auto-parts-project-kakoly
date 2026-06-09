@@ -1,148 +1,160 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const items = [
+const cards = [
   {
-    img: "/plane.png",
-    tag: "01",
-    title: "Free Home Delivery",
-    desc: "Free delivery for all products over $100. Fast, reliable shipping straight to your door — tracked every step of the way.",
-    stat: "100%",
-    statLabel: "On-time rate",
+    img: "/tik-mark-card.png",
+    title: "FREE Vehicle Inspection",
+    desc: "We inspect your car and provide a full report so you can make smarter decisions with every visit.",
   },
   {
-    img: "/badge.png",
-    tag: "02",
-    title: "Quality Products",
-    desc: "Every part is certified OEM or original. We guarantee authenticity, fitment accuracy, and durability on every single order.",
-    stat: "5000+",
-    statLabel: "SKUs stocked",
+    img: "/doller.png",
+    title: "Price Match Guarantee",
+    desc: "Found a lower price? We'll match any advertised competitor rate — at purchase or up to 30 days after.",
   },
   {
-    img: "/headphn.png",
-    tag: "03",
-    title: "Online Support 24/7",
-    desc: "Our expert team is available around the clock — online, by phone, or via live chat — to help you find exactly what you need.",
-    stat: "24/7",
-    statLabel: "Expert support",
+    img: "/watch.png",
+    title: "Same-Day Appointments",
+    desc: "Drive in today, drive out the same day. Most services completed in 30 minutes or less.",
+  },
+  {
+    img: "/care.png",
+    title: "Trusted Car Care Since 1998",
+    desc: "Over 50,000 customers trust us. ASE-certified technicians delivering honest service every time.",
   },
 ];
 
-function useReveal() {
-  const ref = useRef(null);
+export default function Features() {
   const [vis, setVis] = useState(false);
+  const ref = useRef(null);
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVis(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.2 }
+    const o = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVis(true); },
+      { threshold: 0.08 }
     );
-    observer.observe(el);
-    return () => observer.disconnect();
+    o.observe(el);
+    return () => o.disconnect();
   }, []);
-  return [ref, vis];
-}
-
-function FeatureCard({ item, index }) {
-  const [hovered, setHovered] = useState(false);
-  const [ref, vis] = useReveal();
 
   return (
-    <div
-      ref={ref}
-      className={`group relative transition-all duration-[800ms] ease-out
-                  ${vis ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-32 scale-75'}`}
-      style={{ transitionDelay: `${index * 160}ms` }}
-    >
-      <div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="relative bg-gradient-to-br from-blue-950/60 via-slate-900 to-blue-900/40 backdrop-blur-xl rounded-3xl p-8 h-full overflow-hidden border border-blue-500/20
-                   hover:border-blue-400/50 hover:shadow-[0_20px_60px_-12px_rgba(37,99,235,0.35)] transition-all duration-500"
-      >
-        {/* Bright Top Accent */}
-        <div className={`absolute top-0 left-0 right-0 h-[5px] bg-gradient-to-r from-blue-600 via-blue-500 to-sky-400 
-                        transition-transform duration-700 origin-left ${hovered ? 'scale-x-100' : 'scale-x-0'}`} />
+    <section ref={ref} className="bg-white py-14 md:py-16">
+      <div className="max-w-7xl mx-auto px-5 md:px-[5%]">
 
-        {/* Icon + Tag */}
-        <div className="flex justify-between items-start mb-10">
-          <div className={`w-20 h-20 rounded-2xl flex items-center justify-center bg-white/10 backdrop-blur-md 
-                          border transition-all duration-500 shadow-sm
-                          ${hovered ? 'border-blue-400/50 -rotate-6 scale-110 shadow-blue-500/30' : 'border-white/20'}`}>
-            <img 
-              src={item.img} 
-              alt={item.title} 
-              className={`w-11 h-11 transition-all duration-700 ${hovered ? 'scale-110' : ''}`} 
+        {/* ── Card wrapper ── */}
+        <div
+          className="rounded-2xl overflow-hidden bg-white"
+          style={{
+            border: "1.5px solid #e5e7eb",
+            boxShadow: "0 4px 40px rgba(0,0,0,0.06)",
+            opacity: vis ? 1 : 0,
+            transform: vis ? "none" : "translateY(24px)",
+            transition: "opacity .6s ease, transform .6s ease",
+          }}>
+
+          {/* red top strip */}
+          <div className="h-1 bg-red-600 w-full" />
+
+          <div className="px-8 md:px-12 pt-10 pb-8">
+
+            {/* Header */}
+            <div className="text-center mb-10">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <div className="h-px w-10 bg-gradient-to-r from-transparent to-red-500" />
+                <span className="text-[11px] font-black tracking-[3px] uppercase text-red-600">Why Choose Us</span>
+                <div className="h-px w-10 bg-gradient-to-l from-transparent to-red-500" />
+              </div>
+              <h2 className="text-[26px] md:text-[32px] font-black text-gray-900 tracking-tight mb-2">
+                The <span className="text-red-600">TireOil</span> Advantage
+              </h2>
+              <p className="text-[13.5px] text-gray-400">
+                Here's what you can count on with every service.{" "}
+                <a href="/about" className="text-red-600 font-bold hover:underline underline-offset-2">
+                  Learn More
+                </a>
+              </p>
+            </div>
+
+            {/* 4 columns */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
+              {cards.map(({ img, title, desc }, i) => (
+                <div
+                  key={title}
+                  className="flex flex-col items-center text-center group"
+                  style={{
+                    opacity: vis ? 1 : 0,
+                    transform: vis ? "none" : "translateY(18px)",
+                    transition: `opacity .5s ease ${0.1 + i * 0.09}s, transform .5s ease ${0.1 + i * 0.09}s`,
+                  }}>
+
+                  {/* Icon circle */}
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110"
+                    style={{
+                      background: "#fff",
+                      border: "2.5px solid #dc2626",
+                      boxShadow: "0 6px 20px rgba(220,38,38,0.18)",
+                    }}>
+                    <img
+                      src={img}
+                      alt={title}
+                      className="w-9 h-9 object-contain"
+                    />
+                  </div>
+
+                  <h3 className="text-[13.5px] font-black text-gray-900 leading-snug mb-2">{title}</h3>
+                  <p className="text-[12px] text-gray-500 leading-relaxed mb-3">{desc}</p>
+
+                  <a href="/about"
+                    className="text-[11px] font-black tracking-[2px] uppercase text-red-600 hover:text-red-700 transition-colors">
+                    Learn More
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mascot strip */}
+          <div
+            className="flex items-center justify-center py-4"
+            style={{
+              background: "#f9f9f9",
+              borderTop: "1px solid #f0f0f0",
+              opacity: vis ? 1 : 0,
+              transition: "opacity .7s ease .45s",
+            }}>
+            <img
+              src="/man.png"
+              alt="Service Team"
+              className="h-36 object-contain"
+              style={{ filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.09))" }}
             />
           </div>
-
-          <div className={`text-xs font-bold tracking-widest px-5 py-2 rounded-full border transition-all duration-500
-                          ${hovered ? 'bg-gradient-to-r from-blue-600 to-sky-500 text-white border-transparent shadow-lg shadow-blue-500/30' : 'bg-white/10 backdrop-blur-md text-blue-200 border-white/20'}`}>
-            {item.tag}
-          </div>
         </div>
 
-        {/* Content */}
-        <h3 className={`text-2xl font-semibold mb-4 transition-all duration-300 ${hovered ? 'text-blue-300' : 'text-white'}`}>
-          {item.title}
-        </h3>
-
-        <p className="text-slate-400 leading-relaxed mb-8 text-[15px]">
-          {item.desc}
-        </p>
-
-        {/* Stat - Brighter */}
-        <div className={`inline-flex items-center gap-4 px-6 py-4 rounded-2xl backdrop-blur-md border transition-all duration-500
-                        ${hovered ? 'bg-white/15 border-blue-400/40 shadow-md shadow-blue-500/20' : 'bg-white/5 border-white/10'}`}>
-          <span className={`text-3xl font-bold transition-colors duration-300 ${hovered ? 'text-blue-300' : 'text-blue-400'}`}>
-            {item.stat}
-          </span>
-          <div className="text-xs leading-tight">
-            <span className="block font-medium text-slate-400">{item.statLabel}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function Features() {
-  const [secRef, secVis] = useReveal();
-
-  return (
-    <section className="bg-[#1e293b] pt-8 pb-20 md:pb-28 px-5 relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
+        {/* ── Bottom tagline ── */}
         <div
-          ref={secRef}
-          className={`text-center mb-16 transition-all duration-700 ${secVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-        >
-          <span className="inline-block px-6 py-2.5 bg-white/10 backdrop-blur-md text-blue-200 text-xs font-bold tracking-[2.5px] rounded-full mb-4 border border-white/20">
-            OUR PROMISE
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-5 tracking-tight">
-            <span className="text-white">Why Choose </span>
-            <span className="text-red-500">AutoParts</span>
-          </h2>
-          <p className="max-w-lg mx-auto text-slate-400 text-lg">
-            Built on trust, speed, and uncompromising quality.
+          className="text-center pt-10"
+          style={{
+            opacity: vis ? 1 : 0,
+            transition: "opacity .6s ease .5s",
+          }}>
+          <h3 className="text-[20px] md:text-[24px] font-black text-gray-900 mb-4">
+            TireOil has Served the Community Since <span className="text-red-600">1998</span>
+          </h3>
+          <p className="text-[13.5px] text-gray-500 max-w-[620px] mx-auto leading-relaxed mb-3">
+            Over 25 years ago, a team of passionate automotive technicians set out to build something different — a tire &amp; oil service shop driven by honesty, speed, and care. In the process, they built one of Fremont's most trusted names in auto service.
           </p>
+          <p className="text-[13.5px] text-gray-500 max-w-[620px] mx-auto leading-relaxed mb-4">
+            Our technicians are a big part of that story, but so are the thousands of customers who've trusted us with their vehicles over the years. Let's keep driving forward — together.
+          </p>
+          <a href="/about"
+            className="text-[13.5px] font-bold text-red-600 hover:text-red-700 hover:underline underline-offset-4 transition-colors">
+            Learn More
+          </a>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {items.map((item, i) => (
-            <FeatureCard key={i} item={item} index={i} />
-          ))}
-        </div>
       </div>
     </section>
   );

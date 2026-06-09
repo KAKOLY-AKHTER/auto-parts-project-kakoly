@@ -37,8 +37,8 @@ export default function BannerCards() {
     <>
       <style>{`
         .banners {
-          background: linear-gradient(to bottom, transparent 180px, #1e293f 180px);
-          padding: 40px 5% 110px;
+          background: linear-gradient(to bottom, transparent 180px, #ffffff 180px);
+          padding: 40px 5% 30px;
           margin-top: -120px;
           position: relative;
           z-index: 10;
@@ -81,7 +81,7 @@ export default function BannerCards() {
           box-shadow:
             0 32px 72px rgba(0,0,0,0.55),
             0 0 0 1px rgba(255,255,255,0.1),
-            0 0 60px rgba(37,99,235,0.12);
+            0 0 60px rgba(220,38,38,0.12);
         }
 
         /* ── IMAGE ── */
@@ -150,8 +150,8 @@ export default function BannerCards() {
         }
         .bn:hover .bn-edge {
           box-shadow:
-            inset 0 0 0 1.5px rgba(37,99,235,0.3),
-            inset 0 0 30px rgba(37,99,235,0.06);
+            inset 0 0 0 1.5px rgba(220,38,38,0.35),
+            inset 0 0 30px rgba(220,38,38,0.06);
         }
 
         /* ── BOTTOM LABEL ── */
@@ -177,15 +177,15 @@ export default function BannerCards() {
         .bn-label-arrow {
           width: 32px; height: 32px;
           border-radius: 50%;
-          background: rgba(37,99,235,0.25);
-          border: 1px solid rgba(37,99,235,0.45);
+          background: rgba(220,38,38,0.25);
+          border: 1px solid rgba(220,38,38,0.45);
           display: flex; align-items: center; justify-content: center;
-          color: #60a5fa;
+          color: #f87171;
           transition: background 0.3s, transform 0.3s cubic-bezier(.22,.68,0,1.2);
           flex-shrink: 0;
         }
         .bn:hover .bn-label-arrow {
-          background: rgba(37,99,235,0.45);
+          background: rgba(220,38,38,0.45);
           transform: rotate(-45deg);
         }
         .bn-label-arrow svg { width: 14px; height: 14px; }

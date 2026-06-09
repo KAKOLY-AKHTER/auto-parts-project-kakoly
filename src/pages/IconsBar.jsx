@@ -21,7 +21,15 @@ export default function IconsBar() {
   }, []);
 
   return (
-    <section ref={ref} className="bg-white py-10 md:py-14 overflow-hidden">
+    <section ref={ref} className="bg-white pt-10 pb-10 md:pt-12 md:pb-12 overflow-hidden">
+
+      {/* Heading */}
+      <div className="flex items-center justify-center gap-3 mb-8">
+        <div className="h-px w-10 bg-linear-to-r from-transparent to-red-500" />
+        <span className="text-[11px] font-black tracking-[3px] uppercase text-red-600">Brands We Carry</span>
+        <div className="h-px w-10 bg-linear-to-l from-transparent to-red-500" />
+      </div>
+
       <div
         className="flex items-center"
         style={{
@@ -32,7 +40,7 @@ export default function IconsBar() {
       >
         {[...items, ...items, ...items, ...items, ...items].map((icon, i) => (
           <img key={i} src={icon} alt=""
-            className="w-20 h-20 md:w-28 md:h-28 object-contain flex-shrink-0"
+            className="w-20 h-20 md:w-28 md:h-28 object-contain shrink-0"
           />
         ))}
       </div>

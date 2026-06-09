@@ -1,38 +1,36 @@
 import { useState, useEffect, useRef } from "react";
 import { auth } from "../../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { LogOut } from "lucide-react";
+import { LogOut, ShoppingCart } from "lucide-react";
 
 const navItems = [
-  { label: "Home", children: [
-    { label: "Home 1", href: "/" }, { label: "Home 2", href: "/home-2" },
-    { label: "Home 3", href: "/home-3" }, { label: "Home 4", href: "/home-4" },
-    { label: "Home Elementor", href: "/home-elementor" },
+  { label: "Home", href: "/" },
+  { label: "Services", children: [
+    { label: "Tire Service & Repair", href: "/catalog-item" },
+    { label: "Oil Change", href: "/catalog-item" },
+    { label: "Brake Repair", href: "/catalog-item" },
+    { label: "Wheel Alignment", href: "/catalog-item" },
+    { label: "Battery Replacement", href: "/catalog-item", dividerBefore: true },
+    { label: "A/C Evaluation", href: "/catalog-item" },
   ]},
-  { label: "Catalog", children: [
-    { label: "Category", href: "/catalog-category" }, { label: "Brand", href: "/catalog-brand" },
-    { label: "Product", href: "/catalog-item" }, { label: "Woo Shop", href: "/shop", dividerBefore: true },
-  ]},
-  { label: "Features", children: [
-    { label: "Shortcodes", href: "/shortcodes" }, { label: "Typography", href: "/typography" },
-    { label: "Gallery", href: "/gallery" }, { label: "Service Plus", href: "/service-plus" },
-    { label: "Privacy Policy", href: "/privacy-policy", dividerBefore: true },
+  { label: "Shop", children: [
+    { label: "All Products", href: "/catalog-item" },
+    { label: "Tires", href: "/catalog-item" },
+    { label: "Motor Oil", href: "/catalog-item" },
+    { label: "Brake Parts", href: "/catalog-item", dividerBefore: true },
+    { label: "Engine Parts", href: "/catalog-item" },
   ]},
   { label: "About Us", children: [
-    { label: "Our Benefits", href: "/our-benefits" }, { label: "Our Team", href: "/our-team" },
+    { label: "Our Story", href: "/about" },
+    { label: "Why Choose Us", href: "/about" },
+    { label: "Our Team", href: "/about" },
   ]},
-  { label: "News", children: [
-    { label: "Blog Excerpt", href: "/blog-excerpt" },
-    { label: "Blog Classic 2 Col", href: "/blog-classic-2-columns" },
-    { label: "Blog Classic 3 Col", href: "/blog-classic-3-columns" },
-    { label: "Portfolio 2 Col", href: "/blog-portfolio-2-columns", dividerBefore: true },
-    { label: "Portfolio 3 Col", href: "/blog-portfolio-3-columns" },
-    { label: "Portfolio 4 Col", href: "/blog-portfolio-4-columns" },
-    { label: "Chess 2 Col", href: "/blog-chess-2-columns", dividerBefore: true },
-    { label: "Chess 4 Col", href: "/blog-chess-4-columns" },
-    { label: "Chess 6 Col", href: "/blog-chess-6-columns" },
+  { label: "Blog", children: [
+    { label: "Latest News", href: "/blog" },
+    { label: "Tire Tips", href: "/blog" },
+    { label: "Oil & Engine Care", href: "/blog", dividerBefore: true },
   ]},
-  { label: "Contacts", href: "/contacts" },
+  { label: "Contact", href: "/contacts" },
 ];
 
 function NavItem({ item }) {
@@ -141,7 +139,7 @@ export default function Header() {
           {/* LOGO */}
           <a href="/" className="flex items-center gap-4 no-underline flex-shrink-0 ml-6 md:ml-10">
             <img
-              src="/logo.png"
+              src="/tire-oil-removebg-preview.png"
               alt="AutoParts"
               className="h-[60px] md:h-[68px] w-auto object-contain transition-transform duration-300 hover:scale-105"
               style={{ filter:"brightness(1.3) contrast(1.15) drop-shadow(0 2px 16px rgba(30,64,175,0.6))" }}
@@ -150,7 +148,7 @@ export default function Header() {
             <div className="w-px h-[34px] bg-white/10 flex-shrink-0" />
             <div className="flex flex-col leading-tight">
               <span className="text-sm md:text-base font-bold text-white tracking-wide">24hrfremonttireservice</span>
-              <span className="text-[10px] md:text-[11px] text-gray-400 tracking-wider">by nexviya.com</span>
+              <span className="text-[10px] md:text-[11px] text-gray-400 tracking-wider">Fremont, CA · Since 1998</span>
             </div>
           </a>
 
@@ -205,6 +203,10 @@ export default function Header() {
                     <line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
                   </svg>
                   Sign Up
+                </a>
+                <a href="/cart"
+                  className="hidden sm:inline-flex items-center justify-center w-[38px] h-[38px] bg-blue-900/[0.07] border border-blue-700/35 rounded-md text-[rgba(190,215,255,0.8)] no-underline transition-all duration-200 hover:text-blue-400 hover:border-blue-500 hover:bg-blue-900/20 relative">
+                  <ShoppingCart size={17} />
                 </a>
               </>
             )}

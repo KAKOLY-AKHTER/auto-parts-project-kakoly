@@ -1,76 +1,33 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 
-const cardStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-  .bs-product-card {
-    background: linear-gradient(135deg, #eff6ff, #ffffff);
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    will-change: transform;
-  }
-
-  .bs-product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
-    border-color: #2563eb;
-  }
-
-  .bs-product-img {
-    transition: transform 0.4s ease;
-  }
-  .bs-product-card:hover .bs-product-img {
-    transform: scale(1.08);
-  }
-
-  .bs-qv-overlay {
-    transition: opacity 0.25s ease;
-  }
-  .bs-name-link {
-    display: block; text-decoration: none;
-    color: #111827;
-    transition: color 0.2s ease;
-  }
-  .bs-name-link:hover {
-    color: #2563eb;
-  }
-  .bs-view-btn {
-    transition: all 0.2s ease;
-  }
-  .bs-view-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37,99,235,0.35);
-  }
-  .bs-disc-badge {
-    box-shadow: 0 2px 8px rgba(220,38,38,0.25);
-  }
-`;
-
-
 const products = [
-  { id: 1, img: "/best1.png", name: "Brake Disc Set",     category: "Brake System",  price: 70.00,  oldPrice: 78.00,   rating: 4.8, reviews: 124 },
-  { id: 2, img: "/best2.png", name: "Engine Filter Kit",  category: "Engine Parts",  price: 800.00, oldPrice: 1200.00, rating: 4.9, reviews: 89  },
-  { id: 3, img: "/best3.png", name: "Suspension Arm",     category: "Suspension",    price: 145.00, oldPrice: 180.00,  rating: 4.7, reviews: 56  },
-  { id: 4, img: "/best4.png", name: "Spark Plug Set",     category: "Electrical",    price: 38.00,  oldPrice: 55.00,   rating: 4.6, reviews: 201 },
-  { id: 5, img: "/best1.png", name: "Air Filter Premium", category: "Engine Parts",  price: 52.00,  oldPrice: 68.00,   rating: 4.8, reviews: 77  },
-  { id: 6, img: "/best2.png", name: "Shock Absorber",     category: "Suspension",    price: 220.00, oldPrice: 290.00,  rating: 4.9, reviews: 143 },
-  { id: 7, img: "/best3.png", name: "Timing Belt Kit",    category: "Engine Parts",  price: 95.00,  oldPrice: 130.00,  rating: 4.7, reviews: 62  },
-  { id: 8, img: "/best4.png", name: "LED Headlight Pair", category: "Electrical",    price: 175.00, oldPrice: 240.00,  rating: 4.8, reviews: 95  },
+  { id: 1, img: "/tire-1.png",   name: "Michelin Defender T+H",     category: "All-Season Tires",  price: 142.00, oldPrice: 179.00, rating: 4.9, reviews: 312, tag: "Best Seller" },
+  { id: 2, img: "/oil-4.png", name: "Full Synthetic 5W-30 Oil",  category: "Motor Oil",         price: 38.99,  oldPrice: 52.00,  rating: 4.8, reviews: 245, tag: "Top Rated"  },
+  { id: 3, img: "/tire-2.png",     name: "Cooper Adventurer A/T",     category: "All-Terrain Tires", price: 128.00, oldPrice: 165.00, rating: 4.7, reviews: 189, tag: null         },
+  { id: 4, img: "/oil-1.png",  name: "Premium Oil Filter Kit",    category: "Oil Filter",        price: 24.99,  oldPrice: 35.00,  rating: 4.8, reviews: 421, tag: "Popular"    },
+  { id: 5, img: "/tire-3.png",   name: "Goodyear Assurance MaxLife",category: "Touring Tires",     price: 156.00, oldPrice: 195.00, rating: 4.8, reviews: 278, tag: "Sale"        },
+  { id: 6, img: "/motor.png", name: "Castrol EDGE 10W-40 Synth", category: "Motor Oil",         price: 44.99,  oldPrice: 58.00,  rating: 4.9, reviews: 167, tag: "Top Rated"  },
+  { id: 7, img: "/tire11.png",     name: "Performance Brake Pad Set", category: "Brake System",      price: 65.00,  oldPrice: 89.00,  rating: 4.7, reviews: 134, tag: null         },
+  { id: 8, img: "/oil-2.png",  name: "High-Flow Air Filter",      category: "Engine Parts",      price: 29.99,  oldPrice: 42.00,  rating: 4.6, reviews: 198, tag: "Sale"        },
 ];
 
-function StarRating({ rating }) {
+const TAG_COLORS = {
+  "Best Seller": "bg-red-600 text-white",
+  "Top Rated":   "bg-red-600 text-white",
+  "Popular":     "bg-red-600 text-white",
+  "Sale":        "bg-red-600 text-white",
+};
+
+function Stars({ rating }) {
   return (
     <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((s) => (
-        <svg key={s} viewBox="0 0 24 24" className="w-2.5 h-2.5"
+      {[1,2,3,4,5].map(s => (
+        <svg key={s} viewBox="0 0 24 24" className="w-3 h-3"
           fill={s <= Math.round(rating) ? "#f59e0b" : "none"}
           stroke="#f59e0b" strokeWidth="2">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
       ))}
-      <span className="text-[10px] text-white/40 ml-1 font-['Barlow',sans-serif]">({rating})</span>
     </div>
   );
 }
@@ -85,95 +42,94 @@ function ProductCard({ p, index, vis }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         opacity: vis ? 1 : 0,
-        transform: vis ? "translateY(0)" : "translateY(32px)",
-        transition: `opacity .5s ease ${index * 0.06}s, transform .5s ease ${index * 0.06}s`,
+        transform: vis ? (hovered ? "translateY(-5px)" : "translateY(0)") : "translateY(28px)",
+        transitionProperty: "opacity, transform, box-shadow, border-color",
+        transitionDuration: ".5s, .3s, .25s, .25s",
+        transitionDelay: `${index * 0.07}s, 0s, 0s, 0s`,
+        transitionTimingFunction: "ease",
+        flexShrink: 0,
+        width: 220,
+        border: hovered ? "1.5px solid #dc2626" : "1.5px solid #e5e7eb",
+        boxShadow: hovered ? "0 16px 48px rgba(220,38,38,0.13), 0 2px 8px rgba(0,0,0,0.06)" : "0 2px 10px rgba(0,0,0,0.05)",
+        borderRadius: 14,
+        overflow: "hidden",
+        background: "#fff",
+        cursor: "pointer",
       }}
-      className="bs-product-card relative flex-none w-[230px] cursor-pointer"
     >
-      {/* discount badge */}
+      {/* Tag badge */}
+      {p.tag && (
+        <div className={`absolute top-3 left-3 z-10 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide ${TAG_COLORS[p.tag]}`}>
+          {p.tag}
+        </div>
+      )}
+
+      {/* Discount badge */}
       {discount > 0 && (
-        <div className="bs-disc-badge absolute top-3 right-3 z-[4] px-2 py-1 rounded-md
-                        text-[11px] font-bold text-white bg-red-600">
+        <div className="absolute top-3 right-3 z-10 px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-50 text-red-600 border border-red-200">
           -{discount}%
         </div>
       )}
 
-      {/* IMAGE */}
-      <div className="relative h-[185px] flex items-center justify-center bg-gray-50">
+      {/* Image */}
+      <div className="relative h-[180px] overflow-hidden bg-gray-50 flex items-center justify-center">
         <img
           src={p.img}
           alt={p.name}
-          className="bs-product-img relative z-[1] max-w-[80%] max-h-[80%] object-contain"
-          onError={(e) => {
+          className="max-w-[85%] max-h-[85%] object-contain transition-transform duration-500 group-hover:scale-110"
+          onError={e => {
             e.target.style.display = "none";
-            e.target.parentNode.querySelector(".bs-ph").style.display = "flex";
+            e.target.nextSibling.style.display = "flex";
           }}
         />
-        <div className="bs-ph hidden absolute inset-0 z-[1] flex-col items-center justify-center text-gray-400 gap-2">
-          <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.2">
-            <rect x="2" y="7" width="20" height="14" rx="2" />
-            <polyline points="16 2 12 7 8 2" />
+        {/* Fallback — tire/oil icon, not camera */}
+        <div className="hidden absolute inset-0 flex-col items-center justify-center gap-2 text-gray-300">
+          <svg viewBox="0 0 24 24" className="w-12 h-12" fill="none" stroke="currentColor" strokeWidth="1">
+            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/>
+            <line x1="2" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22" y2="12"/>
           </svg>
-          <span className="text-[10px] tracking-widest uppercase text-gray-400">No Image</span>
+          <span className="text-[10px] uppercase tracking-widest">No Image</span>
         </div>
 
-        {/* Quick view overlay */}
-        <div
-          className="bs-qv-overlay absolute inset-0 z-[3] flex items-center justify-center
-                     bg-black/50"
-          style={{ opacity: hovered ? 1 : 0, pointerEvents: hovered ? "all" : "none" }}
-        >
-          <a
-            href={`/product-details/${p.id}`}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg
-                       text-xs font-semibold text-white bg-blue-600
-                       hover:bg-blue-700 transition-all duration-200"
-          >
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-black/45 flex items-center justify-center transition-opacity duration-250"
+          style={{ opacity: hovered ? 1 : 0, pointerEvents: hovered ? "all" : "none" }}>
+          <a href={`/product-details/${p.id}`}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[11px] font-bold text-white bg-red-600 hover:bg-red-700 transition-colors">
             <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              <circle cx="12" cy="12" r="3" />
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
             </svg>
             Quick View
           </a>
         </div>
       </div>
 
-      {/* INFO */}
+      {/* Info */}
       <div className="p-4">
-        <span className="block text-[10px] font-semibold tracking-wider uppercase text-blue-600 mb-1">
-          {p.category}
-        </span>
-
-        <a href={`/product-details/${p.id}`} className="bs-name-link text-sm font-semibold text-gray-900 leading-snug mb-2">
+        <span className="block text-[10px] font-bold tracking-[2px] uppercase text-red-600 mb-1">{p.category}</span>
+        <a href={`/product-details/${p.id}`}
+          className="block text-[13px] font-bold text-gray-900 leading-snug mb-2 hover:text-red-600 transition-colors line-clamp-2">
           {p.name}
         </a>
 
-        <div className="flex items-center justify-between mt-2 mb-3">
-          <StarRating rating={p.rating} />
-          <span className="text-[10px] text-gray-400">{p.reviews} sold</span>
+        <div className="flex items-center gap-2 mb-3">
+          <Stars rating={p.rating} />
+          <span className="text-[10px] text-gray-400 font-medium">{p.reviews} reviews</span>
         </div>
 
         <div className="h-px bg-gray-100 mb-3" />
 
         <div className="flex items-center justify-between gap-2">
           <div>
-            <span className="text-[11px] text-gray-400 line-through block leading-none">
-              ${p.oldPrice.toFixed(2)}
-            </span>
-            <span className="text-xl font-bold text-gray-900 leading-none mt-0.5 block">
-              ${p.price.toFixed(2)}
-            </span>
+            <span className="text-[11px] text-gray-400 line-through leading-none block">${p.oldPrice.toFixed(2)}</span>
+            <span className="text-[20px] font-black text-gray-900 leading-none">${p.price.toFixed(2)}</span>
           </div>
-
-          <a
-            href={`/product-details/${p.id}`}
-            className="bs-view-btn inline-flex items-center gap-1 px-3 py-2 rounded-lg
-                       text-xs font-semibold text-white bg-blue-600"
-          >
+          <a href={`/product-details/${p.id}`}
+            className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg text-[11px] font-bold text-white bg-gray-900 hover:bg-red-600 transition-colors duration-200">
             View
             <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
             </svg>
           </a>
         </div>
@@ -182,40 +138,30 @@ function ProductCard({ p, index, vis }) {
   );
 }
 
-
 export default function BestSellers() {
   const trackRef   = useRef(null);
   const sectionRef = useRef(null);
-  const [vis, setVis] = useState(false);
-  const [cur, setCur] = useState(0);
-  const [dragStart, setDragStart] = useState(null);
-
-  const CARD_W   = 252;  // card 230px + gap 22px
-  const vpRef    = useRef(null);
-
-  // Compute exact max translate so last card ends flush with viewport
+  const vpRef      = useRef(null);
+  const [vis, setVis]               = useState(false);
+  const [cur, setCur]               = useState(0);
+  const [dragStart, setDragStart]   = useState(null);
   const [maxTranslate, setMaxTranslate] = useState(0);
-  const [maxSlide, setMaxSlide] = useState(products.length - 4);
+  const [maxSlide, setMaxSlide]     = useState(products.length - 4);
+  const CARD_W = 242;
 
   useEffect(() => {
-    const calcMax = () => {
+    const calc = () => {
       if (!vpRef.current) return;
-      const vpW = vpRef.current.offsetWidth;
-      // total track width = N cards * cardW - last gap
-      const totalW = products.length * CARD_W - 22;
-      // max we can translate = totalW - vpW (can't go further than this)
-      const maxTx = Math.max(0, totalW - vpW);
+      const vpW   = vpRef.current.offsetWidth;
+      const total = products.length * CARD_W - 22;
+      const maxTx = Math.max(0, total - vpW);
       setMaxTranslate(maxTx);
-      // for dots/arrows: how many steps
-      const steps = Math.ceil(maxTx / CARD_W);
-      setMaxSlide(steps);
+      setMaxSlide(Math.ceil(maxTx / CARD_W));
     };
-    calcMax();
-    window.addEventListener("resize", calcMax);
-    return () => window.removeEventListener("resize", calcMax);
-  }, [CARD_W]);
-
-  const MAX = maxSlide;
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
+  }, []);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -226,17 +172,16 @@ export default function BestSellers() {
   }, []);
 
   const goTo = useCallback((n) => {
-    const next = Math.max(0, Math.min(n, MAX));
+    const next = Math.max(0, Math.min(n, maxSlide));
     setCur(next);
     if (trackRef.current) {
-      // Cap actual pixel shift so last card is flush with viewport edge
       const px = Math.min(next * CARD_W, maxTranslate);
       trackRef.current.style.transform = `translateX(-${px}px)`;
     }
   }, [maxSlide, maxTranslate]);
 
-  const onDragStart = (e) => setDragStart(e.pageX || e.touches?.[0]?.pageX || 0);
-  const onDragEnd   = (e) => {
+  const onDragStart = e => setDragStart(e.pageX || e.touches?.[0]?.pageX || 0);
+  const onDragEnd   = e => {
     if (dragStart === null) return;
     const ex = e.pageX || e.changedTouches?.[0]?.pageX || 0;
     if (Math.abs(dragStart - ex) > 50) goTo(dragStart - ex > 0 ? cur + 1 : cur - 1);
@@ -244,91 +189,80 @@ export default function BestSellers() {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-gray-50 py-16 md:py-20 px-[5%]"
-    >
-      <style>{cardStyles}</style>
+    <section ref={sectionRef} className="bg-white py-12 md:py-16 px-[5%] overflow-hidden">
 
       {/* ── HEADER ── */}
-      <div
-        className="flex items-end justify-between flex-wrap gap-4 mb-10"
-        style={{
-          opacity: vis ? 1 : 0,
-          transform: vis ? "translateY(0)" : "translateY(20px)",
-          transition: "opacity .5s ease, transform .5s ease",
-        }}
-      >
-        {/* Left */}
+      <div className="flex items-end justify-between flex-wrap gap-4 mb-9"
+        style={{ opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(18px)", transition: "opacity .5s ease, transform .5s ease" }}>
+
         <div>
-          <p className="text-xs font-semibold tracking-widest uppercase text-blue-600 mb-1">
-            Trending Now
-          </p>
-          <h2 className="text-4xl md:text-5xl font-bold">
-            <span className="text-gray-900">Best </span>
-            <span className="text-red-600">Sellers</span>
+          {/* Label */}
+          <div className="flex items-center gap-3 mb-2">
+            <div className="h-px w-8 bg-red-600" />
+            <span className="text-[11px] font-black tracking-[3px] uppercase text-red-600">Our Products</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 leading-tight">
+            Best <span className="text-red-600">Sellers</span>
           </h2>
-          <p className="text-sm text-gray-500 mt-1">Top-rated parts our customers love</p>
+          <p className="text-[13px] text-gray-400 mt-1 font-medium">Top-rated tires, oils &amp; service parts</p>
         </div>
 
-        {/* Right controls */}
-        <div className="flex items-center gap-4">
-          {/* see all */}
+        {/* Controls */}
+        <div className="flex items-center gap-3">
           <a href="/catalog-item"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 no-underline transition-colors">
+            className="inline-flex items-center gap-1.5 text-[12px] font-bold text-gray-700 hover:text-red-600 transition-colors border border-gray-200 hover:border-red-300 px-4 py-2 rounded-lg">
             View All
-            <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
             </svg>
           </a>
 
-          {/* dots */}
-          <div className="flex items-center gap-1.5">
-            {Array.from({ length: Math.min(MAX + 1, products.length) }).map((_, i) => (
-              <button key={i} onClick={() => goTo(i)}
-                className="h-2 rounded-full border-none p-0 cursor-pointer transition-all duration-300"
-                style={{
-                  width: i === cur ? 24 : 8,
-                  background: i === cur ? "#2563eb" : "#d1d5db",
-                }} />
+          {/* Arrows */}
+          <div className="flex gap-2">
+            {[{ dir: -1, pts: "15 18 9 12 15 6" }, { dir: 1, pts: "9 18 15 12 9 6" }].map(({ dir, pts }, i) => (
+              <button key={i} onClick={() => goTo(cur + dir)}
+                disabled={dir === -1 ? cur === 0 : cur >= maxSlide}
+                className="w-9 h-9 rounded-full flex items-center justify-center border border-gray-200 bg-white text-gray-500 hover:bg-red-600 hover:text-white hover:border-red-600 disabled:opacity-25 disabled:pointer-events-none transition-all duration-200 shadow-sm">
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <polyline points={pts} />
+                </svg>
+              </button>
             ))}
           </div>
 
-          {/* arrows */}
-          <div className="flex gap-2">
-            {[{ dir: -1, icon: "15 18 9 12 15 6" }, { dir: 1, icon: "9 18 15 12 9 6" }].map(({ dir, icon }, i) => (
-              <button key={i}
-                onClick={() => goTo(cur + dir)}
-                disabled={dir === -1 ? cur === 0 : cur >= MAX}
-                className="w-9 h-9 rounded-full flex items-center justify-center
-                           border border-gray-200 bg-white text-gray-500
-                           hover:bg-blue-600 hover:text-white hover:border-blue-600
-                           disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-500 disabled:hover:border-gray-200
-                           transition-all duration-200 shadow-sm">
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <polyline points={icon} />
-                </svg>
-              </button>
+          {/* Dots */}
+          <div className="flex items-center gap-1.5">
+            {Array.from({ length: Math.min(maxSlide + 1, 6) }).map((_, i) => (
+              <button key={i} onClick={() => goTo(i)}
+                className="h-2 rounded-full border-none p-0 cursor-pointer transition-all duration-300"
+                style={{ width: i === cur ? 20 : 7, background: i === cur ? "#dc2626" : "#e5e7eb" }} />
             ))}
           </div>
         </div>
       </div>
 
       {/* ── SLIDER ── */}
-      <div
-        ref={vpRef}
-        className="overflow-hidden relative z-[1]"
+      <div ref={vpRef} className="overflow-hidden"
         onMouseDown={onDragStart} onMouseUp={onDragEnd} onMouseLeave={onDragEnd}
-        onTouchStart={onDragStart} onTouchEnd={onDragEnd}
-      >
-        <div
-          ref={trackRef}
-          className="flex gap-[22px]"
-          style={{ transition: "transform .55s cubic-bezier(.22,.68,0,1.2)", willChange: "transform" }}
-        >
-          {products.map((p, i) => (
-            <ProductCard key={p.id} p={p} index={i} vis={vis} />
-          ))}
+        onTouchStart={onDragStart} onTouchEnd={onDragEnd}>
+        <div ref={trackRef} className="flex gap-[22px]"
+          style={{ transition: "transform .5s cubic-bezier(.22,.68,0,1.2)", willChange: "transform" }}>
+          {products.map((p, i) => <ProductCard key={p.id} p={p} index={i} vis={vis} />)}
+        </div>
+      </div>
+
+      {/* ── Bottom strip ── */}
+      <div className="mt-10 border-t border-gray-100 pt-6 flex flex-wrap items-center justify-between gap-4"
+        style={{ opacity: vis ? 1 : 0, transition: "opacity .6s ease .3s" }}>
+        <p className="text-[13px] text-gray-400">
+          Showing <span className="font-bold text-gray-700">{products.length}</span> top products — updated weekly
+        </p>
+        <div className="flex items-center gap-2 text-[12px] text-gray-400">
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Free shipping on orders over $99
+          <span className="mx-2 text-gray-200">|</span>
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Price match guaranteed
         </div>
       </div>
     </section>

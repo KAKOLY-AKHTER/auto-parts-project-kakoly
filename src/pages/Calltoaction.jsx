@@ -1,5 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 
+const stats = [
+  { num: "25+",  label: "Yrs Experience" },
+  { num: "50K+", label: "Customers"      },
+  { num: "4.9★", label: "Rating"         },
+];
+
+const checks = [
+  "Over 50,000 satisfied customers",
+  "Same-day tire &amp; oil service",
+  "Price match — we beat any quote",
+];
+
 export default function CallToAction() {
   const [vis, setVis] = useState(false);
   const ref = useRef(null);
@@ -9,104 +21,126 @@ export default function CallToAction() {
     if (!el) return;
     const o = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setVis(true); },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     o.observe(el);
     return () => o.disconnect();
   }, []);
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500&display=swap');
-        @keyframes ctaUp  { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes ctaImg { from{opacity:0;transform:translateY(52px) scale(.95)} to{opacity:1;transform:translateY(0) scale(1)} }
-        @keyframes shine  { from{left:-80%} to{left:170%} }
-        .anim-txt  { animation: ctaUp  0.75s cubic-bezier(.22,.68,0,1.2) both; }
-        .anim-img  { animation: ctaImg 1.0s  cubic-bezier(.22,.68,0,1.2) 0.2s both; }
-        .btn-shine:hover .shine-layer { animation: shine 0.55s ease forwards; }
-      `}</style>
+    <section ref={ref} className="relative bg-white overflow-hidden">
 
-      <section
-        ref={ref}
-        className="relative overflow-hidden bg-white pb-20"
-      >
-        {/* ── BG IMAGE — full cover, very subtle ── */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
-          style={{ backgroundImage:"url('/bg1.png')", opacity: 0.06 }}
-        />
+      {/* diagonal gray shape — right half */}
+      <div
+        className="absolute right-0 top-0 bottom-0 w-[48%] pointer-events-none"
+        style={{
+          background: "linear-gradient(145deg, #f5f5f5 0%, #eeeeee 100%)",
+          clipPath: "polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        }}
+      />
 
-        {/* top accent line */}
-        {/* <div className="absolute top-0 left-0 right-0 h-[3px] z-10"
-          style={{ background:"linear-gradient(90deg,#dc2626 0%,#1d4ed8 50%,#dc2626 100%)" }} /> */}
+      {/* red top-right accent line */}
+      <div className="absolute top-0 right-0 w-[48%] h-[3px] pointer-events-none bg-red-600" />
 
-        {/* ── TEXT BLOCK ── */}
-        <div className={`relative z-10 pt-16 pb-4 px-6 text-center ${vis ? "anim-txt" : "opacity-0"}`}>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-[5%]">
+        <div className="grid lg:grid-cols-2 gap-0 items-center min-h-[480px]">
 
-          {/* eyebrow */}
-          <div className="inline-flex items-center gap-3 mb-4">
-            <div className="h-px w-10 bg-gradient-to-r from-transparent to-red-600" />
-            <span className="font-['Barlow_Condensed'] text-[10px] font-bold tracking-[0.3em] uppercase text-red-600">
-              Your Trusted Parts Store
-            </span>
-            <div className="h-px w-10 bg-gradient-to-l from-transparent to-red-600" />
-          </div>
-
-          {/* headline */}
-          <h2
-            className="font-['Bebas_Neue'] uppercase leading-[1.05] mb-3 text-gray-900"
-            style={{ fontSize:"clamp(38px,6.5vw,76px)", letterSpacing:"0.03em" }}
-          >
-            All Kinds of Parts That You
-            <br />
-            Need Can Find{" "}
-            <span className="text-red-600">Here</span>
-          </h2>
-
-          {/* sub */}
-          <p className="font-['Barlow'] text-[15px] text-gray-500 leading-relaxed mb-8 max-w-[460px] mx-auto">
-            Premium OEM &amp; aftermarket parts for every make and model.
-            Fast delivery across Bangladesh.
-          </p>
-
-          {/* Shop Now button */}
-          <a
-            href="/catalog-item"
-            className="btn-shine group relative inline-flex items-center gap-3 overflow-hidden no-underline rounded-full px-10 py-[14px] bg-red-600 text-white transition-all duration-250 hover:-translate-y-[3px] hover:shadow-[0_14px_40px_rgba(220,38,38,0.45)]"
+          {/* ── LEFT: Text ── */}
+          <div
+            className="py-14 md:py-20 pr-8"
             style={{
-              fontFamily:"'Barlow Condensed',sans-serif",
-              fontSize:14, fontWeight:800,
-              letterSpacing:"0.16em",
-              textTransform:"uppercase",
-              boxShadow:"0 8px 32px rgba(220,38,38,0.3)",
+              opacity: vis ? 1 : 0,
+              transform: vis ? "none" : "translateX(-20px)",
+              transition: "opacity .6s ease, transform .6s ease",
             }}
           >
-            <span className="shine-layer absolute top-0 w-[55%] h-full bg-white/20 skew-x-[-16deg] pointer-events-none" style={{ left:"-80%" }} />
-            <svg className="w-4 h-4 flex-shrink-0 transition-transform duration-250 group-hover:translate-x-1"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12 5 19 12 12 19"/>
-            </svg>
-            Shop Now
-          </a>
-        </div>
+            {/* label */}
+            <div className="flex items-center gap-2.5 mb-6">
+              <div className="w-8 h-[2px] bg-red-600" />
+              <span className="text-[11px] font-black tracking-[3px] uppercase text-red-600">
+                Tire &amp; Oil Specialists
+              </span>
+            </div>
 
-        {/* ── IMAGE BLOCK ── */}
-        <div className={`relative z-10 ${vis ? "anim-img" : "opacity-0"}`}>
-          {/* floor fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
+            {/* headline */}
+            <h2
+              className="font-black text-gray-900 leading-[1.05] tracking-tight mb-5"
+              style={{ fontSize: "clamp(30px, 4vw, 52px)" }}
+            >
+              Fast. Honest.<br />
+              <span className="text-red-600">Guaranteed.</span>
+            </h2>
 
-          <div className="flex justify-center">
+            <p className="text-[15px] text-gray-500 leading-relaxed mb-8 max-w-[380px]">
+              Fremont's most trusted tire &amp; oil service since 1998.
+              ASE-certified technicians, same-day service, and prices you can trust.
+            </p>
+
+            {/* trust points */}
+            <div className="flex flex-col gap-2.5 mb-9">
+              {checks.map((t, i) => (
+                <div key={i} className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 24 24" className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span className="text-[13.5px] font-semibold text-gray-700" dangerouslySetInnerHTML={{ __html: t }} />
+                </div>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div className="flex items-center gap-3 flex-wrap">
+              <a
+                href="/contacts"
+                className="group inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-7 py-3.5 rounded-lg transition-all duration-200 hover:-translate-y-0.5"
+                style={{ boxShadow: "0 4px 20px rgba(220,38,38,0.30)" }}
+              >
+                Book an Appointment
+                <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+              <a
+                href="/catalog-item"
+                className="inline-flex items-center font-bold text-sm px-7 py-3.5 rounded-lg border border-gray-300 text-gray-600 hover:border-gray-900 hover:text-gray-900 transition-all duration-200"
+              >
+                Shop Products
+              </a>
+            </div>
+
+            {/* stats */}
+            <div className="flex items-center gap-6 mt-9 pt-7 border-t border-gray-100">
+              {stats.map(({ num, label }) => (
+                <div key={label}>
+                  <p className="text-[19px] font-black text-gray-900 leading-none">{num}</p>
+                  <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-0.5">{label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── RIGHT: Image ── */}
+          <div
+            className="relative flex items-center justify-center py-10"
+            style={{
+              opacity: vis ? 1 : 0,
+              transform: vis ? "none" : "translateX(20px)",
+              transition: "opacity .7s ease .15s, transform .7s ease .15s",
+            }}
+          >
             <img
               src="/bg1.png"
-              alt="Auto Parts Service"
-              className="w-full max-w-[900px] object-contain transition-transform duration-700 hover:scale-[1.012]"
-              style={{ filter:"drop-shadow(0 8px 40px rgba(0,0,0,0.12))" }}
+              alt="Tire & Oil Service"
+              className="w-full max-w-[560px] object-contain hover:scale-[1.015] transition-transform duration-700"
+              style={{ filter: "drop-shadow(0 16px 48px rgba(0,0,0,0.14))" }}
             />
           </div>
+
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

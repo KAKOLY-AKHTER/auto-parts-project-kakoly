@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const posts = [
   {
     id: 1,
-    img: "/group1.png",
+    img: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=700&h=520&fit=crop&q=80",
     title: "The Highest Speed",
     date: "February 19, 2024",
     excerpt: "How do auto mechanics add more power to your vehicle, and which motors are the best for racing? These are main points in this article to dis...",
@@ -11,7 +11,7 @@ const posts = [
   },
   {
     id: 2,
-    img: "/group2.png",
+    img: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=700&h=520&fit=crop&q=80",
     title: "Digging Audi Style",
     date: "February 18, 2024",
     excerpt: "2024 Audi R8, RS7, etc. reveal GT2 models and new body styles. Are you a big fan of Audi yet? If now, fasten your seatbelt and join the club...",
@@ -19,7 +19,7 @@ const posts = [
   },
   {
     id: 3,
-    img: "/group3.png",
+    img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=700&h=520&fit=crop&q=80",
     title: "Impala vs Camaro",
     date: "February 17, 2024",
     excerpt: "This is the competition that we all aren't tired of watching throughout the years! These 2 modern vehicles have much more chance to win the...",
@@ -27,7 +27,7 @@ const posts = [
   },
   {
     id: 4,
-    img: "/group4.png",
+    img: "https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=700&h=520&fit=crop&q=80",
     title: "Corvette Experience",
     date: "February 16, 2024",
     excerpt: "Chevrolet is about to surprise its fans with gorgeous models and improved electric systems for a better, faster, and stronger experience on...",
@@ -57,13 +57,12 @@ function ImageCell({ post, index, vis }) {
         alt={post.title}
         className="w-full h-full transition-all duration-700"
         style={{
-          objectFit: "contain",
+          objectFit: "cover",
           transform: hov ? "scale(1.08)" : "scale(1)",
-          padding: "28px",
         }}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
 
       <div className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-6 translate-y-4 group-hover:translate-y-0 transition-all duration-400 opacity-0 group-hover:opacity-100">
         <div className="flex items-center justify-between">
@@ -104,7 +103,7 @@ function TextCell({ post, index, vis }) {
       onMouseLeave={() => setHov(false)}
     >
       <div
-        className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-red-500 via-red-400 to-red-500 transform origin-left transition-transform duration-500"
+        className="absolute top-0 left-0 right-0 h-0.75 bg-linear-to-r from-red-500 via-red-400 to-red-500 transform origin-left transition-transform duration-500"
         style={{ transform: hov ? "scaleX(1)" : "scaleX(0)" }}
       />
 
@@ -121,7 +120,7 @@ function TextCell({ post, index, vis }) {
           {post.title}
         </h3>
 
-        <div className="w-10 h-[2px] bg-red-500 rounded-full mb-4" />
+        <div className="w-10 h-0.5 bg-red-500 rounded-full mb-4" />
 
         <p className="text-sm leading-relaxed text-gray-500 mb-5 line-clamp-3">
           {post.excerpt}
@@ -185,24 +184,25 @@ export default function LatestNews() {
         }
       `}</style>
 
-      <section ref={ref} className="pt-20 pb-8 md:pt-24 md:pb-10" style={{ background: "#ffffff" }}>
+      <section ref={ref} className="py-14 md:py-20" style={{ background: "#ffffff" }}>
 
         {/* Heading */}
         <div
-          className="text-center mb-16 px-6 transition-all duration-700"
+          className="text-center mb-10 px-6 transition-all duration-700"
           style={{
             opacity: vis ? 1 : 0,
             transform: vis ? "translateY(0)" : "translateY(8px)",
           }}
         >
-          <span className="inline-block px-6 py-2.5 bg-red-100 text-red-600 text-xs font-bold tracking-[2.5px] rounded-full mb-4 border border-red-200/50">
-            FROM OUR BLOG
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-5 tracking-tight">
-            <span className="text-red-600">Latest </span>
-            <span className="text-gray-900">News</span>
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <div className="h-px w-10 bg-linear-to-r from-transparent to-red-500" />
+            <span className="text-[11px] font-black tracking-[3px] uppercase text-red-600">From Our Blog</span>
+            <div className="h-px w-10 bg-linear-to-l from-transparent to-red-500" />
+          </div>
+          <h2 className="text-[28px] md:text-[36px] font-black text-gray-900 tracking-tight mb-3">
+            Latest <span className="text-red-600">News</span>
           </h2>
-          <p className="max-w-lg mx-auto text-gray-600 text-lg">
+          <p className="max-w-md mx-auto text-[13.5px] text-gray-400">
             Stay updated with the latest automotive insights
           </p>
         </div>
