@@ -50,7 +50,7 @@ const Footer = () => {
                 src="/tire-oil-removebg-preview.png"
                 alt="TireOil"
                 className="h-28 md:h-32 object-contain relative z-10"
-                style={{ filter: "drop-shadow(0 0 30px rgba(220,38,38,0.3)) drop-shadow(0 0 60px rgba(245,158,11,0.15))" }}
+                style={{ filter: "brightness(1.9) contrast(1.2) saturate(1.15) drop-shadow(0 0 16px rgba(255,255,255,0.65)) drop-shadow(0 2px 24px rgba(220,38,38,0.7))" }}
               />
             </div>
             <p className="text-slate-500 text-[12.5px] leading-relaxed mb-4">

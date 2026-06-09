@@ -5,7 +5,7 @@ import { LogOut, ShoppingCart } from "lucide-react";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "Services", children: [
+  { label: "Auto Service", children: [
     { label: "Tire Service & Repair", href: "/auto-service" },
     { label: "Oil Change", href: "/auto-service" },
     { label: "Brake Repair", href: "/auto-service" },
@@ -154,7 +154,7 @@ export default function Header() {
               src="/tire-oil-removebg-preview.png"
               alt="AutoParts"
               className="h-[62px] md:h-[76px] w-auto object-contain transition-transform duration-300 hover:scale-105"
-              style={{ filter:"brightness(1.8) contrast(1.2) saturate(1.2) drop-shadow(0 0 12px rgba(255,255,255,0.6)) drop-shadow(0 2px 20px rgba(220,38,38,0.7))" }}
+              style={{ filter:"brightness(2.0) contrast(1.2) saturate(1.2) drop-shadow(0 0 16px rgba(255,255,255,0.7)) drop-shadow(0 2px 24px rgba(220,38,38,0.8))" }}
               onError={(e) => { e.target.style.display = "none"; }}
             />
             <div className="hidden sm:flex items-center gap-3">
