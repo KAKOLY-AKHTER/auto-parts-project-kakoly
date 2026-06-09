@@ -107,15 +107,15 @@ function TextCell({ post, index, vis }) {
         style={{ transform: hov ? "scaleX(1)" : "scaleX(0)" }}
       />
 
-      <div className="flex-1 flex flex-col justify-center p-8 md:p-10 relative z-10">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="inline-flex items-center px-3 py-1 text-[10px] font-bold tracking-wider uppercase text-red-600 bg-red-50 rounded-md border border-red-100">
+      <div className="flex-1 flex flex-col justify-center p-5 md:p-8 relative z-10">
+        <div className="flex items-center gap-2 mb-3 md:mb-5">
+          <span className="inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase text-red-600 bg-red-50 rounded-md border border-red-100">
             Auto News
           </span>
           <span className="text-xs text-gray-400">{post.date}</span>
         </div>
 
-        <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-3"
+        <h3 className="text-xl md:text-3xl font-bold leading-tight mb-2 md:mb-3"
             style={{ color: hov ? "#dc2626" : "#111827", transition: "color 0.3s ease" }}>
           {post.title}
         </h3>

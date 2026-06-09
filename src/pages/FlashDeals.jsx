@@ -108,8 +108,8 @@ export default function FlashDeals() {
             </a>
           </div>
 
-          {/* Image — right on mobile (compact), left on desktop */}
-          <div className="relative flex items-center justify-center bg-gradient-to-br from-gray-50 to-white p-4 md:p-10 overflow-hidden md:order-1 w-[140px] sm:w-[200px] md:w-auto"
+          {/* Image — hidden on mobile, visible on desktop */}
+          <div className="hidden md:flex relative items-center justify-center bg-linear-to-br from-gray-50 to-white p-10 overflow-hidden order-1"
             style={{
               opacity: vis ? 1 : 0,
               transform: vis ? "translateX(0)" : "translateX(-40px)",

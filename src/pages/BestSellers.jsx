@@ -192,7 +192,7 @@ export default function BestSellers() {
     <section ref={sectionRef} className="bg-white py-12 md:py-16 px-[5%] overflow-hidden">
 
       {/* ── HEADER ── */}
-      <div className="flex items-end justify-between flex-wrap gap-4 mb-9"
+      <div className="flex items-start sm:items-end justify-between flex-wrap gap-4 mb-7 md:mb-9"
         style={{ opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(18px)", transition: "opacity .5s ease, transform .5s ease" }}>
 
         <div>

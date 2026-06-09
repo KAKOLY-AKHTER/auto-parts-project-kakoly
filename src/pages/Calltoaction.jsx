@@ -30,24 +30,24 @@ export default function CallToAction() {
   return (
     <section ref={ref} className="relative bg-white overflow-hidden">
 
-      {/* diagonal gray shape — right half */}
+      {/* diagonal gray shape — right half (desktop only) */}
       <div
-        className="absolute right-0 top-0 bottom-0 w-[48%] pointer-events-none"
+        className="hidden lg:block absolute right-0 top-0 bottom-0 w-[48%] pointer-events-none"
         style={{
           background: "linear-gradient(145deg, #f5f5f5 0%, #eeeeee 100%)",
           clipPath: "polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)",
         }}
       />
 
-      {/* red top-right accent line */}
-      <div className="absolute top-0 right-0 w-[48%] h-[3px] pointer-events-none bg-red-600" />
+      {/* red top-right accent line (desktop only) */}
+      <div className="hidden lg:block absolute top-0 right-0 w-[48%] h-[3px] pointer-events-none bg-red-600" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-[5%]">
-        <div className="grid lg:grid-cols-2 gap-0 items-center min-h-[480px]">
+        <div className="grid lg:grid-cols-2 gap-0 items-center">
 
           {/* ── LEFT: Text ── */}
           <div
-            className="py-14 md:py-20 pr-8"
+            className="py-12 md:py-16 lg:py-20 lg:pr-8"
             style={{
               opacity: vis ? 1 : 0,
               transform: vis ? "none" : "translateX(-20px)",
@@ -122,9 +122,9 @@ export default function CallToAction() {
             </div>
           </div>
 
-          {/* ── RIGHT: Image ── */}
+          {/* ── RIGHT: Image (hidden on mobile) ── */}
           <div
-            className="relative flex items-center justify-center py-10"
+            className="hidden lg:flex relative items-center justify-center py-10"
             style={{
               opacity: vis ? 1 : 0,
               transform: vis ? "none" : "translateX(20px)",

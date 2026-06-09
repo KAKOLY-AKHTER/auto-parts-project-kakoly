@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -27,13 +27,13 @@ const Footer = () => {
 
           <div className="flex items-center gap-3">
             <span className="text-slate-500 text-[12px] hidden md:block">Same-day tire &amp; oil service available</span>
-            <a
-              href="/contacts"
-              className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white text-[11px] font-black tracking-[1.5px] uppercase rounded transition-colors duration-200"
+            <Link
+              to="/contacts"
+              className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white text-[11px] font-black tracking-[1.5px] uppercase rounded transition-colors duration-200 no-underline"
               style={{ boxShadow: "0 4px 16px rgba(220,38,38,0.25)" }}
             >
               Book an Appointment
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -72,22 +72,49 @@ const Footer = () => {
 
           {/* Link columns */}
           {[
-            { title: "Information", links: ["Our Company", "Contact Us", "Our Services", "Why Us?", "Careers"] },
-            { title: "Quick Links", links: ["About", "Blog", "Shop", "Cart", "Contact"] },
-            { title: "Support", links: ["Blog", "Contact", "Return Policy", "Online Support", "Money Back"] },
+            {
+              title: "Information",
+              links: [
+                { label: "Our Company",  to: "/about" },
+                { label: "Contact Us",   to: "/contacts" },
+                { label: "Our Services", to: "/services" },
+                { label: "Why Us?",      to: "/why-us" },
+                { label: "Careers",      to: "/careers" },
+              ],
+            },
+            {
+              title: "Quick Links",
+              links: [
+                { label: "About",   to: "/about" },
+                { label: "Blog",    to: "/blog" },
+                { label: "Shop",    to: "/shop" },
+                { label: "Cart",    to: "/cart" },
+                { label: "Contact", to: "/contacts" },
+              ],
+            },
+            {
+              title: "Support",
+              links: [
+                { label: "Blog",           to: "/blog" },
+                { label: "Contact",        to: "/contacts" },
+                { label: "Return Policy",  to: "/return-policy" },
+                { label: "Online Support", to: "/contacts" },
+                { label: "Money Back",     to: "/money-back" },
+              ],
+            },
           ].map((col) => (
             <div key={col.title}>
               <h4 className="text-white text-[11px] font-black uppercase tracking-[2px] mb-5 relative pb-3 pt-4 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-8 after:h-0.5 after:bg-red-600">
                 {col.title}
               </h4>
               <ul className="space-y-3">
-                {col.links.map((item) => (
-                  <li key={item}>
-                    <a href="#"
-                      className="text-slate-500 text-[12.5px] hover:text-white transition-all duration-300 inline-flex items-center gap-2.5 group">
-                      <span className="w-[3px] h-[3px] bg-slate-700 rounded-full group-hover:bg-red-500 transition-colors duration-300" />
-                      {item}
-                    </a>
+                {col.links.map(({ label, to }) => (
+                  <li key={label}>
+                    <Link to={to}
+                      className="text-slate-500 text-[12.5px] hover:text-white transition-all duration-300 inline-flex items-center gap-2.5 group no-underline">
+                      <span className="w-0.75 h-0.75 bg-slate-700 rounded-full group-hover:bg-red-500 transition-colors duration-300" />
+                      {label}
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -199,10 +199,10 @@ export default function AllProducts() {
                 transition: `opacity .5s ease ${0.15 + i * 0.1}s, transform .5s ease ${0.15 + i * 0.1}s`,
               }}
             >
-              <div className="w-24 h-24 rounded-full flex items-center justify-center border-2 border-gray-300 group-hover:border-red-500 group-hover:shadow-md transition-all duration-200 text-gray-700 group-hover:text-red-600">
-                {icon}
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center border-2 border-gray-300 group-hover:border-red-500 group-hover:shadow-md transition-all duration-200 text-gray-700 group-hover:text-red-600">
+                <span className="scale-75 sm:scale-90 md:scale-100">{icon}</span>
               </div>
-              <span className="text-[13.5px] font-bold text-[#1a56db] group-hover:text-red-600 transition-colors duration-200 leading-snug text-center">
+              <span className="text-[12px] sm:text-[13.5px] font-bold text-[#1a56db] group-hover:text-red-600 transition-colors duration-200 leading-snug text-center">
                 {label}
               </span>
             </a>
@@ -241,7 +241,7 @@ export default function AllProducts() {
           </div>
 
           {/* Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 md:gap-5">
             {viewed.map((item, i) => (
               <ServiceCard key={item.id} item={item} index={i} vis={vis} />
             ))}

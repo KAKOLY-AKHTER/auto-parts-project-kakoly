@@ -107,7 +107,7 @@ export default function AboutUs() {
           {/* Right — Content */}
           <div className={`transition-all duration-1000 delay-200 ${vis ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
 
-            <h2 className="text-4xl md:text-[44px] font-black leading-[1.1] tracking-tight text-gray-900 mb-6">
+            <h2 className="text-[28px] sm:text-4xl md:text-[44px] font-black leading-[1.1] tracking-tight text-gray-900 mb-5 md:mb-6">
               Fremont's Most Trusted<br />
               <span className="text-red-600">Tire & Oil Service</span><br />
               Since 1998
