@@ -62,7 +62,7 @@ export default function Hero() {
   const s = slides[cur];
 
   return (
-    <div className="relative h-screen min-h-[680px] overflow-hidden bg-black">
+    <div className="relative min-h-screen overflow-hidden bg-black">
       {/* Background Images */}
       {slides.map((slide, i) => (
         <div
@@ -83,54 +83,10 @@ export default function Hero() {
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(220,38,38,0.08) 0%, transparent 60%)" }} />
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center justify-between px-6 lg:px-10 xl:px-16 w-full gap-8">
+      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row lg:items-center justify-between px-5 lg:px-10 xl:px-16 w-full gap-6 pb-16 lg:pb-0">
 
-        {/* Left — text */}
-        <div className={`w-full max-w-[520px] transition-all duration-700 ${leaving ? 'opacity-0 -translate-x-8' : 'opacity-100 translate-x-0'}`}>
-
-          {/* Tag pill */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-[7px] rounded-full mb-5">
-            <span className="text-xs font-bold tracking-[1.5px] text-white/90">{s.tag}</span>
-          </div>
-
-          {/* Headline */}
-          <div className="space-y-1 mb-5">
-            <p className={`text-base md:text-lg font-semibold text-white/60 tracking-[4px] uppercase transition-all duration-700 delay-100 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>{s.line1}</p>
-            <h1 className={`text-5xl md:text-[60px] font-extrabold leading-none tracking-[-1px] transition-all duration-700 delay-200 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-              <span className="text-red-500">{s.line2.split(' ')[0]}</span>
-              {s.line2.split(' ').length > 1 && <><br /><span className="text-white">{s.line2.split(' ').slice(1).join(' ')}</span></>}
-            </h1>
-          </div>
-
-          {/* Subtitle */}
-          <p className={`text-base text-white/65 max-w-[400px] leading-relaxed mb-7 transition-all duration-700 delay-300 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>{s.sub}</p>
-
-          {/* Badges */}
-          <div className={`flex flex-wrap gap-2 mb-8 transition-all duration-700 delay-500 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-            {s.badges.map((b) => (
-              <span key={b} className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 px-3 py-1.5 rounded-full text-[11px] font-semibold text-white/80 backdrop-blur-sm">
-                <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                {b}
-              </span>
-            ))}
-          </div>
-
-          {/* CTA buttons */}
-          <div className={`flex items-center gap-3 transition-all duration-700 delay-700 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-            <a href="/shop"
-              className="group inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 px-8 py-[14px] rounded-xl text-white font-bold text-base transition-all duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-red-600/50 active:scale-[0.97]">
-              {s.btn}
-              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-            </a>
-            <a href="/contacts"
-              className="inline-flex items-center gap-2 border border-white/30 hover:border-white/60 px-6 py-[13px] rounded-xl text-white/80 hover:text-white font-semibold text-sm transition-all duration-200 backdrop-blur-sm hover:bg-white/5">
-              Learn More
-            </a>
-          </div>
-        </div>
-
-        {/* Right — Tire Search Form */}
-        <div className="hidden lg:block flex-shrink-0 w-[330px] xl:w-[365px]">
+        {/* Right — Tire Search Form (FIRST in DOM = top on mobile, right on desktop via lg:order-2) */}
+        <div className="w-full lg:shrink-0 lg:w-82.5 xl:w-91.25 lg:order-2 pt-24 lg:pt-0">
           <div className="bg-white rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.45)] border-4 border-red-600">
 
             {/* Top tabs */}
@@ -311,6 +267,50 @@ export default function Hero() {
               )}
 
             </div>
+          </div>
+        </div>
+
+        {/* Left — text (SECOND in DOM = bottom on mobile, left on desktop via lg:order-1) */}
+        <div className={`w-full max-w-[520px] lg:order-1 transition-all duration-700 ${leaving ? 'opacity-0 -translate-x-8' : 'opacity-100 translate-x-0'}`}>
+
+          {/* Tag pill */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-[7px] rounded-full mb-5">
+            <span className="text-xs font-bold tracking-[1.5px] text-white/90">{s.tag}</span>
+          </div>
+
+          {/* Headline */}
+          <div className="space-y-1 mb-5">
+            <p className={`text-base md:text-lg font-semibold text-white/60 tracking-[4px] uppercase transition-all duration-700 delay-100 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>{s.line1}</p>
+            <h1 className={`text-5xl md:text-[60px] font-extrabold leading-none tracking-[-1px] transition-all duration-700 delay-200 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+              <span className="text-red-500">{s.line2.split(' ')[0]}</span>
+              {s.line2.split(' ').length > 1 && <><br /><span className="text-white">{s.line2.split(' ').slice(1).join(' ')}</span></>}
+            </h1>
+          </div>
+
+          {/* Subtitle */}
+          <p className={`text-base text-white/65 max-w-[400px] leading-relaxed mb-7 transition-all duration-700 delay-300 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>{s.sub}</p>
+
+          {/* Badges */}
+          <div className={`flex flex-wrap gap-2 mb-8 transition-all duration-700 delay-500 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+            {s.badges.map((b) => (
+              <span key={b} className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 px-3 py-1.5 rounded-full text-[11px] font-semibold text-white/80 backdrop-blur-sm">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
+                {b}
+              </span>
+            ))}
+          </div>
+
+          {/* CTA buttons */}
+          <div className={`flex items-center gap-3 transition-all duration-700 delay-700 ${leaving ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+            <a href="/shop"
+              className="group inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 px-8 py-[14px] rounded-xl text-white font-bold text-base transition-all duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-red-600/50 active:scale-[0.97]">
+              {s.btn}
+              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+            </a>
+            <a href="/contacts"
+              className="inline-flex items-center gap-2 border border-white/30 hover:border-white/60 px-6 py-[13px] rounded-xl text-white/80 hover:text-white font-semibold text-sm transition-all duration-200 backdrop-blur-sm hover:bg-white/5">
+              Learn More
+            </a>
           </div>
         </div>
 

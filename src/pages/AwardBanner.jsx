@@ -33,7 +33,7 @@ export default function AwardBanner() {
       >
         {/* Inner border wrapper */}
         <div
-          className="relative flex items-stretch overflow-hidden"
+          className="relative flex flex-col sm:flex-row items-stretch overflow-hidden"
           style={{
             border: "4.5px solid #50a2ff",
             borderRadius: 3,
@@ -47,21 +47,21 @@ export default function AwardBanner() {
               background: "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 100%)",
             }} />
 
-          {/* ── LEFT: Brand + Year ── */}
+          {/* ── TOP/LEFT: Brand + Year ── */}
           <div
-            className="relative flex items-center px-8 py-5"
+            className="relative flex items-center justify-center sm:justify-start px-6 sm:px-8 py-4 sm:py-5"
             style={{
               opacity: vis ? 1 : 0,
               transform: vis ? "none" : "translateX(-16px)",
               transition: "opacity .6s ease .25s, transform .6s ease .25s",
             }}
           >
-            <div>
+            <div className="flex sm:flex-col items-center gap-3 sm:gap-0">
               <p className="text-white font-black leading-none tracking-tight"
-                style={{ fontSize: 24, fontStyle: "italic" }}>
+                style={{ fontSize: 26, fontStyle: "italic" }}>
                 TireOil
               </p>
-              <div className="mt-2 px-3 py-0.5 text-center"
+              <div className="sm:mt-2 px-3 py-0.5 text-center"
                 style={{ background: "#50a2ff", borderRadius: 2 }}>
                 <span className="text-white font-black tracking-widest" style={{ fontSize: 14 }}>
                   2026
@@ -70,8 +70,19 @@ export default function AwardBanner() {
             </div>
           </div>
 
-          {/* ── DIVIDER ── */}
+          {/* ── DIVIDER: horizontal on mobile, vertical on sm+ ── */}
           <div
+            className="sm:hidden mx-6"
+            style={{
+              height: "1px",
+              background: "rgba(80,162,255,0.4)",
+              transform: vis ? "scaleX(1)" : "scaleX(0)",
+              transformOrigin: "left",
+              transition: "transform .5s ease .35s",
+            }}
+          />
+          <div
+            className="hidden sm:block"
             style={{
               width: "1.5px",
               background: "rgba(80,162,255,0.55)",
@@ -82,9 +93,9 @@ export default function AwardBanner() {
             }}
           />
 
-          {/* ── RIGHT: Award text ── */}
+          {/* ── BOTTOM/RIGHT: Award text ── */}
           <div
-            className="relative flex flex-col justify-center px-8 py-5"
+            className="relative flex flex-col justify-center items-center sm:items-start px-6 sm:px-8 py-4 sm:py-5 text-center sm:text-left"
             style={{
               opacity: vis ? 1 : 0,
               transform: vis ? "none" : "translateX(16px)",
@@ -95,8 +106,8 @@ export default function AwardBanner() {
               style={{ fontSize: 11, letterSpacing: "0.26em", textTransform: "uppercase", opacity: 0.75 }}>
               California's
             </p>
-            <p className="text-white font-black leading-none"
-              style={{ fontSize: "clamp(18px, 3vw, 33px)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            <p className="text-white font-black leading-tight sm:leading-none"
+              style={{ fontSize: "clamp(20px, 4vw, 33px)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
               Best-in-State Auto Service
             </p>
             <p className="text-white mt-2"

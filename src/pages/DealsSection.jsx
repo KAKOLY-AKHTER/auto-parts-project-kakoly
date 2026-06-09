@@ -36,9 +36,9 @@ export default function DealsSection() {
           >
             <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.92) 38%, rgba(255,255,255,0.3) 65%, transparent 100%)" }} />
 
-            <div className="relative z-10 flex flex-col justify-center p-8 md:p-10 max-w-[50%]">
+            <div className="relative z-10 flex flex-col justify-center p-5 md:p-10 max-w-[65%] sm:max-w-[55%] md:max-w-[50%]">
               <h2
-                className="text-4xl md:text-[44px] font-black leading-[1.05] text-gray-900 mb-4"
+                className="text-[22px] sm:text-3xl md:text-[44px] font-black leading-[1.05] text-gray-900 mb-3 md:mb-4"
                 style={{
                   opacity: vis ? 1 : 0,
                   transform: vis ? "none" : "translateY(16px)",
@@ -55,17 +55,17 @@ export default function DealsSection() {
                   transition: "opacity .6s ease .35s, transform .6s ease .35s",
                 }}
               >
-                <p className="text-[13px] text-gray-800 font-semibold mb-0.5">ON <strong>COOPER ADVENTURER</strong></p>
-                <p className="text-[13px] text-gray-800 font-bold mb-0.5">TIRES IN SETS OF 4</p>
-                <p className="text-[13px] text-gray-900 font-black mb-2">—SAVE UP TO $420 INSTANTLY!*</p>
-                <p className="text-[10px] text-gray-400 mb-5 leading-snug">
+                <p className="text-[11px] md:text-[13px] text-gray-800 font-semibold mb-0.5">ON <strong>COOPER ADVENTURER</strong></p>
+                <p className="text-[11px] md:text-[13px] text-gray-800 font-bold mb-0.5">TIRES IN SETS OF 4</p>
+                <p className="text-[11px] md:text-[13px] text-gray-900 font-black mb-2">—SAVE UP TO $420 INSTANTLY!*</p>
+                <p className="text-[9px] md:text-[10px] text-gray-400 mb-4 md:mb-5 leading-snug">
                   *Valid 06/03/26–07/05/26.<br />Install req'd &amp; Incl.{" "}
                   <span className="underline cursor-pointer text-blue-600">See details.</span>
                 </p>
-                <a href="/shop" className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white text-[12px] font-extrabold tracking-wider uppercase px-5 py-2.5 w-fit transition-all duration-200">
+                <a href="/shop" className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white text-[10px] md:text-[12px] font-extrabold tracking-wider uppercase px-4 md:px-5 py-2 md:py-2.5 w-fit transition-all duration-200">
                   Shop Cooper Tires
                 </a>
-                <div className="mt-5 flex items-center gap-2">
+                <div className="mt-3 md:mt-5 flex items-center gap-2">
                   <svg viewBox="0 0 20 20" className="w-4 h-4" fill="none">
                     <circle cx="10" cy="10" r="8.5" stroke="#111" strokeWidth="1.5"/>
                     <circle cx="10" cy="10" r="3.5" fill="#111"/>

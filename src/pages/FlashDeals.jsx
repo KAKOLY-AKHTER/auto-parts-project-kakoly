@@ -67,36 +67,9 @@ export default function FlashDeals() {
 
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2">
-          <div className="relative flex items-center justify-center bg-gradient-to-br from-gray-50 to-white p-6 md:p-10 overflow-hidden order-2 md:order-1"
-            style={{
-              opacity: vis ? 1 : 0,
-              transform: vis ? "translateX(0)" : "translateX(-40px)",
-              transition: "all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
-            }}
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(220,38,38,0.03),transparent_70%)]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] md:w-[440px] md:h-[440px] border-2 border-dashed border-red-200/25 rounded-full" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] md:w-[360px] md:h-[360px] border border-red-200/15 rounded-full" />
 
-            <img
-              src="/wheel.png"
-              alt="Flash Deals"
-              className="relative z-10 object-contain w-56 h-56 md:w-80 md:h-80"
-              style={{
-                filter: "drop-shadow(0 20px 60px rgba(220,38,38,0.15))",
-                animation: vis ? "floatWheel 4s ease-in-out infinite" : "none",
-              }}
-            />
-
-            <style>{`
-              @keyframes floatWheel {
-                0%, 100% { transform: translateY(0) rotate(0deg); }
-                50% { transform: translateY(-8px) rotate(2deg); }
-              }
-            `}</style>
-          </div>
-
-          <div className="flex flex-col justify-center px-8 md:px-12 lg:px-16 py-8 order-1 md:order-2"
+          {/* Text — first in DOM = top on mobile */}
+          <div className="flex flex-col justify-center px-6 sm:px-8 md:px-12 lg:px-16 py-8 order-1 md:order-2"
             style={{
               opacity: vis ? 1 : 0,
               transform: vis ? "translateX(0)" : "translateX(40px)",
@@ -134,6 +107,37 @@ export default function FlashDeals() {
               </svg>
             </a>
           </div>
+
+          {/* Image — right on mobile (compact), left on desktop */}
+          <div className="relative flex items-center justify-center bg-gradient-to-br from-gray-50 to-white p-4 md:p-10 overflow-hidden md:order-1 w-[140px] sm:w-[200px] md:w-auto"
+            style={{
+              opacity: vis ? 1 : 0,
+              transform: vis ? "translateX(0)" : "translateX(-40px)",
+              transition: "all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+            }}
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(220,38,38,0.04),transparent_70%)]" />
+            <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] border-2 border-dashed border-red-200/25 rounded-full" />
+            <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] border border-red-200/15 rounded-full" />
+
+            <img
+              src="/wheel.png"
+              alt="Flash Deals"
+              className="relative z-10 object-contain w-28 h-28 sm:w-40 sm:h-40 md:w-80 md:h-80"
+              style={{
+                filter: "drop-shadow(0 12px 40px rgba(220,38,38,0.18))",
+                animation: vis ? "floatWheel 4s ease-in-out infinite" : "none",
+              }}
+            />
+
+            <style>{`
+              @keyframes floatWheel {
+                0%, 100% { transform: translateY(0) rotate(0deg); }
+                50% { transform: translateY(-8px) rotate(2deg); }
+              }
+            `}</style>
+          </div>
+
         </div>
       </div>
     </section>

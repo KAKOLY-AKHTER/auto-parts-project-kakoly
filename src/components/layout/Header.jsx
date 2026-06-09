@@ -129,7 +129,7 @@ export default function Header() {
         <div className="h-[2.5px]" style={{ background:"linear-gradient(90deg,#1d4ed8 0%,#1d4ed8 42%,#dc2626 58%,#dc2626 100%)" }} />
 
         {/* ── BAR ── */}
-        <div className={`relative grid items-center px-10 transition-all duration-300 ${scrolled ? "h-16 bg-[rgba(6,11,26,0.94)] backdrop-blur-2xl shadow-[0_2px_40px_rgba(0,0,0,0.5)] border-b border-white/[0.07]" : "h-[72px] bg-[rgba(4,8,20,0.2)] backdrop-blur-md border-b border-white/[0.06]"}`}
+        <div className={`relative grid items-center px-4 md:px-8 lg:px-10 transition-all duration-300 ${scrolled ? "h-16 bg-[rgba(6,11,26,0.94)] backdrop-blur-2xl shadow-[0_2px_40px_rgba(0,0,0,0.5)] border-b border-white/[0.07]" : "h-18 bg-[rgba(4,8,20,0.2)] backdrop-blur-md border-b border-white/6"}`}
           style={{ gridTemplateColumns: "auto 1fr auto" }}>
 
           {/* bottom inner glow */}
@@ -137,18 +137,20 @@ export default function Header() {
             style={{ background:"linear-gradient(90deg,transparent,rgba(29,78,216,0.2),transparent)" }} />
 
           {/* LOGO */}
-          <a href="/" className="flex items-center gap-4 no-underline flex-shrink-0 ml-6 md:ml-10">
+          <a href="/" className="flex items-center gap-3 no-underline shrink-0">
             <img
               src="/tire-oil-removebg-preview.png"
               alt="AutoParts"
-              className="h-[60px] md:h-[68px] w-auto object-contain transition-transform duration-300 hover:scale-105"
+              className="h-[52px] md:h-[62px] w-auto object-contain transition-transform duration-300 hover:scale-105"
               style={{ filter:"brightness(1.3) contrast(1.15) drop-shadow(0 2px 16px rgba(30,64,175,0.6))" }}
               onError={(e) => { e.target.style.display = "none"; }}
             />
-            <div className="w-px h-[34px] bg-white/10 flex-shrink-0" />
-            <div className="flex flex-col leading-tight">
-              <span className="text-sm md:text-base font-bold text-white tracking-wide">24hrfremonttireservice</span>
-              <span className="text-[10px] md:text-[11px] text-gray-400 tracking-wider">Fremont, CA · Since 1998</span>
+            <div className="hidden sm:flex items-center gap-3">
+              <div className="w-px h-[34px] bg-white/10 shrink-0" />
+              <div className="flex flex-col leading-tight">
+                <span className="text-sm md:text-base font-bold text-white tracking-wide whitespace-nowrap">24hr Fremont Tire</span>
+                <span className="text-[10px] md:text-[11px] text-gray-400 tracking-wider">Fremont, CA · Since 1998</span>
+              </div>
             </div>
           </a>
 
