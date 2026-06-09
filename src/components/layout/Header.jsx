@@ -6,12 +6,12 @@ import { LogOut, ShoppingCart } from "lucide-react";
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Services", children: [
-    { label: "Tire Service & Repair", href: "/services" },
-    { label: "Oil Change", href: "/services" },
-    { label: "Brake Repair", href: "/services" },
-    { label: "Wheel Alignment", href: "/services" },
-    { label: "Battery Replacement", href: "/services", dividerBefore: true },
-    { label: "A/C Evaluation", href: "/services" },
+    { label: "Tire Service & Repair", href: "/auto-service" },
+    { label: "Oil Change", href: "/auto-service" },
+    { label: "Brake Repair", href: "/auto-service" },
+    { label: "Wheel Alignment", href: "/auto-service" },
+    { label: "Battery Replacement", href: "/auto-service", dividerBefore: true },
+    { label: "A/C Evaluation", href: "/auto-service" },
   ]},
   { label: "Fleet & Mobile", children: [
     { label: "Truck Tire Change", href: "/fleet-services" },
@@ -154,7 +154,7 @@ export default function Header() {
               src="/tire-oil-removebg-preview.png"
               alt="AutoParts"
               className="h-[62px] md:h-[76px] w-auto object-contain transition-transform duration-300 hover:scale-105"
-              style={{ filter:"brightness(1.4) contrast(1.15) drop-shadow(0 2px 18px rgba(220,38,38,0.5))" }}
+              style={{ filter:"brightness(1.8) contrast(1.2) saturate(1.2) drop-shadow(0 0 12px rgba(255,255,255,0.6)) drop-shadow(0 2px 20px rgba(220,38,38,0.7))" }}
               onError={(e) => { e.target.style.display = "none"; }}
             />
             <div className="hidden sm:flex items-center gap-3">
