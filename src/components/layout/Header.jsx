@@ -244,7 +244,7 @@ export default function Header() {
           100% { transform: rotate(0deg); }
         }
         .hdr-callbtn {
-          display: flex; align-items: center; gap: 10px;
+          display: none; align-items: center; gap: 10px;
           padding: 7px 14px; border-radius: 8px; text-decoration: none;
           border: 1.5px solid #e30613;
           background: transparent;
@@ -271,6 +271,81 @@ export default function Header() {
         .hdr-cb-label { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; line-height: 1; color: rgba(255,255,255,0.5); transition: color 0.22s ease; }
         .hdr-callbtn:hover .hdr-cb-label { color: rgba(255,255,255,0.9); }
         .hdr-cb-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; color: #fff; font-size: 15px; line-height: 1.3; letter-spacing: 0.05em; }
+
+        /* ── NAV AUTH + CART BUTTONS ── */
+        @keyframes iconBob {
+          0%,100% { transform: translateY(0); }
+          35%     { transform: translateY(-4px); }
+          65%     { transform: translateY(-1.5px); }
+        }
+        @keyframes cartWobble {
+          0%,100% { transform: rotate(0deg) scale(1); }
+          20%     { transform: rotate(-15deg) scale(1.12); }
+          45%     { transform: rotate(11deg) scale(1.1); }
+          65%     { transform: rotate(-6deg); }
+          82%     { transform: rotate(4deg); }
+        }
+        @keyframes badgePop {
+          0%,100% { transform: scale(1); }
+          50%     { transform: scale(1.45); box-shadow: 0 0 10px rgba(227,6,19,0.8); }
+        }
+        .nav-login {
+          display: none; align-items: center; gap: 6px;
+          padding: 8px 16px; border-radius: 6px; text-decoration: none;
+          font-family: 'Barlow Condensed',sans-serif; font-size: 12px; font-weight: 700;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.2);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+        }
+        .nav-login:hover {
+          transform: translateY(-2px) scale(1.05);
+          color: #fff; border-color: rgba(255,255,255,0.75);
+          background: rgba(255,255,255,0.07);
+          box-shadow: 0 6px 20px rgba(255,255,255,0.1), 0 0 0 2px rgba(255,255,255,0.1);
+        }
+        .nav-login:active  { transform: translateY(0) scale(0.97); }
+        .nav-login:hover svg { animation: iconBob 0.5s ease both; }
+
+        .nav-signup {
+          display: none; align-items: center; gap: 6px;
+          padding: 8px 16px; border-radius: 6px; text-decoration: none;
+          font-family: 'Barlow Condensed',sans-serif; font-size: 12px; font-weight: 800;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          color: #fff; background: #e30613;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .nav-signup:hover {
+          transform: translateY(-2px) scale(1.06);
+          background: #f4071a;
+          box-shadow: 0 8px 30px rgba(227,6,19,0.65), 0 0 0 3px rgba(227,6,19,0.22);
+        }
+        .nav-signup:active { transform: translateY(0) scale(0.97); }
+        .nav-signup:hover svg { animation: iconBob 0.45s ease both; }
+
+        .nav-cart {
+          position: relative; display: flex; align-items: center; justify-content: center;
+          width: 36px; height: 36px; border-radius: 6px; text-decoration: none;
+          color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.18);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+        }
+        .nav-cart:hover {
+          transform: translateY(-2px) scale(1.1);
+          color: #fff; border-color: #e30613;
+          background: rgba(227,6,19,0.1);
+          box-shadow: 0 6px 22px rgba(227,6,19,0.38), 0 0 0 2px rgba(227,6,19,0.15);
+        }
+        .nav-cart:active { transform: translateY(0) scale(0.97); }
+        .nav-cart:hover .nav-cart-icon { animation: cartWobble 0.52s ease both; }
+        .nav-cart:hover .nav-cart-badge { animation: badgePop 0.38s ease both; }
+
+        /* show auth/call buttons at correct breakpoints */
+        @media (min-width: 640px) {
+          .nav-login  { display: inline-flex; }
+          .nav-signup { display: inline-flex; }
+        }
+        @media (min-width: 768px) {
+          .hdr-callbtn { display: flex; }
+        }
 
         /* ── TOP SERVICE BAR RESPONSIVE ── */
         .hdr-topbar { scrollbar-width: none; -ms-overflow-style: none; }
@@ -448,18 +523,14 @@ export default function Header() {
               </div>
             ) : (
               <>
-                <a href="/login"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[12px] font-bold tracking-wider uppercase text-white/80 no-underline hover:text-white hover:border-white/50 transition-all"
-                  style={{ fontFamily: "'Barlow Condensed',sans-serif", border: "1px solid rgba(255,255,255,0.2)" }}>
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <a href="/login" className="nav-login hidden sm:inline-flex">
+                  <svg style={{ width:13,height:13,flexShrink:0 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" />
                   </svg>
                   Log In
                 </a>
-                <a href="/signup"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[12px] font-extrabold tracking-wider uppercase text-white no-underline hover:bg-red-700 transition-colors"
-                  style={{ fontFamily: "'Barlow Condensed',sans-serif", background: "#e30613" }}>
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <a href="/signup" className="nav-signup hidden sm:inline-flex">
+                  <svg style={{ width:13,height:13,flexShrink:0 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" />
                     <line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" />
                   </svg>
@@ -468,11 +539,9 @@ export default function Header() {
               </>
             )}
 
-            <a href="/cart"
-              className="relative flex items-center justify-center w-9 h-9 rounded-md no-underline text-white/70 hover:text-white hover:border-[#e30613] transition-all"
-              style={{ border: "1px solid rgba(255,255,255,0.18)" }}>
-              <ShoppingCart size={16} />
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-white text-[9px] font-black flex items-center justify-center"
+            <a href="/cart" className="nav-cart">
+              <ShoppingCart size={16} className="nav-cart-icon" />
+              <span className="nav-cart-badge absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-white text-[9px] font-black flex items-center justify-center"
                 style={{ background: "#e30613" }}>0</span>
             </a>
 

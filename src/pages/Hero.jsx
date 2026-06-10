@@ -219,7 +219,7 @@ const ANIM_CSS = `
   /* ─────── HERO LAYOUT — RESPONSIVE ─────── */
   .hero-section {
     position: relative;
-    background: #080808;
+    background: linear-gradient(145deg, #111020 0%, #1a1228 45%, #0e0c18 100%);
     overflow: hidden;
     display: flex;
     align-items: flex-start;
@@ -265,13 +265,17 @@ const ANIM_CSS = `
   /* hero buttons on small mobile */
   @media (max-width: 479px) {
     .hero-btn-call, .hero-btn-service {
-      padding: 10px 16px; gap: 10px;
+      padding: 10px 14px; gap: 8px;
       flex: 1; min-width: 0; justify-content: center;
     }
-    .cbtn-icon, .sbtn-icon { width: 38px !important; height: 38px !important; }
+    .cbtn-icon, .sbtn-icon { width: 34px !important; height: 34px !important; }
+    .cbtn-label { display: none; }
+    .cbtn-num   { font-size: 15px !important; white-space: nowrap; letter-spacing: 0.02em !important; }
+    .sbtn-title { font-size: 14px !important; white-space: nowrap; }
   }
 
   /* ─────── STATS BAR — RESPONSIVE ─────── */
+  .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); }
   .stat-link { border-right: 1px solid rgba(255,255,255,0.08); }
 
   /* 2-column layout on mobile */
@@ -297,8 +301,9 @@ const ANIM_CSS = `
     .stats-grid .stat-link:last-child { border-bottom: none; }
     .stat-arrow { display: none; }
   }
-  /* 5-column on desktop — last item no right border */
+  /* 5-column on desktop */
   @media (min-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(5, 1fr) !important; }
     .stats-grid .stat-link:last-child { border-right: none; }
   }
 `;
@@ -323,6 +328,16 @@ export default function Hero() {
         className="hero-section"
         style={{ animation: anim("heroFadeIn", 0.4, 0, "ease") }}
       >
+        {/* ── GLASS AMBIENT GLOW ── */}
+        <div style={{
+          position:"absolute", inset:0, zIndex:0, pointerEvents:"none",
+          background: [
+            "radial-gradient(ellipse 55% 60% at 8% 55%, rgba(120,40,220,0.07) 0%, transparent 65%)",
+            "radial-gradient(ellipse 40% 50% at 5% 85%, rgba(227,6,19,0.09) 0%, transparent 60%)",
+            "radial-gradient(ellipse 30% 30% at 50% 50%, rgba(255,255,255,0.025) 0%, transparent 70%)",
+          ].join(","),
+        }} />
+
         {/* ── RIGHT IMAGE SLIDER ── */}
         <div
           className="hero-img-panel"
@@ -342,19 +357,19 @@ export default function Hero() {
                 objectPosition: "center center",
                 opacity: i === active ? 1 : 0,
                 transition: "opacity 1.1s ease-in-out",
-                filter: "brightness(0.85) saturate(1.1) contrast(1.05)",
+                filter: "brightness(1.05) saturate(1.18) contrast(1.02)",
               }}
             />
           ))}
 
-          {/* left fade */}
+          {/* left fade — lighter so image shows through */}
           <div style={{
-            position: "absolute", top: 0, left: 0, bottom: 0, width: "55%",
-            background: "linear-gradient(to right,#080808 0%,#080808 10%,rgba(8,8,8,0.9) 35%,rgba(8,8,8,0.45) 65%,transparent 100%)",
+            position: "absolute", top: 0, left: 0, bottom: 0, width: "58%",
+            background: "linear-gradient(to right,rgba(14,12,24,0.98) 0%,rgba(14,12,24,0.88) 12%,rgba(14,12,24,0.65) 35%,rgba(14,12,24,0.25) 62%,transparent 100%)",
             zIndex: 2, pointerEvents: "none",
           }} />
-          <div style={{ position:"absolute",top:0,left:0,right:0,height:100,background:"linear-gradient(to bottom,#080808,transparent)",zIndex:2,pointerEvents:"none" }} />
-          <div style={{ position:"absolute",bottom:0,left:0,right:0,height:80,background:"linear-gradient(to top,#080808,transparent)",zIndex:2,pointerEvents:"none" }} />
+          <div style={{ position:"absolute",top:0,left:0,right:0,height:90,background:"linear-gradient(to bottom,rgba(12,10,20,0.85),transparent)",zIndex:2,pointerEvents:"none" }} />
+          <div style={{ position:"absolute",bottom:0,left:0,right:0,height:70,background:"linear-gradient(to top,rgba(12,10,20,0.6),transparent)",zIndex:2,pointerEvents:"none" }} />
 
           {/* dots */}
           <div style={{ position:"absolute",bottom:22,right:22,display:"flex",gap:7,zIndex:5 }}>
@@ -468,8 +483,8 @@ export default function Hero() {
                 <i className="fas fa-phone cbtn-phone" style={{ color:"#fff",fontSize:15 }} />
               </div>
               <div>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:11,fontWeight:800,color:"rgba(255,255,255,0.75)",letterSpacing:"0.22em",textTransform:"uppercase",lineHeight:1,marginBottom:3 }}>Call Now</div>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:22,fontWeight:900,color:"#fff",letterSpacing:"0.03em",lineHeight:1 }}>(415) 634-7777</div>
+                <div className="cbtn-label" style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:11,fontWeight:800,color:"rgba(255,255,255,0.75)",letterSpacing:"0.22em",textTransform:"uppercase",lineHeight:1,marginBottom:3 }}>Call Now</div>
+                <div className="cbtn-num" style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:22,fontWeight:900,color:"#fff",letterSpacing:"0.03em",lineHeight:1 }}>(415) 634-7777</div>
               </div>
             </a>
 
@@ -478,7 +493,7 @@ export default function Hero() {
                 <i className="fas fa-calendar-check sbtn-cal" style={{ color:"#fff",fontSize:15 }} />
               </div>
               <div>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.07em",lineHeight:1.1 }}>Request Service</div>
+                <div className="sbtn-title" style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.07em",lineHeight:1.1 }}>Request Service</div>
                 <div style={{ fontSize:11.5,color:"rgba(255,255,255,0.45)",lineHeight:1.2 }}>We'll come to you</div>
               </div>
             </a>
