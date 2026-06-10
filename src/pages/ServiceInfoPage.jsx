@@ -119,12 +119,9 @@ export default function ServiceInfoPage({
           {heroImg && (
             <img src={heroImg} alt="" style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center right", filter:"brightness(0.68) saturate(1.15) contrast(1.05)" }} />
           )}
-          {/* left-to-right gradient — text is readable left, image shows right */}
           <div style={{ position:"absolute", inset:0, background:"linear-gradient(100deg,rgba(4,4,8,0.97) 0%,rgba(4,4,8,0.85) 28%,rgba(4,4,8,0.55) 50%,rgba(4,4,8,0.2) 70%,rgba(4,4,8,0.05) 100%)" }} />
-          {/* top + bottom fades */}
           <div style={{ position:"absolute", top:0, left:0, right:0, height:90, background:"linear-gradient(to bottom,rgba(8,8,8,0.6),transparent)" }} />
           <div style={{ position:"absolute", bottom:0, left:0, right:0, height:90, background:"linear-gradient(to top,#080808,transparent)" }} />
-          {/* red glow blob */}
           <div style={{ position:"absolute", top:-100, left:-60, width:480, height:480, borderRadius:"50%", background:"radial-gradient(circle,rgba(227,6,19,0.16) 0%,transparent 70%)", pointerEvents:"none" }} />
         </div>
 
@@ -135,12 +132,12 @@ export default function ServiceInfoPage({
               <div style={{ width:40,height:40,borderRadius:"50%",background:"rgba(227,6,19,0.15)",border:"2px solid #e30613",display:"flex",alignItems:"center",justifyContent:"center" }}>
                 <i className={`fas ${icon}`} style={{ color:"#e30613",fontSize:16 }} />
               </div>
-              <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:12,fontWeight:800,color:"#e30613",letterSpacing:"0.22em",textTransform:"uppercase" }}>{subtitle}</span>
+              <span style={{ fontFamily:"'Oswald',sans-serif",fontSize:12,fontWeight:500,color:"#e30613",letterSpacing:"0.22em",textTransform:"uppercase" }}>{subtitle}</span>
               <span style={{ width:32,height:2,background:"#e30613",borderRadius:2,display:"block" }} />
             </div>
 
             {/* title */}
-            <h1 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:"clamp(52px,6.5vw,88px)", fontWeight:900, lineHeight:0.92, letterSpacing:"-0.02em", marginBottom:18, ...a("siLeft",0.18) }}>
+            <h1 style={{ fontFamily:"'Bebas Neue','Barlow Condensed',sans-serif", fontSize:"clamp(52px,6.5vw,88px)", fontWeight:400, lineHeight:0.92, letterSpacing:"0.02em", marginBottom:18, ...a("siLeft",0.18) }}>
               <span style={{ color:"#e30613" }}>{word1}</span><br />
               <span style={{ color:"#fff" }}>{rest}</span>
             </h1>
@@ -166,13 +163,13 @@ export default function ServiceInfoPage({
               <a href="tel:+14156347777" style={{ display:"inline-flex",alignItems:"center",gap:12,background:"#e30613",padding:"13px 28px",borderRadius:8,textDecoration:"none",boxShadow:"0 6px 30px rgba(227,6,19,0.5)" }}>
                 <i className="fas fa-phone" style={{ color:"#fff",fontSize:13 }} />
                 <div>
-                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:10,fontWeight:700,color:"rgba(255,255,255,0.7)",letterSpacing:"0.2em",textTransform:"uppercase",lineHeight:1,marginBottom:2 }}>Call Now</div>
-                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:19,fontWeight:900,color:"#fff",lineHeight:1 }}>(415) 634-7777</div>
+                  <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:10,fontWeight:500,color:"rgba(255,255,255,0.7)",letterSpacing:"0.2em",textTransform:"uppercase",lineHeight:1,marginBottom:2 }}>Call Now</div>
+                  <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:18,fontWeight:700,color:"#fff",lineHeight:1 }}>(415) 634-7777</div>
                 </div>
               </a>
               <a href="/contacts" style={{ display:"inline-flex",alignItems:"center",gap:12,background:"rgba(255,255,255,0.06)",border:"1.5px solid rgba(255,255,255,0.22)",padding:"13px 28px",borderRadius:8,textDecoration:"none" }}>
                 <i className="fas fa-calendar-check" style={{ color:"#fff",fontSize:13 }} />
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:17,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.06em" }}>Book Service</span>
+                <span style={{ fontFamily:"'Oswald',sans-serif",fontSize:16,fontWeight:600,color:"#fff",textTransform:"uppercase",letterSpacing:"0.08em" }}>Book Service</span>
               </a>
             </div>
           </div>
@@ -187,7 +184,7 @@ export default function ServiceInfoPage({
 
               {/* LEFT: cards */}
               <div>
-                <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:"clamp(28px,3.5vw,46px)",fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"-0.01em",marginBottom:8,...a("siUp",0.1) }}>
+                <h2 style={{ fontFamily:"'Bebas Neue','Barlow Condensed',sans-serif",fontSize:"clamp(28px,3.5vw,46px)",fontWeight:400,color:"#fff",textTransform:"uppercase",letterSpacing:"0.04em",marginBottom:8,...a("siUp",0.1) }}>
                   What We <span style={{ color:"#e30613" }}>Offer</span>
                 </h2>
                 <div style={{ width:48,height:4,background:"#e30613",borderRadius:2,marginBottom:32 }} />
@@ -197,7 +194,7 @@ export default function ServiceInfoPage({
                       <div className="si-card-icon">
                         <i className={`fas ${c.icon}`} style={{ color:"#e30613",fontSize:20 }} />
                       </div>
-                      <h3 style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.04em",marginBottom:8 }}>{c.title}</h3>
+                      <h3 style={{ fontFamily:"'Oswald',sans-serif",fontSize:17,fontWeight:600,color:"#fff",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8 }}>{c.title}</h3>
                       <p style={{ fontSize:13.5,color:"rgba(255,255,255,0.48)",lineHeight:1.65 }}>{c.desc}</p>
                     </div>
                   ))}
@@ -210,11 +207,10 @@ export default function ServiceInfoPage({
                   <div style={{ position:"relative", borderRadius:18, overflow:"hidden" }}>
                     <img src={sectionImg} alt="" style={{ width:"100%", height:460, objectFit:"cover", display:"block", filter:"brightness(0.92) saturate(1.12)" }} />
                     <div style={{ position:"absolute", inset:0, background:"linear-gradient(225deg,rgba(227,6,19,0.22) 0%,transparent 55%)" }} />
-                    {/* red left edge accent */}
                     <div style={{ position:"absolute", top:0, left:0, bottom:0, width:4, background:"#e30613" }} />
                     <div style={{ position:"absolute", bottom:24, left:20, right:20, background:"rgba(0,0,0,0.78)", backdropFilter:"blur(12px)", borderRadius:10, padding:"14px 18px", border:"1px solid rgba(227,6,19,0.3)" }}>
-                      <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:10,fontWeight:800,color:"#e30613",letterSpacing:"0.22em",textTransform:"uppercase",marginBottom:3 }}>24HR Fremont Tire</div>
-                      <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:17,fontWeight:900,color:"#fff" }}>{title}</div>
+                      <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:10,fontWeight:500,color:"#e30613",letterSpacing:"0.22em",textTransform:"uppercase",marginBottom:3 }}>24HR Fremont Tire</div>
+                      <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:16,fontWeight:600,color:"#fff" }}>{title}</div>
                     </div>
                   </div>
                 </div>
@@ -231,20 +227,19 @@ export default function ServiceInfoPage({
             <div className="si-steps-grid">
               {/* left */}
               <div>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:11,fontWeight:800,color:"#e30613",letterSpacing:"0.22em",textTransform:"uppercase",display:"block",marginBottom:12,...a("siLeft",0.05) }}>Process</span>
-                <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:"clamp(32px,4vw,54px)",fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"-0.01em",lineHeight:0.95,marginBottom:8,...a("siLeft",0.12) }}>
+                <span style={{ fontFamily:"'Oswald',sans-serif",fontSize:11,fontWeight:500,color:"#e30613",letterSpacing:"0.22em",textTransform:"uppercase",display:"block",marginBottom:12,...a("siLeft",0.05) }}>Process</span>
+                <h2 style={{ fontFamily:"'Bebas Neue','Barlow Condensed',sans-serif",fontSize:"clamp(32px,4vw,54px)",fontWeight:400,color:"#fff",textTransform:"uppercase",letterSpacing:"0.04em",lineHeight:0.95,marginBottom:8,...a("siLeft",0.12) }}>
                   How It <span style={{ color:"#e30613" }}>Works</span>
                 </h2>
                 <div style={{ width:48,height:4,background:"#e30613",borderRadius:2,marginBottom:32 }} />
                 <div style={{ display:"flex",flexDirection:"column",gap:32 }}>
                   {steps.map((s,i) => (
                     <div key={s.label} className="si-step" style={{ ...a("siLeft", 0.15+i*0.1) }}>
-                      {/* number bubble */}
                       <div style={{ position:"absolute",left:0,top:0,width:44,height:44,borderRadius:"50%",background:"#e30613",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 22px rgba(227,6,19,0.5)",zIndex:1 }}>
-                        <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:"#fff" }}>{i+1}</span>
+                        <span style={{ fontFamily:"'Oswald',sans-serif",fontSize:18,fontWeight:700,color:"#fff" }}>{i+1}</span>
                       </div>
                       <div style={{ paddingTop:4 }}>
-                        <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:6 }}>{s.label}</div>
+                        <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:17,fontWeight:600,color:"#fff",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:6 }}>{s.label}</div>
                         <p style={{ fontSize:14,color:"rgba(255,255,255,0.45)",lineHeight:1.65 }}>{s.desc}</p>
                       </div>
                     </div>
@@ -255,7 +250,7 @@ export default function ServiceInfoPage({
               {/* right: features list */}
               {features.length > 0 && (
                 <div style={{ background:"#111118",borderRadius:18,border:"1px solid rgba(255,255,255,0.07)",padding:"32px 28px",...a("siRight",0.1) }}>
-                  <h3 style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:22,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.04em",marginBottom:4 }}>
+                  <h3 style={{ fontFamily:"'Oswald',sans-serif",fontSize:20,fontWeight:600,color:"#fff",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:4 }}>
                     Why Choose <span style={{ color:"#e30613" }}>Us</span>
                   </h3>
                   <div style={{ width:36,height:3,background:"#e30613",borderRadius:2,marginBottom:20 }} />
@@ -265,7 +260,7 @@ export default function ServiceInfoPage({
                         <i className={`fas ${f.icon}`} style={{ color:"#e30613",fontSize:14 }} />
                       </div>
                       <div>
-                        <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:15,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.05em",lineHeight:1.2 }}>{f.label}</div>
+                        <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:14,fontWeight:600,color:"#fff",textTransform:"uppercase",letterSpacing:"0.06em",lineHeight:1.2 }}>{f.label}</div>
                         <div style={{ fontSize:12.5,color:"rgba(255,255,255,0.4)",lineHeight:1.5,marginTop:2 }}>{f.detail}</div>
                       </div>
                     </div>
@@ -287,21 +282,21 @@ export default function ServiceInfoPage({
         )}
         <div className="si-cta-inner">
           <div style={{ maxWidth:560 }}>
-            <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:11,fontWeight:800,color:"rgba(255,255,255,0.6)",letterSpacing:"0.22em",textTransform:"uppercase",marginBottom:10 }}>Available 24 / 7</div>
-            <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:"clamp(32px,4vw,58px)",fontWeight:900,color:"#fff",letterSpacing:"-0.01em",lineHeight:0.95,marginBottom:14 }}>{ctaTitle}</h2>
+            <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:11,fontWeight:500,color:"rgba(255,255,255,0.6)",letterSpacing:"0.22em",textTransform:"uppercase",marginBottom:10 }}>Available 24 / 7</div>
+            <h2 style={{ fontFamily:"'Bebas Neue','Barlow Condensed',sans-serif",fontSize:"clamp(32px,4vw,58px)",fontWeight:400,color:"#fff",letterSpacing:"0.04em",lineHeight:0.95,marginBottom:14 }}>{ctaTitle}</h2>
             <p style={{ fontSize:15,color:"rgba(255,255,255,0.65)",lineHeight:1.7 }}>{ctaDesc}</p>
           </div>
           <div className="si-cta-btns">
             <a href="tel:+14156347777" style={{ display:"inline-flex",alignItems:"center",gap:12,background:"#fff",padding:"15px 32px",borderRadius:8,textDecoration:"none",boxShadow:"0 6px 30px rgba(0,0,0,0.4)" }}>
               <i className="fas fa-phone" style={{ color:"#e30613",fontSize:16 }} />
               <div>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:10,fontWeight:700,color:"rgba(0,0,0,0.5)",letterSpacing:"0.2em",textTransform:"uppercase",lineHeight:1,marginBottom:2 }}>Call Now</div>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:21,fontWeight:900,color:"#e30613",lineHeight:1 }}>(415) 634-7777</div>
+                <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:10,fontWeight:500,color:"rgba(0,0,0,0.5)",letterSpacing:"0.2em",textTransform:"uppercase",lineHeight:1,marginBottom:2 }}>Call Now</div>
+                <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:20,fontWeight:700,color:"#e30613",lineHeight:1 }}>(415) 634-7777</div>
               </div>
             </a>
             <a href="/contacts" style={{ display:"inline-flex",alignItems:"center",gap:12,background:"rgba(255,255,255,0.08)",border:"2px solid rgba(255,255,255,0.35)",padding:"15px 32px",borderRadius:8,textDecoration:"none" }}>
               <i className="fas fa-map-marker-alt" style={{ color:"#fff",fontSize:14 }} />
-              <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:17,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.07em" }}>Get Direction</span>
+              <span style={{ fontFamily:"'Oswald',sans-serif",fontSize:16,fontWeight:600,color:"#fff",textTransform:"uppercase",letterSpacing:"0.08em" }}>Get Direction</span>
             </a>
           </div>
         </div>

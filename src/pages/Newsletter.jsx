@@ -79,7 +79,7 @@ export default function Newsletter() {
         {/* Main heading */}
         <h2
           className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 leading-tight tracking-tight"
-          style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: "-0.01em" }}
+          style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.03em" }}
         >
           GET INSTANT DISCOUNT <br className="hidden sm:block" />
           <span className="inline-block mt-1 text-red-400">FOR MEMBERSHIP</span>

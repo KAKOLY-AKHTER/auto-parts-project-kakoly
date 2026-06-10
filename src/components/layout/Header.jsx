@@ -73,7 +73,7 @@ function NavItem({ item, active }) {
         href={item.href || "#"}
         className="relative inline-flex items-center gap-1.25 px-3 py-4.5 text-[13px] font-bold tracking-[0.07em] uppercase no-underline transition-colors duration-150 hover:text-white"
         style={{
-          fontFamily: "'Barlow Condensed',sans-serif",
+          fontFamily: "'Oswald',sans-serif",
           color: active ? "#e30613" : "rgba(255,255,255,0.82)",
         }}
       >
@@ -270,7 +270,7 @@ export default function Header() {
         .hdr-callbtn:hover .hdr-cb-phone { animation: phoneRingHdr 0.52s ease both; }
         .hdr-cb-label { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; line-height: 1; color: rgba(255,255,255,0.5); transition: color 0.22s ease; }
         .hdr-callbtn:hover .hdr-cb-label { color: rgba(255,255,255,0.9); }
-        .hdr-cb-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; color: #fff; font-size: 15px; line-height: 1.3; letter-spacing: 0.05em; }
+        .hdr-cb-num { font-family: 'Oswald', sans-serif; font-weight: 700; color: #fff; font-size: 15px; line-height: 1.3; letter-spacing: 0.05em; }
 
         /* ── NAV AUTH + CART BUTTONS ── */
         @keyframes iconBob {
@@ -292,7 +292,7 @@ export default function Header() {
         .nav-login {
           display: none; align-items: center; gap: 6px;
           padding: 8px 16px; border-radius: 6px; text-decoration: none;
-          font-family: 'Barlow Condensed',sans-serif; font-size: 12px; font-weight: 700;
+          font-family: 'Oswald',sans-serif; font-size: 12px; font-weight: 500;
           letter-spacing: 0.1em; text-transform: uppercase;
           color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.2);
           transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
@@ -309,7 +309,7 @@ export default function Header() {
         .nav-signup {
           display: none; align-items: center; gap: 6px;
           padding: 8px 16px; border-radius: 6px; text-decoration: none;
-          font-family: 'Barlow Condensed',sans-serif; font-size: 12px; font-weight: 800;
+          font-family: 'Oswald',sans-serif; font-size: 12px; font-weight: 600;
           letter-spacing: 0.1em; text-transform: uppercase;
           color: #fff; background: #e30613;
           transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -355,9 +355,9 @@ export default function Header() {
           .hdr-icon-circle { width: 36px !important; height: 36px !important; }
           .hdr-icon-ring { inset: 2px !important; }
           .hdr-tb-desc { display: none !important; }
-          .hdr-tb-title { font-size: 10.5px !important; letter-spacing: 0.03em !important; }
-          .hdr-tb-red:first-child { font-size: 15px !important; }
-          .hdr-tb-red + .hdr-tb-red { font-size: 8.5px !important; }
+          .hdr-tb-title { font-size: 12px !important; letter-spacing: 0.03em !important; }
+          .hdr-tb-red:first-child { font-size: 18px !important; }
+          .hdr-tb-red + .hdr-tb-red { font-size: 10px !important; }
         }
       `}</style>
 
@@ -398,20 +398,20 @@ export default function Header() {
               <div>
                 {titleRed ? (
                   <>
-                    <div className="hdr-tb-red" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: 22, fontWeight: 900, color: "#e30613", lineHeight: 1, transition: "color 0.22s,text-shadow 0.22s" }}>
+                    <div className="hdr-tb-red" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 26, fontWeight: 400, color: "#e30613", lineHeight: 1, letterSpacing: "0.05em", transition: "color 0.22s,text-shadow 0.22s" }}>
                       {titleRed}
                     </div>
-                    <div className="hdr-tb-red" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: 11, fontWeight: 800, color: "#e30613", letterSpacing: "0.06em", lineHeight: 1.2, transition: "color 0.22s" }}>
+                    <div className="hdr-tb-red" style={{ fontFamily: "'Oswald',sans-serif", fontSize: 12, fontWeight: 600, color: "#e30613", letterSpacing: "0.08em", lineHeight: 1.2, transition: "color 0.22s" }}>
                       {titleRedSub}
                     </div>
                   </>
                 ) : (
-                  <div className="hdr-tb-title" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: 13.5, fontWeight: 900, color: "#e0e0e0", letterSpacing: "0.04em", lineHeight: 1.2, transition: "color 0.22s" }}>
+                  <div className="hdr-tb-title" style={{ fontFamily: "'Oswald',sans-serif", fontSize: 15, fontWeight: 600, color: "#fff", letterSpacing: "0.06em", lineHeight: 1.2, transition: "color 0.22s" }}>
                     {title}
                   </div>
                 )}
                 {desc.split("\n").map((line, j) => (
-                  <p key={j} className="hdr-tb-desc" style={{ fontSize: 11, color: "rgba(190,190,190,0.65)", lineHeight: 1.35, margin: 0, transition: "color 0.22s" }}>{line}</p>
+                  <p key={j} className="hdr-tb-desc" style={{ fontSize: 13, color: "rgba(230,230,230,0.92)", lineHeight: 1.45, margin: 0, transition: "color 0.22s" }}>{line}</p>
                 ))}
               </div>
             </a>
@@ -453,11 +453,11 @@ export default function Header() {
               onError={(e) => { e.target.style.display = "none"; }}
             />
             <div className="hidden sm:block leading-tight">
-              <div className="text-white font-black text-[20px]" style={{ fontFamily: "'Barlow Condensed',sans-serif", letterSpacing: "0.01em" }}>
+              <div className="text-white font-black text-[20px]" style={{ fontFamily: "'Oswald',sans-serif", letterSpacing: "0.04em" }}>
                 24hr Fremont Tire
               </div>
               <div className="font-bold text-[12px] tracking-wider" style={{ color: "#e30613" }}>
-                Fremont, CA · Since 1998
+                Fremont, CA
               </div>
             </div>
           </a>
@@ -506,7 +506,7 @@ export default function Header() {
                       onError={(e) => { e.target.src = getDefaultAvatar(user); }}
                     />
                     <div>
-                      <div className="font-extrabold text-[14px] text-white" style={{ fontFamily: "'Barlow Condensed',sans-serif" }}>
+                      <div className="font-extrabold text-[14px] text-white" style={{ fontFamily: "'Oswald',sans-serif" }}>
                         {user.displayName || user.email?.split("@")[0]}
                       </div>
                       <div className="text-[11px] break-all" style={{ color: "rgba(255,255,255,0.35)" }}>{user.email}</div>
@@ -515,7 +515,7 @@ export default function Header() {
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border-none text-white font-black text-[12px] tracking-widest uppercase cursor-pointer hover:bg-red-700 transition-colors"
-                    style={{ background: "#e30613", fontFamily: "'Barlow Condensed',sans-serif" }}
+                    style={{ background: "#e30613", fontFamily: "'Oswald',sans-serif" }}
                   >
                     <LogOut size={13} /> Logout
                   </button>
@@ -577,7 +577,7 @@ export default function Header() {
                   <>
                     <button
                       className="flex items-center justify-between w-full py-3 text-[13px] font-bold tracking-wider uppercase border-none bg-transparent cursor-pointer hover:text-white transition-colors"
-                      style={{ fontFamily: "'Barlow Condensed',sans-serif", color: "rgba(255,255,255,0.75)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
+                      style={{ fontFamily: "'Oswald',sans-serif", color: "rgba(255,255,255,0.75)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
                       onClick={() => setExpanded(expanded === item.label ? null : item.label)}
                     >
                       {item.label}
@@ -601,7 +601,7 @@ export default function Header() {
                 ) : (
                   <a href={item.href}
                     className="flex py-3 text-[13px] font-bold tracking-wider uppercase no-underline hover:text-white transition-colors"
-                    style={{ fontFamily: "'Barlow Condensed',sans-serif", color: "rgba(255,255,255,0.75)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                    style={{ fontFamily: "'Oswald',sans-serif", color: "rgba(255,255,255,0.75)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
                     {item.label}
                   </a>
                 )}

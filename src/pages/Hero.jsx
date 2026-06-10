@@ -120,18 +120,22 @@ const ANIM_CSS = `
 
   /* text */
   .stat-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px; font-weight: 900; color: #fff;
+    font-family: 'Oswald', 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 600; color: #fff;
     text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2;
     transition: color 0.22s ease;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
   }
   .stat-link:hover .stat-title { color: #e30613; }
   .stat-desc {
-    font-size: 11.5px; color: rgba(255,255,255,0.38);
-    line-height: 1.35; margin-top: 3px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px; font-weight: 400; color: rgba(200,200,210,0.82);
+    line-height: 1.4; margin-top: 4px;
     transition: color 0.22s ease;
+    -webkit-font-smoothing: antialiased;
   }
-  .stat-link:hover .stat-desc { color: rgba(255,255,255,0.65); }
+  .stat-link:hover .stat-desc { color: rgba(255,255,255,0.95); }
 
   /* arrow chevron */
   .stat-arrow {
@@ -390,20 +394,21 @@ export default function Hero() {
 
           {/* 24/7 label */}
           <p style={{
-            fontFamily: "'Barlow Condensed',sans-serif",
-            fontSize: 15, fontWeight: 800, fontStyle: "italic",
-            color: "#e30613", letterSpacing: "0.18em",
-            textTransform: "uppercase", marginBottom: 8,
+            fontFamily: "'Oswald',sans-serif",
+            fontSize: 14, fontWeight: 500,
+            color: "#e30613", letterSpacing: "0.22em",
+            textTransform: "uppercase", marginBottom: 8, marginTop: 24,
             animation: anim("heroFadeLeft", 0.6, 0.25),
           }}>
             24/7 Mobile Service
           </p>
 
+
           {/* 24HR */}
           <div style={{
-            fontFamily: "'Barlow Condensed',sans-serif",
+            fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
             fontSize: "clamp(100px,12vw,168px)",
-            fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.015em",
+            fontWeight: 400, lineHeight: 0.88, letterSpacing: "0.01em",
             animation: anim("heroFadeLeft", 0.65, 0.38),
           }}>
             <span style={{ color: "#e30613", textShadow: "0 0 40px rgba(227,6,19,0.45),3px 3px 0 rgba(0,0,0,0.7)" }}>24</span>
@@ -412,9 +417,9 @@ export default function Hero() {
 
           {/* FREMONT */}
           <div style={{
-            fontFamily: "'Barlow Condensed',sans-serif",
+            fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
             fontSize: "clamp(106px,14.5vw,200px)",
-            fontWeight: 900, lineHeight: 0.84, letterSpacing: "-0.025em",
+            fontWeight: 400, lineHeight: 0.84, letterSpacing: "0.01em",
             color: "#fff",
             textShadow: "3px 4px 0 rgba(0,0,0,0.9),-1px -1px 0 rgba(0,0,0,0.5),5px 5px 14px rgba(0,0,0,0.8),2px 0 0 rgba(255,255,255,0.06)",
             marginBottom: 10,
@@ -433,9 +438,9 @@ export default function Hero() {
             transformOrigin: "left center",
           }}>
             <span style={{
-              fontFamily: "'Barlow Condensed',sans-serif",
-              fontSize: "clamp(26px,3.6vw,54px)", fontWeight: 900,
-              color: "#fff", letterSpacing: "0.07em",
+              fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
+              fontSize: "clamp(28px,3.8vw,58px)", fontWeight: 400,
+              color: "#fff", letterSpacing: "0.1em",
               textTransform: "uppercase", lineHeight: 1,
               textShadow: "1px 1px 4px rgba(0,0,0,0.5)",
             }}>
@@ -455,9 +460,9 @@ export default function Hero() {
                   <polyline points="6,11 9.5,14.5 16,7.5" stroke="#e30613" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span style={{
-                  fontFamily:"'Barlow Condensed',sans-serif",
-                  fontSize:14,fontWeight:800,color:"#fff",
-                  textTransform:"uppercase",letterSpacing:"0.09em",
+                  fontFamily:"'Oswald',sans-serif",
+                  fontSize:15,fontWeight:600,color:"#fff",
+                  textTransform:"uppercase",letterSpacing:"0.08em",
                 }}>{c}</span>
               </div>
             ))}
@@ -465,7 +470,7 @@ export default function Hero() {
 
           {/* DESCRIPTION */}
           <p style={{
-            color:"rgba(255,255,255,0.55)",fontSize:15.5,lineHeight:1.6,marginBottom:30,maxWidth:460,
+            color:"rgba(255,255,255,0.82)",fontSize:16,lineHeight:1.65,marginBottom:30,maxWidth:460,
             animation: anim("heroFadeUp", 0.6, 1.06, "ease-out"),
           }}>
             We come to you — Home, Business, Job Site, or Roadside.{" "}
@@ -483,8 +488,8 @@ export default function Hero() {
                 <i className="fas fa-phone cbtn-phone" style={{ color:"#fff",fontSize:15 }} />
               </div>
               <div>
-                <div className="cbtn-label" style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:11,fontWeight:800,color:"rgba(255,255,255,0.75)",letterSpacing:"0.22em",textTransform:"uppercase",lineHeight:1,marginBottom:3 }}>Call Now</div>
-                <div className="cbtn-num" style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:22,fontWeight:900,color:"#fff",letterSpacing:"0.03em",lineHeight:1 }}>(415) 634-7777</div>
+                <div className="cbtn-label" style={{ fontFamily:"'Oswald',sans-serif",fontSize:11,fontWeight:500,color:"rgba(255,255,255,0.75)",letterSpacing:"0.22em",textTransform:"uppercase",lineHeight:1,marginBottom:3 }}>Call Now</div>
+                <div className="cbtn-num" style={{ fontFamily:"'Oswald',sans-serif",fontSize:21,fontWeight:700,color:"#fff",letterSpacing:"0.04em",lineHeight:1 }}>(415) 634-7777</div>
               </div>
             </a>
 
@@ -493,7 +498,7 @@ export default function Hero() {
                 <i className="fas fa-calendar-check sbtn-cal" style={{ color:"#fff",fontSize:15 }} />
               </div>
               <div>
-                <div className="sbtn-title" style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.07em",lineHeight:1.1 }}>Request Service</div>
+                <div className="sbtn-title" style={{ fontFamily:"'Oswald',sans-serif",fontSize:17,fontWeight:600,color:"#fff",textTransform:"uppercase",letterSpacing:"0.08em",lineHeight:1.1 }}>Request Service</div>
                 <div style={{ fontSize:11.5,color:"rgba(255,255,255,0.45)",lineHeight:1.2 }}>We'll come to you</div>
               </div>
             </a>
@@ -502,7 +507,7 @@ export default function Hero() {
       </section>
 
       {/* ═══════════════ STATS BAR ═══════════════ */}
-      <div style={{ background:"#0a0a0e", borderTop:"2px solid rgba(227,6,19,0.35)" }}>
+      <div style={{ background:"#0d0d14", borderTop:"2px solid rgba(227,6,19,0.5)" }}>
         <div style={{ maxWidth:1600, margin:"0 auto" }}>
           <div className="stats-grid">
             {stats.map(({ icon, title, desc, href }, i) => (
@@ -515,8 +520,8 @@ export default function Hero() {
                 {/* number watermark */}
                 <div style={{
                   position:"absolute", bottom:4, right:14,
-                  fontFamily:"'Barlow Condensed',sans-serif",
-                  fontSize:44, fontWeight:900,
+                  fontFamily:"'Oswald',sans-serif",
+                  fontSize:44, fontWeight:700,
                   color:"rgba(227,6,19,0.07)",
                   lineHeight:1, pointerEvents:"none", userSelect:"none",
                   letterSpacing:"-0.03em",

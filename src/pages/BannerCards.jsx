@@ -168,8 +168,8 @@ export default function BannerCards() {
         .bn:hover .bn-label { opacity: 1; transform: translateY(0); }
 
         .bn-label-text {
-          font-family: 'Barlow Condensed', sans-serif;
-          font-size: 12px; font-weight: 700;
+          font-family: 'Oswald', sans-serif;
+          font-size: 11px; font-weight: 500;
           letter-spacing: 0.18em; text-transform: uppercase;
           color: rgba(200,220,255,0.8);
         }
@@ -200,8 +200,8 @@ export default function BannerCards() {
           -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(255,255,255,0.1);
           border-radius: 50px;
-          font-family: 'Barlow Condensed', sans-serif;
-          font-size: 10px; font-weight: 700;
+          font-family: 'Oswald', sans-serif;
+          font-size: 10px; font-weight: 500;
           letter-spacing: 0.2em; text-transform: uppercase;
           color: rgba(200,220,255,0.7);
           opacity: 0;
