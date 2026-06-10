@@ -40,10 +40,10 @@ const Footer = () => {
 
       {/* ── MAIN COLUMNS ── */}
       <div className="max-w-7xl mx-auto px-5 py-12 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-12">
 
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div className="col-span-2 lg:col-span-1">
             <div className="relative inline-block mb-1">
               <div className="absolute inset-0 bg-linear-to-r from-red-500/20 via-amber-400/20 to-red-500/20 rounded-full blur-3xl scale-150" />
               <img
@@ -122,7 +122,7 @@ const Footer = () => {
           ))}
 
           {/* Store Info */}
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <h4 className="text-white text-[11px] font-black uppercase tracking-[2px] mb-5 relative pb-3 pt-4 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-8 after:h-0.5 after:bg-red-600">
               Store Info
             </h4>

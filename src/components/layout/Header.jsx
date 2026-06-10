@@ -232,12 +232,64 @@ export default function Header() {
         .hdr-navitem:nth-child(7) { animation-delay: 0.67s; }
 
         .hdr-icon-circle { animation: iconPulse 2.8s ease-in-out 0.8s infinite; }
+
+        /* ── HEADER CALL BUTTON ── */
+        @keyframes phoneRingHdr {
+          0%   { transform: rotate(0deg); }
+          15%  { transform: rotate(-20deg) scale(1.14); }
+          35%  { transform: rotate(16deg) scale(1.12); }
+          55%  { transform: rotate(-10deg) scale(1.06); }
+          75%  { transform: rotate(7deg) scale(1.03); }
+          90%  { transform: rotate(-3deg); }
+          100% { transform: rotate(0deg); }
+        }
+        .hdr-callbtn {
+          display: flex; align-items: center; gap: 10px;
+          padding: 7px 14px; border-radius: 8px; text-decoration: none;
+          border: 1.5px solid #e30613;
+          background: transparent;
+          transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+          cursor: pointer;
+        }
+        .hdr-callbtn:hover {
+          background: #e30613;
+          transform: translateY(-2px) scale(1.04);
+          box-shadow: 0 8px 28px rgba(227,6,19,0.6), 0 0 0 3px rgba(227,6,19,0.22);
+        }
+        .hdr-callbtn:active { transform: translateY(0) scale(0.98); }
+        .hdr-cb-dot {
+          width: 32px; height: 32px; border-radius: 50%;
+          background: #e30613; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+          transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+        }
+        .hdr-callbtn:hover .hdr-cb-dot {
+          background: rgba(255,255,255,0.25);
+          transform: scale(1.12);
+          box-shadow: 0 0 16px rgba(255,255,255,0.35);
+        }
+        .hdr-callbtn:hover .hdr-cb-phone { animation: phoneRingHdr 0.52s ease both; }
+        .hdr-cb-label { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; line-height: 1; color: rgba(255,255,255,0.5); transition: color 0.22s ease; }
+        .hdr-callbtn:hover .hdr-cb-label { color: rgba(255,255,255,0.9); }
+        .hdr-cb-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; color: #fff; font-size: 15px; line-height: 1.3; letter-spacing: 0.05em; }
+
+        /* ── TOP SERVICE BAR RESPONSIVE ── */
+        .hdr-topbar { scrollbar-width: none; -ms-overflow-style: none; }
+        .hdr-topbar::-webkit-scrollbar { display: none; }
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .hdr-toplink { padding: 6px 10px !important; min-width: max-content; margin: 2px 2px !important; }
+          .hdr-icon-circle { width: 36px !important; height: 36px !important; }
+          .hdr-icon-ring { inset: 2px !important; }
+          .hdr-tb-desc { display: none !important; }
+          .hdr-tb-title { font-size: 10.5px !important; letter-spacing: 0.03em !important; }
+          .hdr-tb-red:first-child { font-size: 15px !important; }
+          .hdr-tb-red + .hdr-tb-red { font-size: 8.5px !important; }
+        }
       `}</style>
 
       <div className="hdr-anim fixed top-0 left-0 right-0 z-999">
 
         {/* ══ TOP SERVICES BAR ══ */}
-        <div className="hidden lg:flex bg-black border-b-2 border-[#e30613]">
+        <div className="hidden md:flex bg-black border-b-2 border-[#e30613] overflow-x-auto hdr-topbar">
           {topBar.map(({ icon, href, title, titleRed, titleRedSub, desc }, i) => (
             <a
               key={i}
@@ -348,20 +400,13 @@ export default function Header() {
           <div className="hdr-right flex items-center gap-2">
 
             {/* Call button */}
-            <a
-              href="tel:+14156347777"
-              className="hidden md:flex items-center gap-2.5 px-4 py-2 rounded-lg no-underline border border-[#e30613] hover:bg-[#e30613]/10 transition-colors duration-200"
-            >
-              <div className="w-8 h-8 rounded-full bg-[#e30613] flex items-center justify-center shrink-0">
-                <i className="fas fa-phone text-white text-[12px]" />
+            <a href="tel:+14156347777" className="hdr-callbtn hidden md:flex">
+              <div className="hdr-cb-dot">
+                <i className="fas fa-phone hdr-cb-phone text-white text-[12px]" />
               </div>
               <div>
-                <div className="text-[9px] font-bold tracking-[2px] uppercase leading-none" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  Call or Text
-                </div>
-                <div className="font-black text-white text-[15px] leading-tight tracking-wide" style={{ fontFamily: "'Barlow Condensed',sans-serif" }}>
-                  (415) 634-7777
-                </div>
+                <div className="hdr-cb-label">Call or Text</div>
+                <div className="hdr-cb-num">(415) 634-7777</div>
               </div>
             </a>
 

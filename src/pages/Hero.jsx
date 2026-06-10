@@ -12,8 +12,6 @@ const stats = [
   { icon: "fa-handshake",   title: "Satisfaction Guaranteed", desc: "We Stand Behind Our Work", href: "/satisfaction" },
 ];
 
-const TOP = 126;
-
 const ANIM_CSS = `
   @keyframes heroFadeLeft {
     from { opacity: 0; transform: translateX(-52px); }
@@ -147,6 +145,162 @@ const ANIM_CSS = `
     color: rgba(227,6,19,0.85);
     transform: translateX(3px);
   }
+
+  /* ── HERO CTA BUTTONS ── */
+  @keyframes phoneRing {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(-20deg) scale(1.12); }
+    35%  { transform: rotate(16deg) scale(1.1); }
+    55%  { transform: rotate(-10deg) scale(1.05); }
+    75%  { transform: rotate(7deg) scale(1.03); }
+    90%  { transform: rotate(-3deg); }
+    100% { transform: rotate(0deg); }
+  }
+  @keyframes calBounce {
+    0%,100% { transform: scale(1) rotate(0deg); }
+    30%     { transform: scale(1.2) rotate(-10deg); }
+    65%     { transform: scale(1.15) rotate(7deg); }
+  }
+  .hero-btn-call {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: #e30613; padding: 12px 26px; border-radius: 6px;
+    text-decoration: none;
+    border: 2px solid rgba(255,255,255,0.12);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    cursor: pointer;
+  }
+  .hero-btn-call:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 52px rgba(227,6,19,0.82), 0 0 0 3px rgba(227,6,19,0.28) !important;
+    border-color: rgba(255,255,255,0.5) !important;
+    background: #f4071a;
+    animation: none !important;
+  }
+  .hero-btn-call:active { transform: translateY(0) scale(0.98); }
+  .hero-btn-call .cbtn-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: background 0.22s ease, border-color 0.22s ease;
+  }
+  .hero-btn-call:hover .cbtn-icon {
+    background: rgba(255,255,255,0.28) !important;
+    border-color: rgba(255,255,255,0.7) !important;
+  }
+  .hero-btn-call:hover .cbtn-phone { animation: phoneRing 0.52s ease both; }
+
+  .hero-btn-service {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.28);
+    padding: 12px 26px; border-radius: 6px; text-decoration: none;
+    transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    cursor: pointer;
+  }
+  .hero-btn-service:hover {
+    transform: translateY(-3px) scale(1.03);
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.78);
+    box-shadow: 0 10px 38px rgba(255,255,255,0.1), 0 0 0 2px rgba(255,255,255,0.14);
+  }
+  .hero-btn-service:active { transform: translateY(0) scale(0.98); }
+  .hero-btn-service .sbtn-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.35);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: background 0.22s ease, border-color 0.22s ease;
+  }
+  .hero-btn-service:hover .sbtn-icon {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.85);
+  }
+  .hero-btn-service:hover .sbtn-cal { animation: calBounce 0.5s ease both; }
+
+  /* ─────── HERO LAYOUT — RESPONSIVE ─────── */
+  .hero-section {
+    position: relative;
+    background: #080808;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    /* mobile default */
+    min-height: 100svh;
+    padding-top: 70px;
+  }
+  .hero-img-panel {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    overflow: hidden;
+    z-index: 1;
+    /* mobile: full-width faint background */
+    width: 100%;
+    opacity: 0.2;
+  }
+  .hero-left {
+    position: relative;
+    z-index: 10;
+    /* mobile default */
+    padding: 28px 20px 44px;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+  /* ── tablet sm ── */
+  @media (min-width: 640px) {
+    .hero-section { padding-top: 78px; align-items: center; }
+    .hero-img-panel { width: 52%; opacity: 1; }
+    .hero-left { padding: 36px 24px 44px 36px; width: 60%; }
+  }
+  /* ── tablet md (top bar visible) ── */
+  @media (min-width: 768px) {
+    .hero-section { padding-top: 106px; }
+  }
+  /* ── desktop ── */
+  @media (min-width: 1024px) {
+    .hero-section { min-height: 100vh; padding-top: 126px; align-items: center; }
+    .hero-img-panel { width: 52%; opacity: 1; }
+    .hero-left { padding: 48px 24px 48px 80px; width: 52%; min-width: 440px; max-width: 780px; }
+  }
+
+  /* hero buttons on small mobile */
+  @media (max-width: 479px) {
+    .hero-btn-call, .hero-btn-service {
+      padding: 10px 16px; gap: 10px;
+      flex: 1; min-width: 0; justify-content: center;
+    }
+    .cbtn-icon, .sbtn-icon { width: 38px !important; height: 38px !important; }
+  }
+
+  /* ─────── STATS BAR — RESPONSIVE ─────── */
+  .stat-link { border-right: 1px solid rgba(255,255,255,0.08); }
+
+  /* 2-column layout on mobile */
+  @media (max-width: 639px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .stat-link { padding: 14px 12px; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .stats-grid .stat-link:nth-child(2n) { border-right: none; }
+    .stats-grid .stat-link:nth-last-child(1) { border-bottom: none; }
+    .stats-grid .stat-link:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+    .stat-icon { width: 42px !important; height: 42px !important; }
+    .stat-icon::after { inset: -4px; }
+    .stat-arrow { display: none; }
+    .stat-title { font-size: 12px; }
+    .stat-desc { font-size: 10px; }
+  }
+  /* 3-column layout on tablet */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .stats-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    .stat-link { padding: 18px 16px; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .stats-grid .stat-link:nth-child(3n) { border-right: none; }
+    .stats-grid .stat-link:last-child { border-right: none; }
+    .stats-grid .stat-link:nth-last-child(-n+2) { border-bottom: none; }
+    .stats-grid .stat-link:last-child { border-bottom: none; }
+    .stat-arrow { display: none; }
+  }
+  /* 5-column on desktop — last item no right border */
+  @media (min-width: 1024px) {
+    .stats-grid .stat-link:last-child { border-right: none; }
+  }
 `;
 
 const anim = (name, dur, delay, easing = "cubic-bezier(.22,.68,0,1.15)") =>
@@ -166,27 +320,13 @@ export default function Hero() {
 
       {/* ═══════════════ HERO ═══════════════ */}
       <section
-        style={{
-          position: "relative",
-          minHeight: "100vh",
-          paddingTop: TOP,
-          background: "#080808",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          animation: anim("heroFadeIn", 0.4, 0, "ease"),
-        }}
+        className="hero-section"
+        style={{ animation: anim("heroFadeIn", 0.4, 0, "ease") }}
       >
         {/* ── RIGHT IMAGE SLIDER ── */}
         <div
-          style={{
-            position: "absolute",
-            top: 0, right: 0, bottom: 0,
-            width: "52%",
-            overflow: "hidden",
-            zIndex: 1,
-            animation: anim("heroImgFade", 1.1, 0.2, "ease-out"),
-          }}
+          className="hero-img-panel"
+          style={{ animation: anim("heroImgFade", 1.1, 0.2, "ease-out") }}
         >
           {SLIDES.map((src, i) => (
             <img
@@ -231,11 +371,7 @@ export default function Hero() {
         </div>
 
         {/* ── LEFT TEXT ── */}
-        <div style={{
-          position: "relative", zIndex: 10,
-          padding: "48px 24px 48px 80px",
-          width: "52%", minWidth: 440, maxWidth: 780,
-        }}>
+        <div className="hero-left" style={{ zIndex: 10 }}>
 
           {/* 24/7 label */}
           <p style={{
@@ -327,16 +463,9 @@ export default function Hero() {
             animation: anim("heroFadeUp", 0.6, 1.18, "ease-out"),
           }}>
 
-            <a href="tel:+14156347777" style={{
-              display:"inline-flex",alignItems:"center",gap:14,
-              background:"#e30613",padding:"12px 26px",borderRadius:6,
-              textDecoration:"none",
-              boxShadow:"0 6px 32px rgba(227,6,19,0.55)",
-              border:"2px solid rgba(255,255,255,0.12)",
-              animation:"btnGlow 2.4s ease-in-out 1.8s infinite",
-            }}>
-              <div style={{ width:44,height:44,borderRadius:"50%",background:"rgba(255,255,255,0.15)",border:"2px solid rgba(255,255,255,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
-                <i className="fas fa-phone" style={{ color:"#fff",fontSize:15 }} />
+            <a href="tel:+14156347777" className="hero-btn-call" style={{ boxShadow:"0 6px 32px rgba(227,6,19,0.55)", animation:"btnGlow 2.4s ease-in-out 1.8s infinite" }}>
+              <div className="cbtn-icon">
+                <i className="fas fa-phone cbtn-phone" style={{ color:"#fff",fontSize:15 }} />
               </div>
               <div>
                 <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:11,fontWeight:800,color:"rgba(255,255,255,0.75)",letterSpacing:"0.22em",textTransform:"uppercase",lineHeight:1,marginBottom:3 }}>Call Now</div>
@@ -344,14 +473,9 @@ export default function Hero() {
               </div>
             </a>
 
-            <a href="/contacts" style={{
-              display:"inline-flex",alignItems:"center",gap:14,
-              background:"rgba(255,255,255,0.06)",
-              border:"2px solid rgba(255,255,255,0.28)",
-              padding:"12px 26px",borderRadius:6,textDecoration:"none",
-            }}>
-              <div style={{ width:44,height:44,borderRadius:"50%",border:"2px solid rgba(255,255,255,0.35)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
-                <i className="fas fa-calendar-check" style={{ color:"#fff",fontSize:15 }} />
+            <a href="/contacts" className="hero-btn-service">
+              <div className="sbtn-icon">
+                <i className="fas fa-calendar-check sbtn-cal" style={{ color:"#fff",fontSize:15 }} />
               </div>
               <div>
                 <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.07em",lineHeight:1.1 }}>Request Service</div>
@@ -365,16 +489,13 @@ export default function Hero() {
       {/* ═══════════════ STATS BAR ═══════════════ */}
       <div style={{ background:"#0a0a0e", borderTop:"2px solid rgba(227,6,19,0.35)" }}>
         <div style={{ maxWidth:1600, margin:"0 auto" }}>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)" }}>
+          <div className="stats-grid">
             {stats.map(({ icon, title, desc, href }, i) => (
               <a
                 key={title}
                 href={href}
                 className="stat-link"
-                style={{
-                  borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none",
-                  animation: anim("statRise", 0.55, 1.3 + i * 0.08, "ease-out"),
-                }}
+                style={{ animation: anim("statRise", 0.55, 1.3 + i * 0.08, "ease-out") }}
               >
                 {/* number watermark */}
                 <div style={{
