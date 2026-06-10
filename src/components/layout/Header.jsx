@@ -177,25 +177,28 @@ export default function Header() {
         /* ── TOP BAR ITEM BOX HOVER ── */
         .hdr-toplink {
           position: relative;
-          transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+          border: 1.5px solid rgba(255,255,255,0.13);
+          border-radius: 6px;
+          margin: 4px 3px;
+          transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease, border-color 0.22s ease;
           cursor: pointer;
+          text-decoration: none;
         }
         .hdr-toplink:hover {
-          background: rgba(255,255,255,0.05) !important;
+          background: rgba(255,255,255,0.06) !important;
+          border-color: rgba(255,255,255,0.9) !important;
           box-shadow:
-            inset 4px  0    0 rgba(255,255,255,0.88),
-            inset -4px 0    0 rgba(255,255,255,0.88),
-            inset 0    3px  0 rgba(255,255,255,0.88),
-            inset 0   -3px  0 rgba(255,255,255,0.88);
+            0 0 0 2px rgba(255,255,255,0.18),
+            0 6px 24px rgba(0,0,0,0.4);
           transform: translateY(-2px);
         }
         .hdr-icon-ring {
-          border: 2px dashed rgba(227,6,19,0.5) !important;
+          border: 2px dashed rgba(255,255,255,0.45) !important;
           transition: border-color 0.22s;
         }
         .hdr-toplink:hover .hdr-icon-ring {
           animation: spinRing 1.3s linear infinite;
-          border-color: #e30613 !important;
+          border-color: rgba(255,255,255,0.95) !important;
         }
         .hdr-toplink:hover .hdr-icon-circle {
           box-shadow: 0 0 26px rgba(227,6,19,0.65), inset 0 0 16px rgba(227,6,19,0.25) !important;
@@ -241,7 +244,7 @@ export default function Header() {
               href={href}
               className="hdr-topitem hdr-toplink flex items-center gap-3 flex-1 px-4 py-2.5 no-underline"
               style={{
-                borderRight: i < topBar.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none",
+                borderRight: i < topBar.length - 1 ? "2px solid rgba(255,255,255,0.28)" : "none",
               }}
             >
               {/* Icon circle */}
@@ -307,18 +310,26 @@ export default function Header() {
               src="/tire-oil-removebg-preview.png"
               alt="24HR Fremont Tire"
               style={{
-                height: 62,
+                height: 78,
                 width: "auto",
                 objectFit: "contain",
-                filter: "brightness(2.0) contrast(1.2) drop-shadow(0 0 14px rgba(255,255,255,0.65)) drop-shadow(0 2px 22px rgba(220,38,38,0.8))",
+                filter: [
+                  "brightness(2.4)",
+                  "contrast(1.25)",
+                  "saturate(1.2)",
+                  "drop-shadow(0 0 10px rgba(255,255,255,0.9))",
+                  "drop-shadow(0 0 22px rgba(255,255,255,0.55))",
+                  "drop-shadow(0 0 30px rgba(220,38,38,0.85))",
+                  "drop-shadow(0 4px 18px rgba(220,38,38,0.6))",
+                ].join(" "),
               }}
               onError={(e) => { e.target.style.display = "none"; }}
             />
             <div className="hidden sm:block leading-tight">
-              <div className="text-white font-black text-[18px]" style={{ fontFamily: "'Barlow Condensed',sans-serif" }}>
+              <div className="text-white font-black text-[20px]" style={{ fontFamily: "'Barlow Condensed',sans-serif", letterSpacing: "0.01em" }}>
                 24hr Fremont Tire
               </div>
-              <div className="font-semibold text-[11px] tracking-wider" style={{ color: "#e30613" }}>
+              <div className="font-bold text-[12px] tracking-wider" style={{ color: "#e30613" }}>
                 Fremont, CA · Since 1998
               </div>
             </div>

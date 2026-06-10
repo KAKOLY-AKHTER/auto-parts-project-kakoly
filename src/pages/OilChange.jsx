@@ -1,32 +1,46 @@
-import ServicePageBase from "./ServicePageBase";
+import ServiceInfoPage from "./ServiceInfoPage";
 
-const services = [
-  { icon:"fa-oil-can",         title:"Full Synthetic Oil",        desc:"Premium full synthetic for maximum engine protection, better fuel economy, and longer change intervals — up to 10,000 miles." },
-  { icon:"fa-fill-drip",       title:"Synthetic Blend Oil",       desc:"A cost-effective mix of conventional and synthetic oil — great for daily drivers that need reliable performance." },
-  { icon:"fa-droplet",         title:"Conventional Oil",          desc:"Standard mineral oil for older vehicles or low-mileage cars. Affordable and effective for regular maintenance." },
-  { icon:"fa-filter",          title:"Oil Filter Replacement",    desc:"Every oil change includes a new OEM-quality oil filter to keep contaminants out of your fresh oil." },
-  { icon:"fa-gauge-high",      title:"Multi-Point Inspection",    desc:"We check fluid levels, tire pressure, belts, and lights with every oil change — at no extra charge." },
-  { icon:"fa-truck-fast",      title:"Mobile Oil Change",         desc:"We come to you at home, work, or job site. No appointment wait times. Done in 30 minutes or less." },
+const cards = [
+  { icon:"fa-flask",        title:"Full Synthetic Oil",        desc:"Maximum engine protection and performance. Ideal for high-mileage vehicles, turbocharged engines, and extreme conditions." },
+  { icon:"fa-vial",         title:"Synthetic Blend",           desc:"A balance of conventional and synthetic. Great protection at a more affordable price point for everyday vehicles." },
+  { icon:"fa-oil-can",      title:"Conventional Oil",         desc:"Standard motor oil for older vehicles or those with low mileage. Quick, affordable, and effective." },
+  { icon:"fa-filter",       title:"Filter Replacement",        desc:"We replace the oil filter with every change — OEM-quality filters that protect your engine from contaminants." },
+  { icon:"fa-gauge-high",   title:"Multi-Point Inspection",    desc:"Every oil change includes a complimentary multi-point inspection — fluid levels, tire pressure, and visible wear items." },
+  { icon:"fa-droplet",      title:"Fluid Top-Off",             desc:"We top off windshield washer fluid, coolant, and other accessible fluids as part of our standard oil change service." },
 ];
 
-const process = [
-  { step:"1", title:"Choose Your Oil",  desc:"Full synthetic, synthetic blend, or conventional — we help you pick the right one for your vehicle." },
-  { step:"2", title:"We Come To You",   desc:"Our tech arrives at your location with the correct oil and a new filter ready to go." },
-  { step:"3", title:"Quick Service",    desc:"Oil drained, filter swapped, new oil filled, and levels checked — all in under 30 minutes." },
-  { step:"4", title:"Drive Fresh",      desc:"Sticker placed, reminder set, and you're good to go for your next interval." },
+const steps = [
+  { label:"Schedule Service",    desc:"Call, text, or book online. We come to your location." },
+  { label:"Oil & Filter Drained",desc:"Old oil and filter are safely removed and disposed of properly." },
+  { label:"Fresh Oil Installed", desc:"New oil and filter installed to your vehicle's manufacturer spec." },
+  { label:"Inspection & Report", desc:"Multi-point check completed. We share a brief report with you." },
+];
+
+const features = [
+  { icon:"fa-certificate",    label:"Top Brand Oils",          detail:"Mobil 1, Castrol, Pennzoil, Valvoline — your choice." },
+  { icon:"fa-recycle",        title:"Eco-Friendly Disposal",   label:"Eco-Friendly Disposal",  detail:"Used oil disposed of responsibly per California regulations." },
+  { icon:"fa-truck",          label:"Mobile — We Come to You", detail:"No need to drive to a shop. We do it at your location." },
+  { icon:"fa-tag",            label:"Flat-Rate Pricing",       detail:"No surprises. Full price quoted upfront before we start." },
+  { icon:"fa-clock",          label:"Quick Service",           detail:"Most oil changes completed in under 30 minutes on-site." },
+  { icon:"fa-shield-halved",  label:"Certified Technicians",   detail:"Licensed techs who know exactly what your engine needs." },
 ];
 
 export default function OilChange() {
   return (
-    <ServicePageBase
+    <ServiceInfoPage
       icon="fa-oil-can"
-      badge="Quick & Clean"
-      title="Mobile Oil Change Service"
-      subtitle="Full Synthetic · Synthetic Blend · Conventional"
-      description="Get a professional oil change without leaving home or work. We bring the right oil, a new filter, and certified technicians directly to you. Fast, clean, and done right — in 30 minutes or less."
-      heroImg="/tire-repair-service.png"
-      services={services}
-      process={process}
+      title="Oil Change Service"
+      subtitle="Full Synthetic • Synthetic Blend • Conventional"
+      heroDesc="Fresh oil is the single most important thing you can do for your engine. 24HR Fremont Tire brings professional, fast oil change service directly to your location — using top-brand oils and OEM-quality filters every time."
+      heroImg="/oil-change-service.png"
+      sectionImg="/oil-change.png"
+      highlights={["Full Synthetic","Synthetic Blend","Filter Replacement","Multi-Point Inspection"]}
+      cards={cards}
+      steps={steps}
+      features={features}
+      ctaTitle="Book Your Oil Change Today"
+      ctaDesc="We come to you. No shop visit needed. Fast, professional, and done right with premium oils."
+      ctaImg="/oil-change-service.png"
     />
   );
 }

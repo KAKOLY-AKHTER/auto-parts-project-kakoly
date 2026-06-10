@@ -5,11 +5,11 @@ const SLIDES = ["/red-tire1.png","/red-oil.png", "/red-tire2.png", "/red-oil1.pn
 const checks = ["Tires", "Oil Change", "Auto Service", "Roadside Assistance"];
 
 const stats = [
-  { icon: "fa-truck",       title: "Fully Equipped",          desc: "Mobile Service Trucks" },
-  { icon: "fa-users",       title: "Experienced Technicians", desc: "Trained & Certified" },
-  { icon: "fa-certificate", title: "Quality Parts & Oils",    desc: "Top Brands You Trust" },
-  { icon: "fa-tag",         title: "Honest Pricing",          desc: "No Hidden Fees" },
-  { icon: "fa-handshake",   title: "Satisfaction Guaranteed", desc: "We Stand Behind Our Work" },
+  { icon: "fa-truck",       title: "Fully Equipped",          desc: "Mobile Service Trucks",    href: "/fully-equipped" },
+  { icon: "fa-users",       title: "Experienced Technicians", desc: "Trained & Certified",      href: "/our-technicians" },
+  { icon: "fa-certificate", title: "Quality Parts & Oils",    desc: "Top Brands You Trust",     href: "/quality-parts" },
+  { icon: "fa-tag",         title: "Honest Pricing",          desc: "No Hidden Fees",           href: "/pricing" },
+  { icon: "fa-handshake",   title: "Satisfaction Guaranteed", desc: "We Stand Behind Our Work", href: "/satisfaction" },
 ];
 
 const TOP = 126;
@@ -50,6 +50,102 @@ const ANIM_CSS = `
   @keyframes dotPulse {
     0%,100% { transform: scale(1); }
     50%      { transform: scale(1.25); }
+  }
+  @keyframes statIconSpin {
+    to { transform: rotate(360deg) scale(1.12); }
+  }
+  @keyframes statArrow {
+    from { opacity:0; transform:translateX(-6px); }
+    to   { opacity:1; transform:translateX(0); }
+  }
+
+  /* ── STATS BAR ── */
+  .stat-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    border-top: 3px solid transparent;
+    transition: background 0.28s ease, border-top-color 0.28s ease, box-shadow 0.28s ease;
+  }
+  /* subtle top-line indicator always visible */
+  .stat-link::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(227,6,19,0.25), transparent);
+  }
+  /* red fill on hover */
+  .stat-link::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(227,6,19,0.1) 0%, transparent 65%);
+    opacity: 0;
+    transition: opacity 0.28s ease;
+    pointer-events: none;
+  }
+  .stat-link:hover {
+    background: rgba(227,6,19,0.07);
+    border-top-color: #fff;
+    box-shadow: 0 -3px 0 #fff, 0 8px 32px rgba(227,6,19,0.15);
+    z-index: 2;
+  }
+  .stat-link:hover::after { opacity: 1; }
+
+  /* icon circle */
+  .stat-icon {
+    position: relative;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(227,6,19,0.18) 0%, rgba(0,0,0,0.5) 100%);
+    border: 2px solid rgba(227,6,19,0.4);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+  }
+  /* outer dashed ring */
+  .stat-icon::after {
+    content: '';
+    position: absolute; inset: -5px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(227,6,19,0.3);
+    transition: border-color 0.28s ease;
+  }
+  .stat-link:hover .stat-icon {
+    background: radial-gradient(circle, rgba(227,6,19,0.32) 0%, rgba(0,0,0,0.5) 100%);
+    border-color: #e30613;
+    box-shadow: 0 0 24px rgba(227,6,19,0.6), inset 0 0 12px rgba(227,6,19,0.2);
+    animation: statIconSpin 0.6s cubic-bezier(.22,.68,0,1.2) both;
+  }
+  .stat-link:hover .stat-icon::after { border-color: rgba(227,6,19,0.65); }
+
+  /* text */
+  .stat-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; font-weight: 900; color: #fff;
+    text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2;
+    transition: color 0.22s ease;
+  }
+  .stat-link:hover .stat-title { color: #e30613; }
+  .stat-desc {
+    font-size: 11.5px; color: rgba(255,255,255,0.38);
+    line-height: 1.35; margin-top: 3px;
+    transition: color 0.22s ease;
+  }
+  .stat-link:hover .stat-desc { color: rgba(255,255,255,0.65); }
+
+  /* arrow chevron */
+  .stat-arrow {
+    margin-left: auto;
+    font-size: 16px;
+    color: rgba(227,6,19,0);
+    transition: color 0.22s ease, transform 0.22s ease;
+    flex-shrink: 0;
+  }
+  .stat-link:hover .stat-arrow {
+    color: rgba(227,6,19,0.85);
+    transform: translateX(3px);
   }
 `;
 
@@ -267,24 +363,45 @@ export default function Hero() {
       </section>
 
       {/* ═══════════════ STATS BAR ═══════════════ */}
-      <div style={{ background:"#0a0a0e",borderTop:"2px solid rgba(227,6,19,0.3)" }}>
-        <div style={{ maxWidth:1600,margin:"0 auto" }}>
-          <div style={{ display:"grid",gridTemplateColumns:"repeat(5,1fr)" }}>
-            {stats.map(({ icon,title,desc }, i) => (
-              <div key={title} style={{
-                display:"flex",alignItems:"center",gap:14,
-                padding:"18px 22px",
-                borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
-                animation: anim("statRise", 0.55, 1.3 + i * 0.08, "ease-out"),
-              }}>
-                <div style={{ width:48,height:48,borderRadius:"50%",background:"rgba(227,6,19,0.1)",border:"1.5px solid rgba(227,6,19,0.32)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
-                  <i className={`fas ${icon}`} style={{ color:"#e30613",fontSize:16 }} />
+      <div style={{ background:"#0a0a0e", borderTop:"2px solid rgba(227,6,19,0.35)" }}>
+        <div style={{ maxWidth:1600, margin:"0 auto" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)" }}>
+            {stats.map(({ icon, title, desc, href }, i) => (
+              <a
+                key={title}
+                href={href}
+                className="stat-link"
+                style={{
+                  borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none",
+                  animation: anim("statRise", 0.55, 1.3 + i * 0.08, "ease-out"),
+                }}
+              >
+                {/* number watermark */}
+                <div style={{
+                  position:"absolute", bottom:4, right:14,
+                  fontFamily:"'Barlow Condensed',sans-serif",
+                  fontSize:44, fontWeight:900,
+                  color:"rgba(227,6,19,0.07)",
+                  lineHeight:1, pointerEvents:"none", userSelect:"none",
+                  letterSpacing:"-0.03em",
+                }}>
+                  {String(i + 1).padStart(2,"0")}
                 </div>
-                <div>
-                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontSize:13,fontWeight:900,color:"#fff",textTransform:"uppercase",letterSpacing:"0.07em",lineHeight:1.2 }}>{title}</div>
-                  <div style={{ fontSize:11,color:"rgba(255,255,255,0.35)",lineHeight:1.3,marginTop:2 }}>{desc}</div>
+
+                {/* icon */}
+                <div className="stat-icon">
+                  <i className={`fas ${icon}`} style={{ color:"#e30613", fontSize:19, position:"relative", zIndex:1 }} />
                 </div>
-              </div>
+
+                {/* text */}
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div className="stat-title">{title}</div>
+                  <div className="stat-desc">{desc}</div>
+                </div>
+
+                {/* arrow */}
+                <i className="stat-arrow fas fa-chevron-right" />
+              </a>
             ))}
           </div>
         </div>

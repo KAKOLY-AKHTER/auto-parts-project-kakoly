@@ -1,32 +1,46 @@
-import ServicePageBase from "./ServicePageBase";
+import ServiceInfoPage from "./ServiceInfoPage";
 
-const services = [
-  { icon:"fa-stopwatch",       title:"Rapid Dispatch",        desc:"The moment you call, our nearest available tech is dispatched to your location — no hold queues or call centers." },
-  { icon:"fa-map-location-dot",title:"GPS Tracking",          desc:"Know exactly when your tech will arrive. We send real-time updates so you're never left guessing." },
-  { icon:"fa-toolbox",         title:"Fully Stocked Trucks",  desc:"Our mobile units carry the most common tires, oils, filters, and tools — so we fix it on the first visit." },
-  { icon:"fa-shield-halved",   title:"Certified Technicians", desc:"Every tech is trained, certified, and background-checked. You get a professional, not a stranger." },
-  { icon:"fa-star",            title:"Quality Guaranteed",    desc:"Not happy with the service? We make it right — no questions, no hassle. Your satisfaction is our promise." },
-  { icon:"fa-clock",           title:"24/7 Availability",     desc:"Mornings, nights, weekends, holidays — we're always on. Emergencies don't wait, and neither do we." },
+const cards = [
+  { icon:"fa-bolt",          title:"Rapid Dispatch",           desc:"The moment you call, our dispatcher locates the nearest available truck and sends it your way — zero delay." },
+  { icon:"fa-map-marker-alt",title:"GPS-Tracked Arrival",      desc:"We track your location and our tech's route in real time so you always know exactly how far away help is." },
+  { icon:"fa-toolbox",       title:"Fully Stocked Trucks",     desc:"Our trucks carry tires, oils, tools, batteries, and parts — so the job is done in one visit with no return trips." },
+  { icon:"fa-headset",       title:"Live Dispatcher 24/7",     desc:"A real person answers every call. No automated menus. No voicemail. Just a fast, human response every time." },
+  { icon:"fa-clock",         title:"Minimal Downtime",         desc:"We understand time is money. Our techs work efficiently to minimize your vehicle downtime and get you moving fast." },
+  { icon:"fa-star",          title:"First-Time Fix Rate",      desc:"Our well-trained techs and fully equipped trucks mean the vast majority of jobs are completed correctly on the first visit." },
 ];
 
-const process = [
-  { step:"1", title:"You Call",        desc:"One call to (415) 634-7777 connects you directly to dispatch — no phone trees." },
-  { step:"2", title:"Immediate Send",  desc:"The closest tech is dispatched right away with your location pinned." },
-  { step:"3", title:"Updates Sent",    desc:"You receive an ETA and live progress so you always know where we are." },
-  { step:"4", title:"Problem Solved",  desc:"Tech arrives, completes the job, and confirms you're satisfied before leaving." },
+const steps = [
+  { label:"You Call or Text",    desc:"Reach us at (415) 634-7777. A dispatcher picks up immediately." },
+  { label:"Location Confirmed",  desc:"We confirm your exact location for the fastest possible routing." },
+  { label:"Tech En Route",       desc:"Nearest available truck is dispatched and heading your way." },
+  { label:"Fast Arrival & Fix",  desc:"Tech arrives quickly and completes the job on-site, first visit." },
+];
+
+const features = [
+  { icon:"fa-clock",          label:"24/7 Real Availability",  detail:"Not just 'available' — actually responding at 3 AM on a Sunday." },
+  { icon:"fa-location-dot",   label:"GPS Dispatch System",     detail:"We route the closest truck to your location automatically." },
+  { icon:"fa-truck",          label:"Always Fully Stocked",    detail:"Every truck carries everything needed to handle most jobs." },
+  { icon:"fa-user-check",     title:"Certified Techs",         label:"Certified Techs Only",   detail:"No trainees dispatched solo. Every tech is certified." },
+  { icon:"fa-tag",            label:"No Hidden Overtime Fees", detail:"Our pricing is flat-rate — no surcharges for nights or weekends." },
+  { icon:"fa-handshake",      label:"Satisfaction Guaranteed", detail:"We don't close the call until you're satisfied and safe." },
 ];
 
 export default function FastResponse() {
   return (
-    <ServicePageBase
+    <ServiceInfoPage
       icon="fa-shield-halved"
-      badge="Always Ready"
-      title="Fast Response Mobile Service"
+      title="Fast Response Service"
       subtitle="Reliable Service You Can Count On"
-      description="When something goes wrong, every minute counts. Our fast-response mobile team is on standby 24/7 — dispatched immediately, arriving quickly, and equipped to handle the job on-site. No delays. No excuses."
-      heroImg="/truck-tire-change.png"
-      services={services}
-      process={process}
+      heroDesc="When you're stranded, every minute counts. 24HR Fremont Tire operates a GPS-dispatched fleet of fully equipped service trucks, ready to reach you faster than anyone else — day or night, anywhere in the Fremont area."
+      heroImg="/roadside.png"
+      sectionImg="/mobile-mechanic.png"
+      highlights={["GPS Dispatch","24/7 Live Answering","First-Time Fix","No Overtime Fees"]}
+      cards={cards}
+      steps={steps}
+      features={features}
+      ctaTitle="Need Fast Help Right Now?"
+      ctaDesc="Call (415) 634-7777 — a real dispatcher answers immediately and a truck is sent your way."
+      ctaImg="/roadside-assistance.png"
     />
   );
 }

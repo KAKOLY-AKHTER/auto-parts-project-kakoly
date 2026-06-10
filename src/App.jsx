@@ -12,8 +12,13 @@ import Blog from './pages/Blog';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import ReturnPolicy from './pages/ReturnPolicy';
-import FleetServices from './pages/FleetServices';
-import ClientLayout from './pages/ClientLayout';
+import FleetServices   from './pages/FleetServices';
+import ClientLayout   from './pages/ClientLayout';
+import FullyEquipped  from './pages/FullyEquipped';
+import OurTechnicians from './pages/OurTechnicians';
+import QualityParts   from './pages/QualityParts';
+import Pricing        from './pages/Pricing';
+import Satisfaction   from './pages/Satisfaction';
 import EmergencyService from './pages/EmergencyService';
 import MobileService from './pages/MobileService';
 import OilChange from './pages/OilChange';
@@ -49,6 +54,11 @@ export default function App() {
         <Route path="/oil-change"         element={<Layout><OilChange /></Layout>} />
         <Route path="/fast-response"      element={<Layout><FastResponse /></Layout>} />
         <Route path="/tire-service"       element={<Layout><TireService /></Layout>} />
+        <Route path="/fully-equipped"     element={<Layout><FullyEquipped /></Layout>} />
+        <Route path="/our-technicians"    element={<Layout><OurTechnicians /></Layout>} />
+        <Route path="/quality-parts"      element={<Layout><QualityParts /></Layout>} />
+        <Route path="/pricing"            element={<Layout><Pricing /></Layout>} />
+        <Route path="/satisfaction"       element={<Layout><Satisfaction /></Layout>} />
       </Routes>
     </Router>
   );
