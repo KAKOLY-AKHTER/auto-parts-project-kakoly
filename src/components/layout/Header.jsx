@@ -17,49 +17,49 @@ const navItems = [
   {
     label: "Auto Service", href: "/auto-service",
     children: [
-      { label: "Tire Service & Repair",  href: "/auto-service" },
-      { label: "Oil Change",             href: "/auto-service" },
-      { label: "Brake Repair",           href: "/auto-service" },
-      { label: "Wheel Alignment",        href: "/auto-service" },
-      { label: "Battery Replacement",    href: "/auto-service", dividerBefore: true },
-      { label: "A/C Evaluation",         href: "/auto-service" },
+      { icon: "fa-circle-dot",     label: "Tire Service & Repair",  href: "/auto-service" },
+      { icon: "fa-oil-can",        label: "Oil Change",             href: "/auto-service" },
+      { icon: "fa-circle-stop",    label: "Brake Repair",           href: "/auto-service" },
+      { icon: "fa-rotate",         label: "Wheel Alignment",        href: "/auto-service" },
+      { icon: "fa-battery-half",   label: "Battery Replacement",    href: "/auto-service", dividerBefore: true },
+      { icon: "fa-snowflake",      label: "A/C Evaluation",         href: "/auto-service" },
     ],
   },
   {
     label: "Fleet & Mobile", href: "/fleet-services",
     children: [
-      { label: "Truck Tire Change",              href: "/fleet-services" },
-      { label: "Trailer Tire Change",            href: "/fleet-services" },
-      { label: "Oil Change",                     href: "/fleet-services" },
-      { label: "Roadside Assistance",            href: "/fleet-services" },
-      { label: "Mobile Service at Your Location",href: "/fleet-services", dividerBefore: true },
-      { label: "Available 24/7",                 href: "/fleet-services" },
+      { icon: "fa-truck",          label: "Truck Tire Change",              href: "/fleet-services" },
+      { icon: "fa-trailer",        label: "Trailer Tire Change",            href: "/fleet-services" },
+      { icon: "fa-oil-can",        label: "Oil Change",                     href: "/fleet-services" },
+      { icon: "fa-road",           label: "Roadside Assistance",            href: "/fleet-services" },
+      { icon: "fa-location-dot",   label: "Mobile Service at Your Location",href: "/fleet-services", dividerBefore: true },
+      { icon: "fa-clock",          label: "Available 24/7",                 href: "/fleet-services" },
     ],
   },
   {
     label: "Shop", href: "/shop",
     children: [
-      { label: "All Products", href: "/shop" },
-      { label: "Tires",        href: "/shop" },
-      { label: "Motor Oil",    href: "/shop" },
-      { label: "Brake Parts",  href: "/shop", dividerBefore: true },
-      { label: "Engine Parts", href: "/shop" },
+      { icon: "fa-store",          label: "All Products", href: "/shop" },
+      { icon: "fa-circle-dot",     label: "Tires",        href: "/shop" },
+      { icon: "fa-oil-can",        label: "Motor Oil",    href: "/shop" },
+      { icon: "fa-circle-stop",    label: "Brake Parts",  href: "/shop", dividerBefore: true },
+      { icon: "fa-gears",          label: "Engine Parts", href: "/shop" },
     ],
   },
   {
     label: "About Us", href: "/about",
     children: [
-      { label: "Our Story",     href: "/about" },
-      { label: "Why Choose Us", href: "/why-us" },
-      { label: "Our Team",      href: "/about" },
+      { icon: "fa-book-open",      label: "Our Story",     href: "/about" },
+      { icon: "fa-trophy",         label: "Why Choose Us", href: "/why-us" },
+      { icon: "fa-users",          label: "Our Team",      href: "/about" },
     ],
   },
   {
     label: "Blog", href: "/blog",
     children: [
-      { label: "Latest News",       href: "/blog" },
-      { label: "Tire Tips",         href: "/blog" },
-      { label: "Oil & Engine Care", href: "/blog", dividerBefore: true },
+      { icon: "fa-newspaper",      label: "Latest News",       href: "/blog" },
+      { icon: "fa-lightbulb",      label: "Tire Tips",         href: "/blog" },
+      { icon: "fa-wrench",         label: "Oil & Engine Care", href: "/blog", dividerBefore: true },
     ],
   },
   { label: "Contact", href: "/contacts" },
@@ -96,23 +96,37 @@ function NavItem({ item, active }) {
       </a>
 
       {hasChildren && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 translate-y-1 min-w-52.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-999">
-          <div className="absolute -top-1.25 left-1/2 -translate-x-1/2 w-0 h-0"
-            style={{ borderLeft: "6px solid transparent", borderRight: "6px solid transparent", borderBottom: "6px solid #e30613" }} />
-          <div
-            className="border border-white/10 border-t-2 border-t-[#e30613] rounded-b-xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.7)]"
-            style={{ background: "rgba(10,10,16,0.97)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
+        <div className="dd-panel absolute top-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto z-999"
+          style={{ minWidth: 280, width: "max-content" }}>
+          {/* caret */}
+          <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-0 h-0"
+            style={{ borderLeft: "7px solid transparent", borderRight: "7px solid transparent", borderBottom: "7px solid #e30613" }} />
+          <div className="dd-box"
+            style={{ background: "rgba(12,10,20,0.6)", backdropFilter: "blur(32px) saturate(1.8)", WebkitBackdropFilter: "blur(32px) saturate(1.8)", border: "1px solid rgba(255,255,255,0.13)", borderTop: "2px solid #e30613", borderRadius: "0 0 14px 14px", boxShadow: "0 28px 64px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.07)", padding: "6px 6px 8px" }}
           >
             {item.children.map((c) => (
               <div key={c.label}>
-                {c.dividerBefore && <div className="h-px bg-white/10 my-1" />}
+                {c.dividerBefore && (
+                  <div style={{ height: 1, background: "linear-gradient(90deg,transparent,rgba(227,6,19,0.4),transparent)", margin: "5px 6px" }} />
+                )}
                 <a
                   href={c.href}
-                  className="group/dd flex items-center gap-2 px-3 py-2 text-[12.5px] font-semibold text-white/65 no-underline rounded-lg transition-all duration-150 hover:text-white hover:bg-white/6 hover:pl-4"
-                  style={{ fontFamily: "'Barlow',sans-serif" }}
+                  className="dd-item flex items-center gap-3 px-3 py-2 no-underline rounded-lg"
+                  style={{ whiteSpace: "nowrap" }}
                 >
-                  <span className="text-[#e30613] text-sm opacity-0 -translate-x-1 group-hover/dd:opacity-100 group-hover/dd:translate-x-0 transition-all duration-150">›</span>
-                  {c.label}
+                  {/* icon box */}
+                  <div className="dd-icon flex items-center justify-center shrink-0"
+                    style={{ width: 28, height: 28, borderRadius: 6, background: "rgba(227,6,19,0.1)", border: "1px solid rgba(227,6,19,0.25)", transition: "all 0.2s ease" }}>
+                    <i className={`fas ${c.icon || "fa-chevron-right"}`} style={{ color: "#e30613", fontSize: 10 }} />
+                  </div>
+                  {/* label */}
+                  <span className="dd-label" style={{ fontFamily: "'Inter',sans-serif", fontSize: 13.5, fontWeight: 500, color: "rgba(255,255,255,0.88)", letterSpacing: "0.01em", transition: "color 0.18s ease" }}>
+                    {c.label}
+                  </span>
+                  {/* arrow */}
+                  <svg className="dd-arrow ml-auto shrink-0 pl-3" style={{ width: 14, height: 14, color: "rgba(227,6,19,0)", transition: "all 0.18s ease" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
                 </a>
               </div>
             ))}
@@ -346,6 +360,33 @@ export default function Header() {
         @media (min-width: 768px) {
           .hdr-callbtn { display: flex; }
         }
+
+        /* ── DROPDOWN ITEMS ── */
+        @keyframes ddItemIn {
+          from { opacity: 0; transform: translateX(-8px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        .dd-item {
+          position: relative;
+          transition: background 0.18s ease, padding-left 0.18s ease;
+        }
+        .dd-item:hover {
+          background: rgba(227,6,19,0.08);
+          padding-left: 14px !important;
+        }
+        .dd-item:hover .dd-label {
+          color: #fff !important;
+        }
+        .dd-item:hover .dd-icon {
+          background: rgba(227,6,19,0.22) !important;
+          border-color: #e30613 !important;
+          box-shadow: 0 0 12px rgba(227,6,19,0.4);
+        }
+        .dd-item:hover .dd-arrow {
+          color: rgba(227,6,19,0.85) !important;
+          transform: translateX(2px);
+        }
+        .dd-panel { transition: opacity 0.2s ease, transform 0.2s cubic-bezier(.22,.68,0,1.15); }
 
         /* ── TOP SERVICE BAR RESPONSIVE ── */
         .hdr-topbar { scrollbar-width: none; -ms-overflow-style: none; }
