@@ -21,7 +21,7 @@ export default function Home() {
       <Hero/>
       
       {/* Banner Cards - Dark Section */}
-      <BannerCards />
+      {/* <BannerCards /> */}
       <RoadsideSection />
       <AboutUs></AboutUs>
       <DealsSection />
