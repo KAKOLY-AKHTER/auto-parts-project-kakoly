@@ -6,7 +6,7 @@ const MAKES = ['Toyota','Honda','Ford','Chevrolet','BMW','Mercedes-Benz','Nissan
 const COLORS = ['#e30613','#3b82f6','#22c55e','#f59e0b','#a855f7','#ffffff','#1a1a2e','#64748b'];
 const EMPTY_FORM = { year:'', make:'', model:'', trim:'', plate:'', vin:'', mileage:'', color:'#e30613', tireSize:'' };
 
-function VehicleModal({ form, setForm, onSave, onClose, saving }) {
+function VehicleModal({ form, setForm, onSave, onClose, saving, error }) {
   const years = Array.from({ length:30 }, (_, i) => new Date().getFullYear() - i);
   const set = (k, v) => setForm(f => ({ ...f, [k]:v }));
 
@@ -48,6 +48,11 @@ function VehicleModal({ form, setForm, onSave, onClose, saving }) {
           </div>
         </div>
 
+        {error && (
+          <div style={{ color:'#ef4444', fontSize:13, marginBottom:14, padding:'11px 14px', background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', borderRadius:9 }}>
+            <i className="fas fa-circle-exclamation" style={{ marginRight:8 }} />{error}
+          </div>
+        )}
         <RedBtn onClick={onSave} disabled={saving} style={{ width:'100%', justifyContent:'center', padding:'14px', fontSize:13 }}>
           {saving ? <><i className="fas fa-spinner fa-spin" /> Saving…</> : <><i className="fas fa-plus" style={{ fontSize:11 }} /> Add to My Garage</>}
         </RedBtn>
@@ -62,6 +67,7 @@ export default function SectionGarage({ user }) {
   const [showModal,  setShowModal]  = useState(false);
   const [form,       setForm]       = useState(EMPTY_FORM);
   const [saving,     setSaving]     = useState(false);
+  const [saveError,  setSaveError]  = useState('');
   const [expandedId, setExpandedId] = useState(null);
   const [deleting,   setDeleting]   = useState(null);
 
@@ -75,7 +81,11 @@ export default function SectionGarage({ user }) {
   }, [user]);
 
   const handleSave = async () => {
-    if (!form.year || !form.make || !form.model) return;
+    if (!form.year || !form.make || !form.model) {
+      setSaveError('Please select Year, Make and enter Model.');
+      return;
+    }
+    setSaveError('');
     setSaving(true);
     try {
       const res = await fetch(`${API}/vehicles`, {
@@ -88,7 +98,7 @@ export default function SectionGarage({ user }) {
       setForm(EMPTY_FORM);
       setShowModal(false);
     } catch {
-      /* silent — could add toast */
+      setSaveError('Could not save vehicle. Please try again.');
     } finally { setSaving(false); }
   };
 
@@ -194,7 +204,7 @@ export default function SectionGarage({ user }) {
       )}
 
       {showModal && (
-        <VehicleModal form={form} setForm={setForm} onSave={handleSave} onClose={() => setShowModal(false)} saving={saving} />
+        <VehicleModal form={form} setForm={setForm} onSave={handleSave} onClose={() => { setShowModal(false); setSaveError(''); }} saving={saving} error={saveError} />
       )}
     </div>
   );

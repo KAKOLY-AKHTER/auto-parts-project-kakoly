@@ -169,9 +169,11 @@ function Support() {
               <Badge status={t.status} />
             </div>
           ))}
-          <RedBtn style={{ marginTop:16, padding:'9px 18px', fontSize:11 }}>
-            <i className="fas fa-plus" style={{ fontSize:9 }} /> New Ticket
-          </RedBtn>
+          <a href="/contacts" style={{ textDecoration:'none' }}>
+            <RedBtn style={{ marginTop:16, padding:'9px 18px', fontSize:11 }}>
+              <i className="fas fa-plus" style={{ fontSize:9 }} /> New Ticket
+            </RedBtn>
+          </a>
         </Card>
         <Card style={{ padding:24 }}>
           <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:15, fontWeight:600, color:'rgba(255,255,255,0.6)', letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:16 }}>Contact Us Directly</div>
