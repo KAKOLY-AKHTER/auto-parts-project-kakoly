@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 import { StatCard, Badge, Card, RedBtn, Input } from './dashboard/shared';
+import { useCart } from '../context/CartContext';
 import SectionOrders        from './dashboard/SectionOrders';
 import SectionServices      from './dashboard/SectionServices';
 import SectionGarage        from './dashboard/SectionGarage';
@@ -31,23 +32,49 @@ const NAV = [
   { id:'profile',        icon:'fa-user',               label:'Profile'          },
 ];
 
-/* ── WISHLIST ── */
-const INIT_WISHLIST = [
-  { id:1, name:'Michelin Pilot Sport 4',  cat:'Tire',  price:'$189.00', img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80' },
-  { id:2, name:'Mobil 1 Full Synthetic',  cat:'Oil',   price:'$34.99',  img:'https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=300&q=80' },
-  { id:3, name:'Bosch Wiper Blades ×2',   cat:'Parts', price:'$28.00',  img:'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=300&q=80' },
-  { id:4, name:'K&N High-Flow Air Filter',cat:'Parts', price:'$52.00',  img:'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=300&q=80' },
-];
 
-/* ── MINI SECTIONS (overview, wishlist, support, profile) ── */
+/* ── MINI SECTIONS (overview, wishlist, profile) ── */
 function Overview({ user, setActive }) {
+  const [orders,   setOrders]   = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [loading,  setLoading]  = useState(true);
+
+  useEffect(() => {
+    if (!user?.email) { setLoading(false); return; }
+    const e = encodeURIComponent(user.email);
+    Promise.all([
+      fetch(`${API}/orders/mine?email=${e}`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/bookings/mine?email=${e}`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/vehicles?email=${e}`).then(r => r.json()).catch(() => []),
+    ]).then(([ords, bkgs, vehs]) => {
+      setOrders(Array.isArray(ords) ? ords : []);
+      setBookings(Array.isArray(bkgs) ? bkgs : []);
+      setVehicles(Array.isArray(vehs) ? vehs : []);
+    }).finally(() => setLoading(false));
+  }, [user]);
+
+  const points = bookings.length * 50 + orders.reduce((s, o) => s + Math.floor((o.total || 0)), 0);
+  const tier   = points >= 5000 ? { name:'Gold',   color:'#f59e0b', next:null,  icon:'fa-crown'  }
+               : points >= 1000 ? { name:'Silver',  color:'#94a3b8', next:5000,  icon:'fa-star'   }
+               :                  { name:'Bronze',  color:'#cd7f32', next:1000,  icon:'fa-medal'  };
+  const progress = tier.next ? Math.min(((points - (tier.name==='Silver'?1000:0)) / (tier.next - (tier.name==='Silver'?1000:0))) * 100, 100) : 100;
+
+  const recentOrders   = [...orders].sort((a,b) => new Date(b.createdAt)-new Date(a.createdAt)).slice(0,3);
+  const upcoming       = bookings.filter(b => b.status==='pending'||b.status==='confirmed')
+                                 .sort((a,b) => new Date(a.date)-new Date(b.date)).slice(0,3);
+  const activeOrders   = orders.filter(o => !['delivered','cancelled'].includes(o.status)).length;
+  const upcomingSvc    = bookings.filter(b => b.status==='pending'||b.status==='confirmed').length;
+
+  const fmtDate = (raw) => { try { return new Date(raw).toLocaleDateString('en-US',{month:'short',day:'numeric'}); } catch { return raw; } };
+
   const stats = [
-    { icon:'fa-box',                value:'4',    label:'Total Orders',      sub:'1 in progress', color:'#e30613' },
-    { icon:'fa-screwdriver-wrench', value:'3',    label:'Service Requests',  sub:'1 upcoming',    color:'#3b82f6' },
-    { icon:'fa-car',                value:'2',    label:'My Garage',         sub:'Both active',   color:'#22c55e' },
-    { icon:'fa-star',               value:'1,840',label:'Loyalty Points',    sub:'Silver tier',   color:'#f59e0b' },
-    { icon:'fa-bell',               value:'3',    label:'Notifications',     sub:'Unread',        color:'#a855f7' },
+    { icon:'fa-box',                value: loading ? '—' : orders.length.toString(),    label:'Total Orders',     sub: loading ? '' : `${activeOrders} in progress`, color:'#e30613' },
+    { icon:'fa-screwdriver-wrench', value: loading ? '—' : bookings.length.toString(),  label:'Service Requests', sub: loading ? '' : `${upcomingSvc} upcoming`,      color:'#3b82f6' },
+    { icon:'fa-car',                value: loading ? '—' : vehicles.length.toString(),  label:'My Garage',        sub: loading ? '' : `${vehicles.length} vehicle${vehicles.length!==1?'s':''}`, color:'#22c55e' },
+    { icon:'fa-star',               value: loading ? '—' : points.toLocaleString(),     label:'Loyalty Points',   sub: loading ? '' : `${tier.name} tier`,            color:'#f59e0b' },
   ];
+
   return (
     <div>
       <div style={{ marginBottom:28 }}>
@@ -65,18 +92,16 @@ function Overview({ user, setActive }) {
         {/* Recent Orders */}
         <Card style={{ padding:22 }}>
           <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight:600, color:'rgba(255,255,255,0.5)', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:14 }}>Recent Orders</div>
-          {[
-            { id:'#ORD-1055', item:'Air Filter + Oil Filter',  status:'pending',    amount:'$38.00' },
-            { id:'#ORD-1051', item:'Brembo Brake Pad Set',     status:'processing', amount:'$74.00' },
-            { id:'#ORD-1042', item:'Michelin Primacy 4 ×2',    status:'shipped',    amount:'$289.00' },
-          ].map(o => (
-            <div key={o.id} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 0', borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
+          {recentOrders.length === 0 ? (
+            <div style={{ color:'rgba(255,255,255,0.25)', fontSize:13, padding:'10px 0' }}>No orders yet.</div>
+          ) : recentOrders.map(o => (
+            <div key={o._id} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 0', borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
               <div>
-                <div style={{ color:'#fff', fontSize:13, fontWeight:600 }}>{o.item}</div>
-                <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11, marginTop:2 }}>{o.id}</div>
+                <div style={{ color:'#fff', fontSize:13, fontWeight:600 }}>{o.items?.[0]?.name || 'Order'}{o.items?.length > 1 ? ` +${o.items.length-1} more` : ''}</div>
+                <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11, marginTop:2 }}>#{o._id?.slice(-8).toUpperCase()}</div>
               </div>
               <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-                <span style={{ color:'#fff', fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:14 }}>{o.amount}</span>
+                <span style={{ color:'#fff', fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:14 }}>${o.total?.toFixed(2)}</span>
                 <Badge status={o.status} />
               </div>
             </div>
@@ -89,16 +114,15 @@ function Overview({ user, setActive }) {
         {/* Upcoming Services */}
         <Card style={{ padding:22 }}>
           <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight:600, color:'rgba(255,255,255,0.5)', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:14 }}>Upcoming Services</div>
-          {[
-            { service:'Wheel Alignment',       date:'Jun 14', time:'2:00 PM',  status:'confirmed' },
-            { service:'Oil Change (Synthetic)', date:'Jun 18', time:'11:30 AM', status:'pending' },
-          ].map(s => (
-            <div key={s.service} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 0', borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
+          {upcoming.length === 0 ? (
+            <div style={{ color:'rgba(255,255,255,0.25)', fontSize:13, padding:'10px 0' }}>No upcoming bookings.</div>
+          ) : upcoming.map(b => (
+            <div key={b._id} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 0', borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
               <div>
-                <div style={{ color:'#fff', fontSize:13, fontWeight:600 }}>{s.service}</div>
-                <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11, marginTop:2 }}>{s.date} · {s.time}</div>
+                <div style={{ color:'#fff', fontSize:13, fontWeight:600 }}>{b.service}</div>
+                <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11, marginTop:2 }}>{fmtDate(b.date)} · {b.time}</div>
               </div>
-              <Badge status={s.status} />
+              <Badge status={b.status} />
             </div>
           ))}
           <RedBtn onClick={() => setActive('services')} style={{ marginTop:14, padding:'8px 16px', fontSize:11 }}>
@@ -109,16 +133,22 @@ function Overview({ user, setActive }) {
         {/* Points card */}
         <Card style={{ padding:22, background:'linear-gradient(135deg,#0e0e14,#1a0d12)', border:'1px solid rgba(227,6,19,0.2)' }}>
           <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight:600, color:'rgba(255,255,255,0.5)', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:10 }}>Loyalty Points</div>
-          <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:52, color:'#fff', lineHeight:1, marginBottom:4 }}>1,840 <span style={{ fontSize:20, color:'rgba(255,255,255,0.4)' }}>pts</span></div>
-          <div style={{ display:'inline-flex', alignItems:'center', gap:6, background:'rgba(148,163,184,0.1)', border:'1px solid rgba(148,163,184,0.3)', borderRadius:99, padding:'4px 12px', marginBottom:14 }}>
-            <i className="fas fa-star" style={{ color:'#94a3b8', fontSize:11 }} />
-            <span style={{ color:'#94a3b8', fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>Silver Member</span>
+          <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:52, color:'#fff', lineHeight:1, marginBottom:4 }}>
+            {loading ? '—' : points.toLocaleString()} <span style={{ fontSize:20, color:'rgba(255,255,255,0.4)' }}>pts</span>
           </div>
-          <div style={{ background:'rgba(255,255,255,0.08)', borderRadius:99, height:6, overflow:'hidden', marginBottom:6 }}>
-            <div style={{ width:'37%', height:'100%', background:'linear-gradient(90deg,#94a3b8,#f59e0b)', borderRadius:99 }} />
+          <div style={{ display:'inline-flex', alignItems:'center', gap:6, background:`${tier.color}14`, border:`1px solid ${tier.color}36`, borderRadius:99, padding:'4px 12px', marginBottom:14 }}>
+            <i className={`fas ${tier.icon}`} style={{ color:tier.color, fontSize:11 }} />
+            <span style={{ color:tier.color, fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{tier.name} Member</span>
           </div>
-          <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11 }}>3,160 pts to Gold</div>
-          <button onClick={() => setActive('rewards')} style={{ marginTop:12, background:'none', border:'none', color:'#f59e0b', fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.06em', cursor:'pointer', padding:0 }}>
+          {tier.next && (
+            <>
+              <div style={{ background:'rgba(255,255,255,0.08)', borderRadius:99, height:6, overflow:'hidden', marginBottom:6 }}>
+                <div style={{ width:`${progress}%`, height:'100%', background:`linear-gradient(90deg,${tier.color},#f59e0b)`, borderRadius:99, transition:'width 0.5s' }} />
+              </div>
+              <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11 }}>{(tier.next - points).toLocaleString()} pts to {tier.name==='Bronze'?'Silver':'Gold'}</div>
+            </>
+          )}
+          <button onClick={() => setActive('rewards')} style={{ marginTop:12, background:'none', border:'none', color:tier.color, fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.06em', cursor:'pointer', padding:0 }}>
             VIEW REWARDS →
           </button>
         </Card>
@@ -127,33 +157,67 @@ function Overview({ user, setActive }) {
   );
 }
 
-function Wishlist() {
-  const [list, setList] = useState(INIT_WISHLIST);
+function Wishlist({ user }) {
+  const [list,    setList]    = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { addItem } = useCart();
+
+  useEffect(() => {
+    if (!user?.email) { setLoading(false); return; }
+    fetch(`${API}/wishlist?email=${encodeURIComponent(user.email)}`)
+      .then(r => r.json()).then(d => setList(Array.isArray(d) ? d : []))
+      .catch(() => {}).finally(() => setLoading(false));
+  }, [user]);
+
+  const removeItem = async (productId) => {
+    setList(l => l.filter(x => x.productId !== productId));
+    await fetch(`${API}/wishlist/${productId}?email=${encodeURIComponent(user.email)}`, { method:'DELETE' }).catch(() => {});
+  };
+
+  const handleAddToCart = (p) => {
+    addItem({ id: p.productId, name: p.name, price: p.price, img: p.image, catLabel: p.category });
+  };
+
   return (
     <div>
-      <h2 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:32, color:'#fff', letterSpacing:'0.04em', marginBottom:24 }}>Wishlist</h2>
-      {list.length === 0 && <div style={{ color:'rgba(255,255,255,0.3)', textAlign:'center', padding:'60px 0' }}>Your wishlist is empty.</div>}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(210px,1fr))', gap:16 }}>
-        {list.map(p => (
-          <Card key={p.id} style={{ overflow:'hidden' }}>
-            <div style={{ position:'relative', height:140, background:'#0e0e14' }}>
-              <img src={p.img} alt={p.name} style={{ width:'100%', height:'100%', objectFit:'cover', opacity:0.7 }} onError={e => e.target.style.display='none'} />
-              <button onClick={() => setList(l => l.filter(x => x.id !== p.id))}
-                style={{ position:'absolute', top:10, right:10, width:30, height:30, borderRadius:'50%', background:'rgba(0,0,0,0.65)', border:'none', color:'#ef4444', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                <i className="fas fa-heart" style={{ fontSize:13 }} />
-              </button>
-            </div>
-            <div style={{ padding:'14px 16px' }}>
-              <div style={{ color:'rgba(255,255,255,0.3)', fontSize:10, textTransform:'uppercase', letterSpacing:'0.1em', fontFamily:"'Oswald',sans-serif", marginBottom:4 }}>{p.cat}</div>
-              <div style={{ color:'#fff', fontSize:14, fontWeight:600, marginBottom:10 }}>{p.name}</div>
-              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-                <span style={{ color:'#e30613', fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:16 }}>{p.price}</span>
-                <button style={{ background:'#e30613', border:'none', color:'#fff', borderRadius:6, padding:'6px 12px', fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", cursor:'pointer' }}>ADD TO CART</button>
-              </div>
-            </div>
-          </Card>
-        ))}
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:24, flexWrap:'wrap', gap:12 }}>
+        <h2 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:32, color:'#fff', letterSpacing:'0.04em', margin:0 }}>Wishlist</h2>
+        <a href="/shop" style={{ display:'inline-flex', alignItems:'center', gap:7, background:'#e30613', color:'#fff', border:'none', borderRadius:9, padding:'9px 18px', fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.06em', textDecoration:'none' }}>
+          <i className="fas fa-shop" style={{ fontSize:11 }} /> Browse Shop
+        </a>
       </div>
+      {loading ? (
+        <div style={{ color:'rgba(255,255,255,0.3)', textAlign:'center', padding:'60px 0' }}><i className="fas fa-spinner fa-spin" style={{ marginRight:8 }} />Loading...</div>
+      ) : list.length === 0 ? (
+        <div style={{ textAlign:'center', padding:'60px 20px' }}>
+          <i className="fas fa-heart" style={{ fontSize:36, color:'rgba(255,255,255,0.1)', display:'block', marginBottom:14 }} />
+          <div style={{ color:'rgba(255,255,255,0.4)', fontSize:15, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.05em', marginBottom:6 }}>Your wishlist is empty</div>
+          <div style={{ color:'rgba(255,255,255,0.25)', fontSize:13 }}>Click the heart icon on any product in the shop to save it here.</div>
+        </div>
+      ) : (
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(210px,1fr))', gap:16 }}>
+          {list.map(p => (
+            <Card key={p.productId} style={{ overflow:'hidden' }}>
+              <div style={{ position:'relative', height:140, background:'#0e0e14', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <img src={p.image} alt={p.name} style={{ maxHeight:'100%', maxWidth:'100%', objectFit:'contain', padding:12, opacity:0.9 }} onError={e => e.target.style.display='none'} />
+                <button onClick={() => removeItem(p.productId)}
+                  style={{ position:'absolute', top:10, right:10, width:30, height:30, borderRadius:'50%', background:'rgba(0,0,0,0.65)', border:'none', color:'#ef4444', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}
+                  title="Remove from wishlist">
+                  <i className="fas fa-heart" style={{ fontSize:13 }} />
+                </button>
+              </div>
+              <div style={{ padding:'14px 16px' }}>
+                <div style={{ color:'rgba(255,255,255,0.3)', fontSize:10, textTransform:'uppercase', letterSpacing:'0.1em', fontFamily:"'Oswald',sans-serif", marginBottom:4 }}>{p.category}</div>
+                <div style={{ color:'#fff', fontSize:14, fontWeight:600, marginBottom:10, lineHeight:1.35 }}>{p.name}</div>
+                <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+                  <span style={{ color:'#e30613', fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:16 }}>${Number(p.price).toFixed(2)}</span>
+                  <button onClick={() => handleAddToCart(p)} style={{ background:'#e30613', border:'none', color:'#fff', borderRadius:6, padding:'6px 12px', fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", cursor:'pointer', letterSpacing:'0.04em' }}>ADD TO CART</button>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -248,7 +312,7 @@ export default function Dashboard() {
     garage:        <SectionGarage user={user} />,
     notifications: <SectionNotifications user={user} />,
     rewards:       <SectionRewards user={user} />,
-    wishlist:      <Wishlist />,
+    wishlist:      <Wishlist user={user} />,
     reviews:       <SectionReviews user={user} />,
     addresses:     <SectionAddressBook user={user} />,
     referral:      <SectionReferral user={user} />,

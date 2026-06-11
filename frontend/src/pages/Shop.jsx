@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { auth } from '../firebase';
+import API from '../config';
 
 const cats = ["All", "Tires", "Motor Oil", "Filters", "Brake Parts", "Engine Parts"];
 
@@ -29,10 +31,23 @@ function Stars({ rating }) {
 }
 
 export default function Shop() {
-  const [active,  setActive]  = useState("All");
-  const [added,   setAdded]   = useState(null);
-  const { addItem, count }    = useCart();
+  const [active,      setActive]      = useState("All");
+  const [added,       setAdded]       = useState(null);
+  const [wishlisted,  setWishlisted]  = useState(new Set());
+  const [wishToast,   setWishToast]   = useState(null);
+  const { addItem, count }            = useCart();
   const filtered = active === "All" ? products : products.filter(p => p.cat === active);
+
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged(u => {
+      if (!u?.email) { setWishlisted(new Set()); return; }
+      fetch(`${API}/wishlist?email=${encodeURIComponent(u.email)}`)
+        .then(r => r.json())
+        .then(items => { if (Array.isArray(items)) setWishlisted(new Set(items.map(i => i.productId))); })
+        .catch(() => {});
+    });
+    return () => unsub();
+  }, []);
 
   const handleAdd = (p) => {
     addItem(p);
@@ -40,15 +55,38 @@ export default function Shop() {
     setTimeout(() => setAdded(null), 1400);
   };
 
+  const toggleWishlist = async (p) => {
+    const user = auth.currentUser;
+    if (!user) { window.location.href = '/login'; return; }
+    const inList = wishlisted.has(p.id);
+    setWishlisted(prev => { const s = new Set(prev); inList ? s.delete(p.id) : s.add(p.id); return s; });
+    if (inList) {
+      await fetch(`${API}/wishlist/${p.id}?email=${encodeURIComponent(user.email)}`, { method:'DELETE' }).catch(() => {});
+      setWishToast('Removed from wishlist');
+    } else {
+      await fetch(`${API}/wishlist`, { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ email: user.email, item: { productId: p.id, name: p.name, price: p.price, image: p.img, category: p.catLabel || p.cat } })
+      }).catch(() => {});
+      setWishToast('Saved to wishlist!');
+    }
+    setTimeout(() => setWishToast(null), 1800);
+  };
+
   return (
     <main>
+      <style>{`@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}`}</style>
       {/* Cart toast */}
       {added && (
         <div style={{ position:'fixed', bottom:28, right:28, zIndex:9999, background:'#16a34a', color:'#fff', borderRadius:12, padding:'13px 20px', display:'flex', alignItems:'center', gap:10, boxShadow:'0 8px 32px rgba(0,0,0,0.3)', fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight:700, letterSpacing:'0.05em', animation:'slideUp 0.3s ease' }}>
           <i className="fas fa-circle-check" />
           Added to cart!
           <a href="/cart" style={{ marginLeft:6, color:'#bbf7d0', fontSize:12, fontWeight:600, letterSpacing:'0.04em' }}>VIEW CART ({count})</a>
-          <style>{`@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}`}</style>
+        </div>
+      )}
+      {/* Wishlist toast */}
+      {wishToast && (
+        <div style={{ position:'fixed', bottom:28, left:28, zIndex:9999, background:'#e30613', color:'#fff', borderRadius:12, padding:'13px 20px', display:'flex', alignItems:'center', gap:10, boxShadow:'0 8px 32px rgba(0,0,0,0.3)', fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight:700, letterSpacing:'0.05em', animation:'slideUp 0.3s ease' }}>
+          <i className="fas fa-heart" /> {wishToast}
         </div>
       )}
 
@@ -127,6 +165,12 @@ export default function Shop() {
                     <span className="absolute top-3 right-3 bg-white text-red-600 text-[9px] font-black px-2 py-0.5 rounded-full border border-red-100">
                       -{disc}%
                     </span>
+                    <button onClick={(e) => { e.stopPropagation(); toggleWishlist(p); }}
+                      className="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center border-none cursor-pointer transition-all"
+                      style={{ background: wishlisted.has(p.id) ? '#ef4444' : 'rgba(0,0,0,0.45)' }}
+                      title={wishlisted.has(p.id) ? 'Remove from wishlist' : 'Save to wishlist'}>
+                      <i className="fas fa-heart" style={{ fontSize:11, color:'#fff' }} />
+                    </button>
                   </div>
 
                   <div className="p-4">
