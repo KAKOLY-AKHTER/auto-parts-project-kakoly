@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Login from './components/auth/Login';
@@ -38,6 +39,7 @@ import RoadsideAssistance from './pages/services/RoadsideAssistance';
 
 export default function App() {
   return (
+    <ThemeProvider>
     <CartProvider>
     <Router>
       <Routes>
@@ -87,5 +89,6 @@ export default function App() {
       </Routes>
     </Router>
     </CartProvider>
+    </ThemeProvider>
   );
 }

@@ -3,6 +3,7 @@ import { auth } from "../../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { ShoppingCart, LogOut } from "lucide-react";
 import { useCart } from "../../context/CartContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const topBar = [
   { icon: "fa-clock",            href: "/emergency-service", titleRed: "24/7", titleRedSub: "EMERGENCY SERVICE", desc: "Day or Night, We're Here" },
@@ -150,6 +151,7 @@ export default function Header() {
   const [userDdOpen, setUserDdOpen] = useState(false);
   const [scrolled, setScrolled]     = useState(false);
   const { count: cartCount }        = useCart();
+  const { isDark, toggle }          = useTheme();
   const userRef  = useRef(null);
   const activePath = typeof window !== "undefined" ? window.location.pathname : "/";
 
@@ -610,6 +612,15 @@ export default function Header() {
                   style={{ background: "#e30613" }}>{cartCount > 9 ? '9+' : cartCount}</span>
               )}
             </a>
+
+            {/* Dark/Light toggle */}
+            <button
+              onClick={toggle}
+              className="theme-toggle"
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              <i className={`fas ${isDark ? 'fa-sun' : 'fa-moon'}`} style={{ fontSize: 14, color: isDark ? '#f59e0b' : 'rgba(255,255,255,0.7)' }} />
+            </button>
 
             {/* Mobile hamburger */}
             <button
