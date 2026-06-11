@@ -26,23 +26,29 @@ const REDEEM_OPTIONS = [
 ];
 
 const POINTS_PER_BOOKING = 50;
+const POINTS_PER_DOLLAR  = 1;
 
 export default function SectionRewards({ user }) {
   const [bookings, setBookings] = useState([]);
+  const [orders,   setOrders]   = useState([]);
   const [loading,  setLoading]  = useState(true);
   const [redeemed, setRedeemed] = useState(null);
   const [spent,    setSpent]    = useState(0);
 
   useEffect(() => {
     if (!user?.email) { setLoading(false); return; }
-    fetch(`${API}/bookings/mine?email=${encodeURIComponent(user.email)}`)
-      .then(r => r.json())
-      .then(data => setBookings(Array.isArray(data) ? data : []))
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    Promise.all([
+      fetch(`${API}/bookings/mine?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/orders/mine?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
+    ]).then(([bkgs, ords]) => {
+      setBookings(Array.isArray(bkgs) ? bkgs : []);
+      setOrders(Array.isArray(ords) ? ords : []);
+    }).finally(() => setLoading(false));
   }, [user]);
 
-  const earned = bookings.length * POINTS_PER_BOOKING;
+  const bookingPoints = bookings.length * POINTS_PER_BOOKING;
+  const orderPoints   = orders.reduce((sum, o) => sum + Math.floor((o.total || 0) * POINTS_PER_DOLLAR), 0);
+  const earned = bookingPoints + orderPoints;
   const points = Math.max(0, earned - spent);
 
   const currentTier = TIERS.find(t => points >= t.min && (t.max === null || points <= t.max)) || TIERS[0];

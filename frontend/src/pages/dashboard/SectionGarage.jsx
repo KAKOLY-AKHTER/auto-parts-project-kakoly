@@ -63,6 +63,7 @@ function VehicleModal({ form, setForm, onSave, onClose, saving, error }) {
 
 export default function SectionGarage({ user }) {
   const [vehicles,   setVehicles]   = useState([]);
+  const [bookings,   setBookings]   = useState([]);
   const [loading,    setLoading]    = useState(true);
   const [showModal,  setShowModal]  = useState(false);
   const [form,       setForm]       = useState(EMPTY_FORM);
@@ -73,11 +74,13 @@ export default function SectionGarage({ user }) {
 
   useEffect(() => {
     if (!user?.email) { setLoading(false); return; }
-    fetch(`${API}/vehicles?email=${encodeURIComponent(user.email)}`)
-      .then(r => r.json())
-      .then(data => setVehicles(Array.isArray(data) ? data : []))
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    Promise.all([
+      fetch(`${API}/vehicles?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/bookings/mine?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
+    ]).then(([vehs, bkgs]) => {
+      setVehicles(Array.isArray(vehs) ? vehs : []);
+      setBookings(Array.isArray(bkgs) ? bkgs : []);
+    }).finally(() => setLoading(false));
   }, [user]);
 
   const handleSave = async () => {
@@ -197,18 +200,43 @@ export default function SectionGarage({ user }) {
                   </div>
                 )}
 
-                {/* History toggle (empty for real vehicles) */}
-                <button onClick={() => setExpandedId(expandedId === v._id ? null : v._id)}
-                  style={{ width:'100%', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:9, padding:'9px 14px', color:'rgba(255,255,255,0.55)', fontSize:12, fontWeight:600, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'space-between', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.04em' }}>
-                  <span><i className="fas fa-history" style={{ marginRight:6, color:'#e30613' }} />SERVICE HISTORY</span>
-                  <i className={`fas fa-chevron-${expandedId === v._id ? 'up' : 'down'}`} style={{ fontSize:11 }} />
-                </button>
-
-                {expandedId === v._id && (
-                  <div style={{ marginTop:10, padding:'12px 14px', background:'rgba(255,255,255,0.03)', borderRadius:9, color:'rgba(255,255,255,0.4)', fontSize:13, textAlign:'center' }}>
-                    No service history recorded yet. Completed appointments will appear here.
-                  </div>
-                )}
+                {/* Real maintenance history from bookings */}
+                {(() => {
+                  const vName = `${v.year} ${v.make} ${v.model}`.toLowerCase();
+                  const vBookings = bookings.filter(b => b.vehicle && b.vehicle.toLowerCase().includes(v.make?.toLowerCase()) && b.vehicle.toLowerCase().includes(v.model?.toLowerCase()?.split(' ')[0]));
+                  return (
+                    <>
+                      <button onClick={() => setExpandedId(expandedId === v._id ? null : v._id)}
+                        style={{ width:'100%', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:9, padding:'9px 14px', color:'rgba(255,255,255,0.55)', fontSize:12, fontWeight:600, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'space-between', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.04em' }}>
+                        <span><i className="fas fa-history" style={{ marginRight:6, color:'#e30613' }} />SERVICE HISTORY {vBookings.length > 0 && `(${vBookings.length})`}</span>
+                        <i className={`fas fa-chevron-${expandedId === v._id ? 'up' : 'down'}`} style={{ fontSize:11 }} />
+                      </button>
+                      {expandedId === v._id && (
+                        <div style={{ marginTop:10, borderRadius:9, overflow:'hidden' }}>
+                          {vBookings.length === 0 ? (
+                            <div style={{ padding:'12px 14px', background:'rgba(255,255,255,0.03)', color:'rgba(255,255,255,0.4)', fontSize:13, textAlign:'center' }}>
+                              No service history for this vehicle yet.
+                            </div>
+                          ) : vBookings.map((b, i) => (
+                            <div key={b._id} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'10px 14px', background:'rgba(255,255,255,0.03)', borderBottom: i < vBookings.length-1 ? '1px solid rgba(255,255,255,0.05)' : 'none', gap:10 }}>
+                              <div>
+                                <div style={{ color:'#fff', fontSize:12, fontWeight:600 }}>{b.service}</div>
+                                <div style={{ color:'rgba(255,255,255,0.35)', fontSize:11, marginTop:2 }}>
+                                  {b.date ? new Date(b.date).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) : ''} {b.time ? `· ${b.time}` : ''}
+                                </div>
+                              </div>
+                              <span style={{ fontSize:10, fontWeight:800, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.06em', textTransform:'uppercase', padding:'2px 8px', borderRadius:99,
+                                background: b.status==='completed' ? 'rgba(34,197,94,0.12)' : b.status==='cancelled' ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)',
+                                color: b.status==='completed' ? '#22c55e' : b.status==='cancelled' ? '#ef4444' : '#f59e0b',
+                                border: `1px solid ${b.status==='completed' ? 'rgba(34,197,94,0.3)' : b.status==='cancelled' ? 'rgba(239,68,68,0.25)' : 'rgba(245,158,11,0.25)'}`,
+                              }}>{b.status}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
             </Card>
           ))}

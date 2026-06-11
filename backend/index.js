@@ -14,6 +14,7 @@ const vehicleRoutes = require('./routes/vehicles');
 const orderRoutes   = require('./routes/orders');
 const reviewRoutes  = require('./routes/reviews');
 const addressRoutes = require('./routes/addresses');
+const ticketRoutes  = require('./routes/tickets');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/api/vehicles',  vehicleRoutes);
 app.use('/api/orders',    orderRoutes);
 app.use('/api/reviews',   reviewRoutes);
 app.use('/api/addresses', addressRoutes);
+app.use('/api/tickets',   ticketRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 

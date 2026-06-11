@@ -12,6 +12,8 @@ import SectionNotifications from './dashboard/SectionNotifications';
 import SectionRewards       from './dashboard/SectionRewards';
 import SectionReviews       from './dashboard/SectionReviews';
 import SectionAddressBook   from './dashboard/SectionAddressBook';
+import SectionSupport       from './dashboard/SectionSupport';
+import SectionReferral      from './dashboard/SectionReferral';
 
 /* ── NAV ── */
 const NAV = [
@@ -24,6 +26,7 @@ const NAV = [
   { id:'wishlist',       icon:'fa-heart',              label:'Wishlist'         },
   { id:'reviews',        icon:'fa-star-half-stroke',   label:'Reviews'          },
   { id:'addresses',      icon:'fa-location-dot',       label:'Address Book'     },
+  { id:'referral',       icon:'fa-users',              label:'Referral'         },
   { id:'support',        icon:'fa-headset',            label:'Support'          },
   { id:'profile',        icon:'fa-user',               label:'Profile'          },
 ];
@@ -155,48 +158,6 @@ function Wishlist() {
   );
 }
 
-function Support() {
-  return (
-    <div>
-      <h2 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:32, color:'#fff', letterSpacing:'0.04em', marginBottom:24 }}>Support</h2>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))', gap:20 }}>
-        <Card style={{ padding:24 }}>
-          <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:15, fontWeight:600, color:'rgba(255,255,255,0.6)', letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:16 }}>Open Tickets</div>
-          {[
-            { id:'#TKT-412', subject:'Service appointment rescheduling', date:'Jun 10', status:'open' },
-          ].map(t => (
-            <div key={t.id} style={{ display:'flex', justifyContent:'space-between', padding:'12px 0', borderBottom:'1px solid rgba(255,255,255,0.05)', alignItems:'center' }}>
-              <div>
-                <div style={{ color:'#fff', fontSize:13, fontWeight:600 }}>{t.subject}</div>
-                <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11, marginTop:2 }}>{t.id} · {t.date}</div>
-              </div>
-              <Badge status={t.status} />
-            </div>
-          ))}
-          <a href="/contacts" style={{ textDecoration:'none' }}>
-            <RedBtn style={{ marginTop:16, padding:'9px 18px', fontSize:11 }}>
-              <i className="fas fa-plus" style={{ fontSize:9 }} /> New Ticket
-            </RedBtn>
-          </a>
-        </Card>
-        <Card style={{ padding:24 }}>
-          <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:15, fontWeight:600, color:'rgba(255,255,255,0.6)', letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:16 }}>Contact Us Directly</div>
-          <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-            <a href="tel:+14156347777" style={{ display:'flex', alignItems:'center', gap:12, background:'rgba(227,6,19,0.08)', border:'1px solid rgba(227,6,19,0.25)', borderRadius:10, padding:'14px 18px', textDecoration:'none', color:'#fff' }}>
-              <i className="fas fa-phone" style={{ color:'#e30613', fontSize:18 }} />
-              <div><div style={{ fontWeight:700, fontSize:15, fontFamily:"'Oswald',sans-serif" }}>(415) 634-7777</div><div style={{ color:'rgba(255,255,255,0.35)', fontSize:11 }}>Call or Text — 24/7</div></div>
-            </a>
-            <a href="/contacts" style={{ display:'flex', alignItems:'center', gap:12, background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'14px 18px', textDecoration:'none', color:'#fff' }}>
-              <i className="fas fa-envelope" style={{ color:'rgba(255,255,255,0.4)', fontSize:18 }} />
-              <div><div style={{ fontWeight:700, fontSize:15, fontFamily:"'Oswald',sans-serif" }}>Send a Message</div><div style={{ color:'rgba(255,255,255,0.35)', fontSize:11 }}>We reply within 2 hours</div></div>
-            </a>
-          </div>
-        </Card>
-      </div>
-    </div>
-  );
-}
-
 function Profile({ user }) {
   const [name, setName]   = useState(user?.displayName || '');
   const [saved, setSaved] = useState(false);
@@ -290,7 +251,8 @@ export default function Dashboard() {
     wishlist:      <Wishlist />,
     reviews:       <SectionReviews user={user} />,
     addresses:     <SectionAddressBook user={user} />,
-    support:       <Support />,
+    referral:      <SectionReferral user={user} />,
+    support:       <SectionSupport user={user} />,
     profile:       <Profile user={user} />,
   };
 

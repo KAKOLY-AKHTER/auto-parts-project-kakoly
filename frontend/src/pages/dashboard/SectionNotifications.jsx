@@ -78,10 +78,28 @@ export default function SectionNotifications({ user }) {
     Promise.all([
       fetch(`${API}/bookings/mine?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
       fetch(`${API}/orders/mine?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
-    ]).then(([bookings, orders]) => {
+      fetch(`${API}/vehicles?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
+    ]).then(([bookings, orders, vehicles]) => {
       const bookingNotifs = bookingsToNotifications(Array.isArray(bookings) ? bookings : []);
       const orderNotifs   = ordersToNotifications(Array.isArray(orders) ? orders : []);
-      setNotifs([...orderNotifs, ...bookingNotifs]);
+      const oilNotifs     = (Array.isArray(vehicles) ? vehicles : [])
+        .filter(v => v.mileage)
+        .map(v => {
+          const mileage = Number(v.mileage);
+          const nextDue = Math.ceil(mileage / 5000) * 5000;
+          const remaining = nextDue - mileage;
+          if (remaining > 1500) return null;
+          return {
+            id:    'oil-' + v._id,
+            type:  'alert',
+            title: `Oil Change Due — ${v.year} ${v.make} ${v.model}`,
+            desc:  remaining <= 0 ? 'Oil change is overdue! Schedule service now.' : `Only ${remaining.toLocaleString()} miles remaining until oil change is due at ${nextDue.toLocaleString()} mi.`,
+            time:  'Based on mileage',
+            read:  false,
+            status: remaining <= 0 ? 'overdue' : 'soon',
+          };
+        }).filter(Boolean);
+      setNotifs([...oilNotifs, ...orderNotifs, ...bookingNotifs]);
     }).catch(() => {}).finally(() => setLoading(false));
   }, [user]);
 
