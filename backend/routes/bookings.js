@@ -62,6 +62,7 @@ router.patch('/:id/reschedule', async (req, res) => {
     if (['completed','cancelled'].includes(booking.status)) return res.status(400).json({ message: 'Cannot reschedule this booking' });
     if (date) booking.date = date;
     if (time) booking.time = time;
+    booking.status = 'confirmed';
     await booking.save();
     res.json(booking);
   } catch (err) { res.status(500).json({ message: err.message }); }
