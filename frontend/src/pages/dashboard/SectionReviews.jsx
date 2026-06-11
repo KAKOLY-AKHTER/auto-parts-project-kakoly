@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, SectionTitle, RedBtn, LoadingState, EmptyState } from './shared';
+import { Card, SectionTitle, RedBtn, LoadingState, EmptyState, Select } from './shared';
 import API from '../../config';
 
 function Stars({ value, onChange, size = 22 }) {
@@ -71,11 +71,10 @@ function ReviewForm({ user, onDone, onClose }) {
             {type === 'service' ? 'Which Service?' : 'Product Name'}
           </label>
           {type === 'service' ? (
-            <select value={refName} onChange={e => setRefName(e.target.value)}
-              style={{ width:'100%', background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.13)', borderRadius:10, padding:'11px 14px', color: refName ? '#fff' : 'rgba(255,255,255,0.35)', fontSize:14, outline:'none', boxSizing:'border-box' }}>
+            <Select value={refName} onChange={e => setRefName(e.target.value)}>
               <option value="">Select service…</option>
               {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
+            </Select>
           ) : (
             <input value={refName} onChange={e => setRefName(e.target.value)} placeholder="e.g. Michelin Pilot Sport 4"
               style={{ width:'100%', background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.13)', borderRadius:10, padding:'11px 14px', color:'#fff', fontSize:14, outline:'none', boxSizing:'border-box' }} />
