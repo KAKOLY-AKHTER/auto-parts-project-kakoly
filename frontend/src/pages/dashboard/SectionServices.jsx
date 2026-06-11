@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Badge, Card, SectionTitle, RedBtn, Select, Input, LoadingState, EmptyState } from './shared';
 
-const API = 'http://localhost:5000/api';
+import API from '../../config';
 
 function fmtDate(raw) {
   if (!raw) return '';

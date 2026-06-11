@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { auth } from '../firebase';
 
-const API = 'http://localhost:5000/api';
+import API from '../config';
 const SHIPPING_THRESHOLD = 99;
 const SHIPPING_COST = 9.99;
 const TAX_RATE = 0.0875;

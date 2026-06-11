@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { auth } from '../firebase';
+import API from '../config';
 import { onAuthStateChanged, signOut, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -252,7 +253,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!user?.email) return;
-    fetch(`http://localhost:5000/api/bookings/mine?email=${encodeURIComponent(user.email)}`)
+    fetch(`${API}/bookings/mine?email=${encodeURIComponent(user.email)}`)
       .then(r => r.json())
       .then(data => {
         const count = Array.isArray(data)

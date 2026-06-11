@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Badge, Card, SectionTitle, LoadingState, EmptyState, RedBtn } from './shared';
 
-const API = 'http://localhost:5000/api';
+import API from '../../config';
 
 const STAGES = ['Placed', 'Confirmed', 'Processing', 'Shipped', 'Delivered'];
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, SectionTitle, RedBtn, GhostBtn, Input, Select, LoadingState, EmptyState } from './shared';
 
-const API = 'http://localhost:5000/api';
+import API from '../../config';
 const MAKES = ['Toyota','Honda','Ford','Chevrolet','BMW','Mercedes-Benz','Nissan','Hyundai','Kia','Jeep','Dodge','Subaru','Mazda','Volkswagen','Audi','Lexus','Acura'];
 const COLORS = ['#e30613','#3b82f6','#22c55e','#f59e0b','#a855f7','#ffffff','#1a1a2e','#64748b'];
 const EMPTY_FORM = { year:'', make:'', model:'', trim:'', plate:'', vin:'', mileage:'', color:'#e30613', tireSize:'' };
