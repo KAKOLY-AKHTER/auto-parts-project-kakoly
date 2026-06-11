@@ -37,6 +37,36 @@ router.get('/mine', async (req, res) => {
   }
 });
 
+// PATCH cancel — user can cancel own booking
+router.patch('/:id/cancel', async (req, res) => {
+  try {
+    const { email } = req.query;
+    const safe = email?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const booking = await Booking.findOne({ _id: req.params.id, email: { $regex: `^${safe}$`, $options: 'i' } });
+    if (!booking) return res.status(404).json({ message: 'Not found' });
+    if (booking.status === 'completed') return res.status(400).json({ message: 'Cannot cancel a completed booking' });
+    booking.status = 'cancelled';
+    await booking.save();
+    res.json(booking);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+// PATCH reschedule — user can change date/time of own booking
+router.patch('/:id/reschedule', async (req, res) => {
+  try {
+    const { email } = req.query;
+    const { date, time } = req.body;
+    const safe = email?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const booking = await Booking.findOne({ _id: req.params.id, email: { $regex: `^${safe}$`, $options: 'i' } });
+    if (!booking) return res.status(404).json({ message: 'Not found' });
+    if (['completed','cancelled'].includes(booking.status)) return res.status(400).json({ message: 'Cannot reschedule this booking' });
+    if (date) booking.date = date;
+    if (time) booking.time = time;
+    await booking.save();
+    res.json(booking);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
 // PATCH update status — admin only
 router.patch('/:id/status', protect, admin, async (req, res) => {
   try {

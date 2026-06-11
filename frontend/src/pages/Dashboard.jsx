@@ -10,6 +10,8 @@ import SectionServices      from './dashboard/SectionServices';
 import SectionGarage        from './dashboard/SectionGarage';
 import SectionNotifications from './dashboard/SectionNotifications';
 import SectionRewards       from './dashboard/SectionRewards';
+import SectionReviews       from './dashboard/SectionReviews';
+import SectionAddressBook   from './dashboard/SectionAddressBook';
 
 /* ── NAV ── */
 const NAV = [
@@ -20,6 +22,8 @@ const NAV = [
   { id:'notifications',  icon:'fa-bell',               label:'Notifications', badge:3 },
   { id:'rewards',        icon:'fa-star',               label:'Rewards'          },
   { id:'wishlist',       icon:'fa-heart',              label:'Wishlist'         },
+  { id:'reviews',        icon:'fa-star-half-stroke',   label:'Reviews'          },
+  { id:'addresses',      icon:'fa-location-dot',       label:'Address Book'     },
   { id:'support',        icon:'fa-headset',            label:'Support'          },
   { id:'profile',        icon:'fa-user',               label:'Profile'          },
 ];
@@ -284,6 +288,8 @@ export default function Dashboard() {
     notifications: <SectionNotifications user={user} />,
     rewards:       <SectionRewards user={user} />,
     wishlist:      <Wishlist />,
+    reviews:       <SectionReviews user={user} />,
+    addresses:     <SectionAddressBook user={user} />,
     support:       <Support />,
     profile:       <Profile user={user} />,
   };

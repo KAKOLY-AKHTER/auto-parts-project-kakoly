@@ -134,17 +134,70 @@ function BookingForm({ onDone, user, vehicles }) {
   );
 }
 
+const TIME_SLOTS_RS = ['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
+
+function RescheduleModal({ booking, userEmail, onDone, onClose }) {
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const minDate = new Date(); minDate.setDate(minDate.getDate() + 1);
+  const minDateStr = minDate.toISOString().split('T')[0];
+
+  const handleSave = async () => {
+    if (!date || !time) { setError('Please pick a date and time.'); return; }
+    setLoading(true); setError('');
+    try {
+      const res = await fetch(`${API}/bookings/${booking._id}/reschedule?email=${encodeURIComponent(userEmail)}`, {
+        method:'PATCH', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ date, time }),
+      });
+      if (!res.ok) throw new Error((await res.json()).message);
+      const updated = await res.json();
+      onDone(updated);
+    } catch (e) { setError(e.message || 'Could not reschedule.'); }
+    finally { setLoading(false); }
+  };
+
+  return (
+    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={onClose}>
+      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:28, maxWidth:440, width:'100%' }} onClick={e => e.stopPropagation()}>
+        <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:24, color:'#fff', marginBottom:18 }}>RESCHEDULE BOOKING</div>
+        <div style={{ color:'rgba(255,255,255,0.5)', fontSize:13, marginBottom:18 }}>{booking.service}</div>
+        <Input label="New Date" type="date" value={date} min={minDateStr} onChange={e => setDate(e.target.value)} />
+        <div style={{ marginBottom:16 }}>
+          <label style={{ display:'block', color:'rgba(255,255,255,0.55)', fontSize:11, fontWeight:700, letterSpacing:'0.09em', textTransform:'uppercase', fontFamily:"'Oswald',sans-serif", marginBottom:8 }}>New Time</label>
+          <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
+            {TIME_SLOTS_RS.map(t => (
+              <button key={t} type="button" onClick={() => setTime(t)}
+                style={{ padding:'8px 12px', borderRadius:8, border:`1px solid ${time===t ? '#e30613' : 'rgba(255,255,255,0.12)'}`, background: time===t ? 'rgba(227,6,19,0.18)' : 'rgba(255,255,255,0.05)', color: time===t ? '#fff' : 'rgba(255,255,255,0.6)', fontSize:12, fontWeight:600, cursor:'pointer' }}>
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+        {error && <div style={{ color:'#ef4444', fontSize:13, marginBottom:12, padding:'10px 14px', background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', borderRadius:8 }}>{error}</div>}
+        <div style={{ display:'flex', gap:10, marginTop:4 }}>
+          <button onClick={onClose} style={{ flex:1, padding:'12px', borderRadius:9, background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.12)', color:'rgba(255,255,255,0.6)', cursor:'pointer', fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:12 }}>Cancel</button>
+          <RedBtn onClick={handleSave} disabled={loading} style={{ flex:2, justifyContent:'center', padding:'12px' }}>
+            {loading ? <><i className="fas fa-spinner fa-spin" /> Saving…</> : <><i className="fas fa-calendar-check" /> Confirm Reschedule</>}
+          </RedBtn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function SectionServices({ user }) {
-  const [bookings,  setBookings]  = useState([]);
-  const [vehicles,  setVehicles]  = useState([]);
-  const [loading,   setLoading]   = useState(true);
-  const [showForm,  setShowForm]  = useState(false);
+  const [bookings,    setBookings]    = useState([]);
+  const [vehicles,    setVehicles]    = useState([]);
+  const [loading,     setLoading]     = useState(true);
+  const [showForm,    setShowForm]    = useState(false);
+  const [reschedule,  setReschedule]  = useState(null);
+  const [cancelling,  setCancelling]  = useState(null);
 
   useEffect(() => {
-    if (!user?.email) {
-      Promise.resolve().then(() => setLoading(false));
-      return;
-    }
+    if (!user?.email) { Promise.resolve().then(() => setLoading(false)); return; }
     Promise.all([
       fetch(`${API}/bookings/mine?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
       fetch(`${API}/vehicles?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
@@ -157,6 +210,23 @@ export default function SectionServices({ user }) {
   const handleDone = (created) => {
     if (created) setBookings(b => [created, ...b]);
     setShowForm(false);
+  };
+
+  const handleCancel = async (id) => {
+    if (!window.confirm('Cancel this booking?')) return;
+    setCancelling(id);
+    try {
+      const res = await fetch(`${API}/bookings/${id}/cancel?email=${encodeURIComponent(user.email)}`, { method:'PATCH' });
+      if (!res.ok) throw new Error();
+      const updated = await res.json();
+      setBookings(bs => bs.map(b => b._id === id ? updated : b));
+    } catch { /* silent */ }
+    finally { setCancelling(null); }
+  };
+
+  const handleRescheduleDone = (updated) => {
+    setBookings(bs => bs.map(b => b._id === updated._id ? updated : b));
+    setReschedule(null);
   };
 
   return (
@@ -182,25 +252,44 @@ export default function SectionServices({ user }) {
         />
       ) : (
         <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
-          {bookings.map(b => (
-            <Card key={b._id} style={{ padding:'20px 24px' }}>
-              <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
-                <div>
-                  <div style={{ color:'#fff', fontSize:16, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.03em', marginBottom:8 }}>{b.service}</div>
-                  <div style={{ display:'flex', flexWrap:'wrap', gap:14, fontSize:12, color:'rgba(255,255,255,0.55)' }}>
-                    {b.vehicle && <span><i className="fas fa-car" style={{ color:'#e30613', marginRight:5 }} />{b.vehicle}</span>}
-                    {b.date    && <span><i className="fas fa-calendar" style={{ color:'#e30613', marginRight:5 }} />{fmtDate(b.date)}</span>}
-                    {b.time    && <span><i className="fas fa-clock" style={{ color:'#e30613', marginRight:5 }} />{b.time}</span>}
+          {bookings.map(b => {
+            const canModify = !['completed','cancelled'].includes(b.status);
+            return (
+              <Card key={b._id} style={{ padding:'20px 24px' }}>
+                <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
+                  <div style={{ flex:1 }}>
+                    <div style={{ color:'#fff', fontSize:16, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.03em', marginBottom:8 }}>{b.service}</div>
+                    <div style={{ display:'flex', flexWrap:'wrap', gap:14, fontSize:12, color:'rgba(255,255,255,0.55)' }}>
+                      {b.vehicle && <span><i className="fas fa-car" style={{ color:'#e30613', marginRight:5 }} />{b.vehicle}</span>}
+                      {b.date    && <span><i className="fas fa-calendar" style={{ color:'#e30613', marginRight:5 }} />{fmtDate(b.date)}</span>}
+                      {b.time    && <span><i className="fas fa-clock" style={{ color:'#e30613', marginRight:5 }} />{b.time}</span>}
+                    </div>
+                    <div style={{ color:'rgba(255,255,255,0.22)', fontSize:11, marginTop:7, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.04em' }}>
+                      REF: {b._id?.slice(-8).toUpperCase()}
+                    </div>
+                    {canModify && (
+                      <div style={{ display:'flex', gap:8, marginTop:12 }}>
+                        <button onClick={() => setReschedule(b)}
+                          style={{ padding:'6px 14px', borderRadius:7, border:'1px solid rgba(59,130,246,0.4)', background:'rgba(59,130,246,0.08)', color:'#60a5fa', fontSize:11, fontWeight:700, cursor:'pointer', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.05em' }}>
+                          <i className="fas fa-calendar-pen" style={{ marginRight:5 }} />Reschedule
+                        </button>
+                        <button onClick={() => handleCancel(b._id)} disabled={cancelling === b._id}
+                          style={{ padding:'6px 14px', borderRadius:7, border:'1px solid rgba(239,68,68,0.35)', background:'rgba(239,68,68,0.07)', color:'#f87171', fontSize:11, fontWeight:700, cursor:'pointer', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.05em' }}>
+                          {cancelling === b._id ? <i className="fas fa-spinner fa-spin" /> : <><i className="fas fa-ban" style={{ marginRight:5 }} />Cancel</>}
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <div style={{ color:'rgba(255,255,255,0.22)', fontSize:11, marginTop:7, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.04em' }}>
-                    REF: {b._id?.slice(-8).toUpperCase()}
-                  </div>
+                  <Badge status={b.status || 'pending'} />
                 </div>
-                <Badge status={b.status || 'pending'} />
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </div>
+      )}
+
+      {reschedule && (
+        <RescheduleModal booking={reschedule} userEmail={user.email} onDone={handleRescheduleDone} onClose={() => setReschedule(null)} />
       )}
     </div>
   );

@@ -12,6 +12,8 @@ const bookingRoutes = require('./routes/bookings');
 const contactRoutes = require('./routes/contacts');
 const vehicleRoutes = require('./routes/vehicles');
 const orderRoutes   = require('./routes/orders');
+const reviewRoutes  = require('./routes/reviews');
+const addressRoutes = require('./routes/addresses');
 
 const app = express();
 
@@ -32,12 +34,14 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.use('/api/auth',     authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/contacts', contactRoutes);
-app.use('/api/vehicles', vehicleRoutes);
-app.use('/api/orders',   orderRoutes);
+app.use('/api/auth',      authRoutes);
+app.use('/api/products',  productRoutes);
+app.use('/api/bookings',  bookingRoutes);
+app.use('/api/contacts',  contactRoutes);
+app.use('/api/vehicles',  vehicleRoutes);
+app.use('/api/orders',    orderRoutes);
+app.use('/api/reviews',   reviewRoutes);
+app.use('/api/addresses', addressRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
