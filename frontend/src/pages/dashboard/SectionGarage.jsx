@@ -151,6 +151,29 @@ export default function SectionGarage({ user }) {
                   </button>
                 </div>
 
+                {/* Oil change reminder */}
+                {v.mileage && (() => {
+                  const OIL_INTERVAL = 5000;
+                  const mileage = Number(v.mileage);
+                  const nextDue = Math.ceil(mileage / OIL_INTERVAL) * OIL_INTERVAL;
+                  const remaining = nextDue - mileage;
+                  const urgent = remaining <= 500;
+                  const soon = remaining <= 1500;
+                  return (urgent || soon) ? (
+                    <div style={{ marginBottom:12, padding:'10px 14px', background: urgent ? 'rgba(239,68,68,0.08)' : 'rgba(245,158,11,0.08)', border:`1px solid ${urgent ? 'rgba(239,68,68,0.3)' : 'rgba(245,158,11,0.3)'}`, borderRadius:9, display:'flex', alignItems:'center', gap:10 }}>
+                      <i className={`fas fa-oil-can`} style={{ color: urgent ? '#ef4444' : '#f59e0b', fontSize:14 }} />
+                      <div>
+                        <div style={{ color: urgent ? '#ef4444' : '#f59e0b', fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>
+                          {urgent ? 'Oil Change Overdue!' : `Oil Change Due Soon`}
+                        </div>
+                        <div style={{ color:'rgba(255,255,255,0.45)', fontSize:11 }}>
+                          {remaining <= 0 ? 'Past due' : `${remaining.toLocaleString()} miles remaining`} · Next at {nextDue.toLocaleString()} mi
+                        </div>
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+
                 {/* Info grid */}
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:14 }}>
                   {[

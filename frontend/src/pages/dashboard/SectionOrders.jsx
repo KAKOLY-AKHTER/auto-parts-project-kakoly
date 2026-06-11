@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Badge, Card, SectionTitle, LoadingState, EmptyState, RedBtn } from './shared';
-
+import { useCart } from '../../context/CartContext';
 import API from '../../config';
 
 const STAGES = ['Placed', 'Confirmed', 'Processing', 'Shipped', 'Delivered'];
@@ -35,9 +35,35 @@ function TrackBar({ status }) {
   );
 }
 
-function OrderCard({ order }) {
+function printInvoice(order) {
+  const date = order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' }) : '';
+  const rows = order.items?.map(i => `<tr><td>${i.name}</td><td style="text-align:center">${i.qty}</td><td style="text-align:right">$${i.price.toFixed(2)}</td><td style="text-align:right">$${(i.price*i.qty).toFixed(2)}</td></tr>`).join('') || '';
+  const w = window.open('','_blank','width=700,height=900');
+  w.document.write(`<!DOCTYPE html><html><head><title>Invoice #${order._id?.slice(-8).toUpperCase()}</title>
+  <style>body{font-family:Arial,sans-serif;padding:40px;color:#111}h1{color:#e30613;margin:0}table{width:100%;border-collapse:collapse;margin:20px 0}th{background:#f5f5f5;padding:10px;text-align:left;font-size:13px}td{padding:10px;border-bottom:1px solid #eee;font-size:13px}.total{font-weight:700;font-size:16px;color:#e30613}.footer{margin-top:40px;color:#999;font-size:12px}@media print{button{display:none}}</style>
+  </head><body>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:30px">
+    <div><h1>24HR FREMONT TIRE & AUTO</h1><p style="color:#666;margin:4px 0">Fremont, CA · (415) 634-7777</p></div>
+    <div style="text-align:right"><div style="font-size:22px;font-weight:700">INVOICE</div><div style="color:#666;font-size:13px">#${order._id?.slice(-8).toUpperCase()}</div><div style="color:#666;font-size:13px">${date}</div></div>
+  </div>
+  <table><thead><tr><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Unit Price</th><th style="text-align:right">Total</th></tr></thead><tbody>${rows}</tbody></table>
+  <div style="text-align:right"><div style="color:#666;font-size:13px">Subtotal: $${order.subtotal?.toFixed(2)}</div><div style="color:#666;font-size:13px">Shipping: ${order.shipping===0?'FREE':'$'+order.shipping?.toFixed(2)}</div><div style="color:#666;font-size:13px">Tax: $${order.tax?.toFixed(2)}</div><div class="total" style="margin-top:8px">Total: $${order.total?.toFixed(2)}</div></div>
+  <div class="footer"><p>Thank you for your business!</p></div>
+  <button onclick="window.print()" style="margin-top:20px;padding:10px 24px;background:#e30613;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px">Print / Save PDF</button>
+  </body></html>`);
+  w.document.close();
+}
+
+function OrderCard({ order, onReorder }) {
   const [open, setOpen] = useState(false);
+  const [reordered, setReordered] = useState(false);
   const date = order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }) : '';
+
+  const handleReorder = () => {
+    onReorder(order.items);
+    setReordered(true);
+    setTimeout(() => setReordered(false), 2500);
+  };
 
   return (
     <Card style={{ overflow:'hidden' }}>
@@ -71,12 +97,36 @@ function OrderCard({ order }) {
         {/* Track bar */}
         <TrackBar status={order.status} />
 
-        {/* Toggle details */}
-        <button onClick={() => setOpen(o => !o)}
-          style={{ marginTop:12, background:'none', border:'none', color:'rgba(255,255,255,0.4)', cursor:'pointer', fontSize:12, fontFamily:"'Oswald',sans-serif", fontWeight:600, letterSpacing:'0.05em', display:'flex', alignItems:'center', gap:6, padding:0 }}>
-          <i className={`fas fa-chevron-${open ? 'up' : 'down'}`} style={{ fontSize:10 }} />
-          {open ? 'Hide Details' : 'View Details'}
-        </button>
+        {/* Tracking info */}
+        {order.trackingNumber && (
+          <div style={{ marginTop:10, padding:'10px 14px', background:'rgba(59,130,246,0.08)', border:'1px solid rgba(59,130,246,0.2)', borderRadius:9, display:'flex', alignItems:'center', gap:10 }}>
+            <i className="fas fa-truck" style={{ color:'#60a5fa', fontSize:13 }} />
+            <span style={{ color:'rgba(255,255,255,0.6)', fontSize:12 }}>{order.courier || 'Courier'}: </span>
+            {order.trackingUrl
+              ? <a href={order.trackingUrl} target="_blank" rel="noreferrer" style={{ color:'#60a5fa', fontSize:12, fontWeight:700 }}>{order.trackingNumber}</a>
+              : <span style={{ color:'#60a5fa', fontSize:12, fontWeight:700 }}>{order.trackingNumber}</span>
+            }
+          </div>
+        )}
+
+        {/* Action buttons */}
+        <div style={{ display:'flex', gap:8, marginTop:12, flexWrap:'wrap', alignItems:'center' }}>
+          <button onClick={() => setOpen(o => !o)}
+            style={{ background:'none', border:'none', color:'rgba(255,255,255,0.4)', cursor:'pointer', fontSize:12, fontFamily:"'Oswald',sans-serif", fontWeight:600, letterSpacing:'0.05em', display:'flex', alignItems:'center', gap:6, padding:0 }}>
+            <i className={`fas fa-chevron-${open ? 'up' : 'down'}`} style={{ fontSize:10 }} />
+            {open ? 'Hide Details' : 'View Details'}
+          </button>
+          <div style={{ marginLeft:'auto', display:'flex', gap:8 }}>
+            <button onClick={() => printInvoice(order)}
+              style={{ padding:'6px 14px', borderRadius:7, border:'1px solid rgba(255,255,255,0.15)', background:'rgba(255,255,255,0.05)', color:'rgba(255,255,255,0.6)', fontSize:11, fontWeight:700, cursor:'pointer', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.05em' }}>
+              <i className="fas fa-file-invoice" style={{ marginRight:5 }} />Invoice
+            </button>
+            <button onClick={handleReorder}
+              style={{ padding:'6px 14px', borderRadius:7, border:`1px solid ${reordered ? 'rgba(34,197,94,0.4)' : 'rgba(227,6,19,0.4)'}`, background: reordered ? 'rgba(34,197,94,0.1)' : 'rgba(227,6,19,0.08)', color: reordered ? '#22c55e' : '#e30613', fontSize:11, fontWeight:700, cursor:'pointer', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.05em', transition:'all 0.2s' }}>
+              {reordered ? <><i className="fas fa-check" style={{ marginRight:5 }} />Added!</> : <><i className="fas fa-rotate-right" style={{ marginRight:5 }} />Reorder</>}
+            </button>
+          </div>
+        </div>
 
         {open && (
           <div style={{ marginTop:14, paddingTop:14, borderTop:'1px solid rgba(255,255,255,0.07)' }}>
@@ -121,18 +171,17 @@ function OrderCard({ order }) {
 export default function SectionOrders({ user }) {
   const [orders,  setOrders]  = useState([]);
   const [loading, setLoading] = useState(true);
+  const { addItem } = useCart();
 
   useEffect(() => {
-    if (!user?.email) {
-      Promise.resolve().then(() => setLoading(false));
-      return;
-    }
+    if (!user?.email) { Promise.resolve().then(() => setLoading(false)); return; }
     fetch(`${API}/orders/mine?email=${encodeURIComponent(user.email)}`)
-      .then(r => r.json())
-      .then(data => setOrders(Array.isArray(data) ? data : []))
-      .catch(() => {})
-      .finally(() => setLoading(false));
+      .then(r => r.json()).then(data => setOrders(Array.isArray(data) ? data : [])).catch(() => {}).finally(() => setLoading(false));
   }, [user]);
+
+  const handleReorder = (items) => {
+    items?.forEach(item => addItem({ id: item.id, name: item.name, price: item.price, img: item.img, catLabel: item.catLabel }, item.qty));
+  };
 
   return (
     <div>
@@ -147,19 +196,12 @@ export default function SectionOrders({ user }) {
       />
 
       {loading ? <LoadingState /> : orders.length === 0 ? (
-        <EmptyState
-          icon="fa-box-open"
-          title="No Orders Yet"
-          sub="Your order history will appear here after you purchase from our shop."
-          action={
-            <a href="/shop">
-              <RedBtn><i className="fas fa-store" style={{ fontSize:12 }} /> Browse Shop</RedBtn>
-            </a>
-          }
+        <EmptyState icon="fa-box-open" title="No Orders Yet" sub="Your order history will appear here after you purchase from our shop."
+          action={<a href="/shop"><RedBtn><i className="fas fa-store" style={{ fontSize:12 }} /> Browse Shop</RedBtn></a>}
         />
       ) : (
         <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
-          {orders.map(o => <OrderCard key={o._id} order={o} />)}
+          {orders.map(o => <OrderCard key={o._id} order={o} onReorder={handleReorder} />)}
         </div>
       )}
     </div>

@@ -1,11 +1,19 @@
 const router = require('express').Router();
 const Order  = require('../models/Order');
+const { sendOrderConfirmation } = require('../utils/mailer');
 
 // POST /api/orders — place order (public)
 router.post('/', async (req, res) => {
   try {
     const order = await Order.create(req.body);
     res.status(201).json(order);
+    sendOrderConfirmation({
+      to:      order.userEmail,
+      name:    order.userName || 'Customer',
+      orderId: order._id.toString().slice(-8).toUpperCase(),
+      items:   order.items || [],
+      total:   order.total,
+    }).catch(() => {});
   } catch (e) {
     res.status(400).json({ message: e.message });
   }

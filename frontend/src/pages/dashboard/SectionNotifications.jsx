@@ -48,6 +48,26 @@ function bookingsToNotifications(bookings) {
   });
 }
 
+function ordersToNotifications(orders) {
+  return orders
+    .filter(o => ['shipped','delivered'].includes(o.status))
+    .map(o => {
+      const diffDays = Math.floor((Date.now() - new Date(o.createdAt)) / 86400000);
+      const timeLabel = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Yesterday' : `${diffDays} days ago`;
+      return {
+        id:    'order-' + o._id,
+        type:  'order',
+        title: o.status === 'shipped' ? `Your order #${o._id?.slice(-8).toUpperCase()} has shipped!` : `Order #${o._id?.slice(-8).toUpperCase()} delivered`,
+        desc:  o.status === 'shipped'
+          ? `${o.items?.length} item${o.items?.length !== 1 ? 's' : ''} · ${o.trackingNumber ? `Tracking: ${o.trackingNumber}` : 'Check dashboard for updates'}`
+          : `Your order has been delivered. Total: $${o.total?.toFixed(2)}`,
+        time:  timeLabel,
+        read:  o.status === 'delivered',
+        status: o.status,
+      };
+    });
+}
+
 export default function SectionNotifications({ user }) {
   const [notifs,  setNotifs]  = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,11 +75,14 @@ export default function SectionNotifications({ user }) {
 
   useEffect(() => {
     if (!user?.email) { setLoading(false); return; }
-    fetch(`${API}/bookings/mine?email=${encodeURIComponent(user.email)}`)
-      .then(r => r.json())
-      .then(data => setNotifs(bookingsToNotifications(Array.isArray(data) ? data : [])))
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    Promise.all([
+      fetch(`${API}/bookings/mine?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/orders/mine?email=${encodeURIComponent(user.email)}`).then(r => r.json()).catch(() => []),
+    ]).then(([bookings, orders]) => {
+      const bookingNotifs = bookingsToNotifications(Array.isArray(bookings) ? bookings : []);
+      const orderNotifs   = ordersToNotifications(Array.isArray(orders) ? orders : []);
+      setNotifs([...orderNotifs, ...bookingNotifs]);
+    }).catch(() => {}).finally(() => setLoading(false));
   }, [user]);
 
   const unread      = notifs.filter(n => !n.read).length;

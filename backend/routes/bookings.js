@@ -1,12 +1,21 @@
 const router  = require('express').Router();
 const Booking = require('../models/Booking');
 const { protect, admin } = require('../middleware/authMiddleware');
+const { sendBookingConfirmation } = require('../utils/mailer');
 
 // POST create — public (guests can book without login)
 router.post('/', async (req, res) => {
   try {
     const booking = await Booking.create(req.body);
     res.status(201).json(booking);
+    sendBookingConfirmation({
+      to:      booking.email,
+      name:    booking.name,
+      service: booking.service,
+      date:    booking.date,
+      time:    booking.time,
+      refId:   booking._id.toString().slice(-8).toUpperCase(),
+    }).catch(() => {});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
