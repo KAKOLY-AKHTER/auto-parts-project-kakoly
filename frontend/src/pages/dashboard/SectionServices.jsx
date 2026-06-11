@@ -39,7 +39,7 @@ function BookingForm({ onDone, user, vehicles }) {
         body: JSON.stringify({
           name:    user?.displayName || 'Customer',
           email:   user?.email || '',
-          phone:   '',
+          phone:   'N/A',
           service: form.service,
           vehicle: form.vehicle,
           date:    form.date,
@@ -47,12 +47,15 @@ function BookingForm({ onDone, user, vehicles }) {
           notes:   form.notes,
         }),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.message || `Server error ${res.status}`);
+      }
       const created = await res.json();
       setSuccess(created);
       onDone(created);
-    } catch {
-      setError('Could not submit booking. Please try again.');
+    } catch (err) {
+      setError(err.message || 'Could not submit booking. Please try again.');
     } finally {
       setLoading(false);
     }
