@@ -1,11 +1,19 @@
 const router  = require('express').Router();
 const Contact = require('../models/Contact');
 const { protect, admin } = require('../middleware/authMiddleware');
+const { sendContactNotification } = require('../utils/mailer');
 
 // POST submit — public
 router.post('/', async (req, res) => {
   try {
     const contact = await Contact.create(req.body);
+    sendContactNotification({
+      name:    contact.name,
+      email:   contact.email,
+      phone:   contact.phone,
+      subject: contact.subject,
+      message: contact.message,
+    }).catch(err => console.error('[EMAIL ERROR]', err.message));
     res.status(201).json({ message: 'Message received', id: contact._id });
   } catch (err) {
     res.status(400).json({ message: err.message });
