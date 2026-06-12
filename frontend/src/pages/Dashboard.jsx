@@ -222,28 +222,48 @@ function Wishlist({ user }) {
   );
 }
 
+function AvatarImg({ photoURL, displayName, email, size = 88, fontSize = 34 }) {
+  const [imgError, setImgError] = useState(false);
+  const initial = (displayName || email || 'U')[0].toUpperCase();
+  if (photoURL && !imgError) {
+    return (
+      <img src={photoURL} alt="avatar" onError={() => setImgError(true)}
+        style={{ width:size, height:size, borderRadius:'50%', objectFit:'cover', border:'3px solid rgba(227,6,19,0.4)' }} />
+    );
+  }
+  return (
+    <div style={{ width:size, height:size, borderRadius:'50%', background:'#1a1a2e', border:'3px solid rgba(227,6,19,0.4)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+      <svg viewBox="0 0 24 24" fill="none" style={{ width:size*0.52, height:size*0.52 }}>
+        <circle cx="12" cy="8" r="4" fill="rgba(227,6,19,0.7)" />
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(227,6,19,0.7)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+      </svg>
+    </div>
+  );
+}
+
 function Profile({ user }) {
-  const [name, setName]   = useState(user?.displayName || '');
-  const [saved, setSaved] = useState(false);
+  const [name,     setName]     = useState(user?.displayName || '');
+  const [photoURL, setPhotoURL] = useState(user?.photoURL || '');
+  const [saved,    setSaved]    = useState(false);
 
   const handleSave = async (e) => {
     e.preventDefault();
     if (auth.currentUser) {
-      await updateProfile(auth.currentUser, { displayName: name });
+      await updateProfile(auth.currentUser, { displayName: name, photoURL: photoURL || null });
       setSaved(true); setTimeout(() => setSaved(false), 2500);
     }
   };
+
+  const currentPhoto = photoURL || user?.photoURL;
 
   return (
     <div>
       <h2 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:32, color:'#fff', letterSpacing:'0.04em', marginBottom:24 }}>Profile</h2>
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))', gap:20 }}>
         <Card style={{ padding:28, display:'flex', flexDirection:'column', alignItems:'center', gap:14 }}>
-          <div style={{ width:88, height:88, borderRadius:'50%', background:'#e30613', display:'flex', alignItems:'center', justifyContent:'center', fontSize:34, fontWeight:800, color:'#fff', fontFamily:"'Oswald',sans-serif", border:'3px solid rgba(227,6,19,0.4)' }}>
-            {(user?.displayName || user?.email || 'U')[0].toUpperCase()}
-          </div>
+          <AvatarImg photoURL={currentPhoto} displayName={name || user?.displayName} email={user?.email} size={88} />
           <div style={{ textAlign:'center' }}>
-            <div style={{ color:'#fff', fontSize:18, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{user?.displayName || 'User'}</div>
+            <div style={{ color:'#fff', fontSize:18, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{user?.displayName || name || 'User'}</div>
             <div style={{ color:'rgba(255,255,255,0.35)', fontSize:13, marginTop:4 }}>{user?.email}</div>
           </div>
           <div style={{ background:'rgba(34,197,94,0.1)', border:'1px solid rgba(34,197,94,0.25)', color:'#22c55e', borderRadius:99, padding:'4px 14px', fontSize:12, fontWeight:600 }}>
@@ -255,6 +275,7 @@ function Profile({ user }) {
             <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:15, fontWeight:600, color:'rgba(255,255,255,0.5)', letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:18 }}>Edit Info</div>
             <Input label="Full Name" value={name} onChange={e => setName(e.target.value)} placeholder="Your full name" />
             <Input label="Email" value={user?.email || ''} disabled style={{ opacity:0.4, cursor:'not-allowed' }} />
+            <Input label="Photo URL (optional)" value={photoURL} onChange={e => setPhotoURL(e.target.value)} placeholder="https://example.com/photo.jpg" />
             <RedBtn type="submit" style={{ width:'100%', justifyContent:'center', marginTop:4, padding:'12px' }}>
               {saved ? <><i className="fas fa-check" /> Saved!</> : 'Save Changes'}
             </RedBtn>
@@ -345,9 +366,7 @@ export default function Dashboard() {
 
         {/* User info */}
         <div style={{ padding:'14px 18px', borderBottom:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', gap:12 }}>
-          <div style={{ width:40, height:40, borderRadius:'50%', background:'#e30613', display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, fontWeight:800, color:'#fff', fontFamily:"'Oswald',sans-serif", flexShrink:0 }}>
-            {(user?.displayName || user?.email || 'U')[0].toUpperCase()}
-          </div>
+          <AvatarImg photoURL={user?.photoURL} displayName={user?.displayName} email={user?.email} size={40} fontSize={16} />
           <div style={{ overflow:'hidden' }}>
             <div style={{ color:'#fff', fontSize:13, fontWeight:700, fontFamily:"'Oswald',sans-serif", whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{user?.displayName || 'User'}</div>
             <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{user?.email}</div>
