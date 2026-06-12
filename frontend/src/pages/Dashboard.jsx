@@ -342,64 +342,65 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ minHeight:'100vh', background:'#080808', display:'flex', fontFamily:"'Inter',sans-serif" }}>
+    <div style={{ minHeight:'100vh', background:'#07070e', display:'flex', fontFamily:"'Inter',sans-serif" }}>
 
       {/* Mobile overlay */}
-      {sideOpen && <div onClick={() => setSideOpen(false)} style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', zIndex:40 }} />}
+      {sideOpen && <div onClick={() => setSideOpen(false)} style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.8)', zIndex:40, backdropFilter:'blur(2px)' }} />}
 
       {/* ── SIDEBAR ── */}
-      <aside style={{ width:252, flexShrink:0, background:'#0e0e14', borderRight:'1px solid rgba(255,255,255,0.06)', display:'flex', flexDirection:'column', position:'fixed', top:0, left:0, bottom:0, zIndex:50, transition:'transform 0.25s ease' }}
+      <aside style={{ width:256, flexShrink:0, background:'linear-gradient(180deg,#0d0d1a 0%,#0a0a14 100%)', borderRight:'1px solid rgba(255,255,255,0.09)', display:'flex', flexDirection:'column', position:'fixed', top:0, left:0, bottom:0, zIndex:50, transition:'transform 0.25s ease', boxShadow:'4px 0 24px rgba(0,0,0,0.4)' }}
         className={`dash-sidebar${sideOpen ? ' open' : ''}`}>
 
         {/* Logo */}
-        <div style={{ padding:'18px 20px 14px', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
-          <a href="/" style={{ textDecoration:'none', display:'flex', alignItems:'center', gap:10 }}>
-            <div style={{ width:36, height:36, background:'#e30613', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-              <i className="fas fa-circle-dot" style={{ color:'#fff', fontSize:16 }} />
+        <div style={{ padding:'20px 20px 16px', borderBottom:'1px solid rgba(255,255,255,0.08)', background:'rgba(227,6,19,0.04)' }}>
+          <a href="/" style={{ textDecoration:'none', display:'flex', alignItems:'center', gap:11 }}>
+            <div style={{ width:38, height:38, background:'linear-gradient(135deg,#e30613,#c0050f)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, boxShadow:'0 4px 14px rgba(227,6,19,0.4)' }}>
+              <i className="fas fa-circle-dot" style={{ color:'#fff', fontSize:17 }} />
             </div>
             <div>
               <div style={{ color:'#fff', fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:14, lineHeight:1 }}>24HR FREMONT</div>
-              <div style={{ color:'#e30613', fontSize:10, fontWeight:600, letterSpacing:'0.1em' }}>TIRE & AUTO</div>
+              <div style={{ color:'#e30613', fontSize:10, fontWeight:700, letterSpacing:'0.12em', marginTop:2 }}>TIRE & AUTO</div>
             </div>
           </a>
         </div>
 
         {/* User info */}
-        <div style={{ padding:'14px 18px', borderBottom:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', gap:12 }}>
-          <AvatarImg photoURL={user?.photoURL} displayName={user?.displayName} email={user?.email} size={40} fontSize={16} />
-          <div style={{ overflow:'hidden' }}>
-            <div style={{ color:'#fff', fontSize:13, fontWeight:700, fontFamily:"'Oswald',sans-serif", whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{user?.displayName || 'User'}</div>
-            <div style={{ color:'rgba(255,255,255,0.3)', fontSize:11, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{user?.email}</div>
+        <div style={{ padding:'14px 16px', borderBottom:'1px solid rgba(255,255,255,0.08)', display:'flex', alignItems:'center', gap:12, background:'rgba(255,255,255,0.02)' }}>
+          <AvatarImg photoURL={user?.photoURL} displayName={user?.displayName} email={user?.email} size={42} fontSize={16} />
+          <div style={{ overflow:'hidden', flex:1 }}>
+            <div style={{ color:'#fff', fontSize:13, fontWeight:700, fontFamily:"'Oswald',sans-serif", whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', letterSpacing:'0.03em' }}>{user?.displayName || 'User'}</div>
+            <div style={{ color:'rgba(255,255,255,0.4)', fontSize:11, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', marginTop:2 }}>{user?.email}</div>
           </div>
+          <div style={{ width:8, height:8, borderRadius:'50%', background:'#22c55e', flexShrink:0, boxShadow:'0 0 6px #22c55e' }} />
         </div>
 
         {/* Nav */}
-        <nav style={{ flex:1, padding:'10px 8px', overflowY:'auto' }}>
+        <nav style={{ flex:1, padding:'12px 10px', overflowY:'auto' }}>
           {NAV.map(n => {
             const isActive = active === n.id;
             return (
               <button key={n.id} onClick={() => { setActive(n.id); setSideOpen(false); }}
-                style={{ width:'100%', display:'flex', alignItems:'center', gap:11, padding:'10px 13px', borderRadius:10, border:'none', background: isActive ? 'rgba(227,6,19,0.12)' : 'transparent', color: isActive ? '#fff' : 'rgba(255,255,255,0.45)', cursor:'pointer', textAlign:'left', marginBottom:2, transition:'all 0.15s ease', position:'relative' }}>
-                <div style={{ width:31, height:31, borderRadius:8, background: isActive ? 'rgba(227,6,19,0.2)' : 'rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  <i className={`fas ${n.icon}`} style={{ color: isActive ? '#e30613' : 'rgba(255,255,255,0.35)', fontSize:13 }} />
+                style={{ width:'100%', display:'flex', alignItems:'center', gap:11, padding:'10px 12px', borderRadius:11, border: isActive ? '1px solid rgba(227,6,19,0.3)' : '1px solid transparent', background: isActive ? 'linear-gradient(135deg,rgba(227,6,19,0.15),rgba(227,6,19,0.08))' : 'transparent', color: isActive ? '#fff' : 'rgba(255,255,255,0.5)', cursor:'pointer', textAlign:'left', marginBottom:3, transition:'all 0.15s ease', position:'relative', boxShadow: isActive ? '0 2px 12px rgba(227,6,19,0.15)' : 'none' }}>
+                <div style={{ width:32, height:32, borderRadius:9, background: isActive ? 'rgba(227,6,19,0.25)' : 'rgba(255,255,255,0.07)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, border: isActive ? '1px solid rgba(227,6,19,0.4)' : '1px solid rgba(255,255,255,0.08)' }}>
+                  <i className={`fas ${n.icon}`} style={{ color: isActive ? '#e30613' : 'rgba(255,255,255,0.4)', fontSize:13 }} />
                 </div>
-                <span style={{ fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight:600, letterSpacing:'0.04em', flex:1 }}>{n.label}</span>
+                <span style={{ fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight: isActive ? 700 : 600, letterSpacing:'0.04em', flex:1 }}>{n.label}</span>
                 {n.id === 'notifications' && unreadCount > 0 && (
-                  <div style={{ width:18, height:18, borderRadius:'50%', background:'#e30613', display:'flex', alignItems:'center', justifyContent:'center', fontSize:10, fontWeight:800, color:'#fff', flexShrink:0 }}>{unreadCount}</div>
+                  <div style={{ minWidth:20, height:20, borderRadius:99, background:'#e30613', display:'flex', alignItems:'center', justifyContent:'center', fontSize:10, fontWeight:800, color:'#fff', flexShrink:0, padding:'0 5px', boxShadow:'0 2px 8px rgba(227,6,19,0.5)' }}>{unreadCount}</div>
                 )}
-                {isActive && <div style={{ position:'absolute', left:0, top:'20%', bottom:'20%', width:3, borderRadius:'0 3px 3px 0', background:'#e30613' }} />}
+                {isActive && <div style={{ position:'absolute', left:0, top:'15%', bottom:'15%', width:3, borderRadius:'0 3px 3px 0', background:'linear-gradient(180deg,#e30613,#e3061388)' }} />}
               </button>
             );
           })}
         </nav>
 
         {/* Logout */}
-        <div style={{ padding:'10px 8px', borderTop:'1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ padding:'10px 10px 14px', borderTop:'1px solid rgba(255,255,255,0.08)' }}>
           <button onClick={handleLogout}
-            style={{ width:'100%', display:'flex', alignItems:'center', gap:11, padding:'10px 13px', borderRadius:10, border:'none', background:'transparent', color:'rgba(255,255,255,0.35)', cursor:'pointer', transition:'all 0.15s ease' }}
-            onMouseEnter={e => { e.currentTarget.style.background='rgba(239,68,68,0.1)'; e.currentTarget.style.color='#ef4444'; }}
-            onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='rgba(255,255,255,0.35)'; }}>
-            <div style={{ width:31, height:31, borderRadius:8, background:'rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+            style={{ width:'100%', display:'flex', alignItems:'center', gap:11, padding:'10px 12px', borderRadius:11, border:'1px solid transparent', background:'transparent', color:'rgba(255,255,255,0.4)', cursor:'pointer', transition:'all 0.15s ease' }}
+            onMouseEnter={e => { e.currentTarget.style.background='rgba(239,68,68,0.1)'; e.currentTarget.style.color='#ef4444'; e.currentTarget.style.borderColor='rgba(239,68,68,0.25)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='rgba(255,255,255,0.4)'; e.currentTarget.style.borderColor='transparent'; }}>
+            <div style={{ width:32, height:32, borderRadius:9, background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.08)', display:'flex', alignItems:'center', justifyContent:'center' }}>
               <i className="fas fa-right-from-bracket" style={{ fontSize:13 }} />
             </div>
             <span style={{ fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight:600, letterSpacing:'0.04em' }}>Logout</span>
@@ -408,39 +409,45 @@ export default function Dashboard() {
       </aside>
 
       {/* ── MAIN CONTENT ── */}
-      <div style={{ flex:1, marginLeft:252, display:'flex', flexDirection:'column', minHeight:'100vh' }} className="dash-main">
+      <div style={{ flex:1, marginLeft:256, display:'flex', flexDirection:'column', minHeight:'100vh' }} className="dash-main">
 
         {/* Top header */}
-        <header style={{ height:62, background:'#0e0e14', borderBottom:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 26px', position:'sticky', top:0, zIndex:30 }}>
+        <header style={{ height:64, background:'linear-gradient(180deg,#0d0d1a,#0a0a14)', borderBottom:'1px solid rgba(255,255,255,0.09)', display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 28px', position:'sticky', top:0, zIndex:30, boxShadow:'0 2px 16px rgba(0,0,0,0.3)' }}>
           <div style={{ display:'flex', alignItems:'center', gap:12 }}>
             <button onClick={() => setSideOpen(!sideOpen)} className="dash-hamburger"
               style={{ background:'none', border:'none', color:'#fff', cursor:'pointer', padding:4, display:'none' }}>
               <i className="fas fa-bars" style={{ fontSize:18 }} />
             </button>
-            <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:18, fontWeight:600, color:'#fff', letterSpacing:'0.05em' }}>
-              {NAV.find(n => n.id === active)?.label}
+            <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+              <div style={{ width:3, height:18, background:'#e30613', borderRadius:2 }} />
+              <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:19, fontWeight:700, color:'#fff', letterSpacing:'0.06em' }}>
+                {NAV.find(n => n.id === active)?.label}
+              </div>
             </div>
           </div>
           <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <button onClick={() => setActive('notifications')} style={{ position:'relative', width:38, height:38, borderRadius:8, background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.09)', color:'rgba(255,255,255,0.6)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+            <button onClick={() => setActive('notifications')}
+              style={{ position:'relative', width:40, height:40, borderRadius:10, background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.12)', color:'rgba(255,255,255,0.7)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.15s' }}>
               <i className="fas fa-bell" style={{ fontSize:15 }} />
-              {unreadCount > 0 && <div style={{ position:'absolute', top:-4, right:-4, width:16, height:16, borderRadius:'50%', background:'#e30613', fontSize:9, fontWeight:800, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center' }}>{unreadCount}</div>}
+              {unreadCount > 0 && <div style={{ position:'absolute', top:-5, right:-5, minWidth:17, height:17, borderRadius:99, background:'#e30613', fontSize:9, fontWeight:800, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', padding:'0 4px', boxShadow:'0 2px 6px rgba(227,6,19,0.6)' }}>{unreadCount}</div>}
             </button>
-            <a href="/" style={{ display:'inline-flex', alignItems:'center', gap:6, color:'rgba(255,255,255,0.4)', textDecoration:'none', fontSize:12, fontFamily:"'Oswald',sans-serif", fontWeight:600, letterSpacing:'0.05em', padding:'7px 14px', borderRadius:8, border:'1px solid rgba(255,255,255,0.08)' }}
-              onMouseEnter={e => { e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='rgba(255,255,255,0.2)'; }}
-              onMouseLeave={e => { e.currentTarget.style.color='rgba(255,255,255,0.4)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.08)'; }}>
+            <a href="/"
+              style={{ display:'inline-flex', alignItems:'center', gap:6, color:'rgba(255,255,255,0.6)', textDecoration:'none', fontSize:12, fontFamily:"'Oswald',sans-serif", fontWeight:700, letterSpacing:'0.06em', padding:'8px 16px', borderRadius:9, border:'1px solid rgba(255,255,255,0.12)', background:'rgba(255,255,255,0.04)', transition:'all 0.15s' }}
+              onMouseEnter={e => { e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='rgba(255,255,255,0.25)'; e.currentTarget.style.background='rgba(255,255,255,0.08)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color='rgba(255,255,255,0.6)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; e.currentTarget.style.background='rgba(255,255,255,0.04)'; }}>
               <i className="fas fa-house" style={{ fontSize:11 }} /> Home
             </a>
           </div>
         </header>
 
         {/* Page content */}
-        <main style={{ flex:1, padding:'28px 26px', maxWidth:1140, width:'100%' }}>
+        <main style={{ flex:1, padding:'30px 28px', maxWidth:1160, width:'100%' }}>
           {SECTIONS[active]}
         </main>
       </div>
 
       <style>{`
+        .dash-nav-btn:hover { background: rgba(255,255,255,0.05) !important; color: rgba(255,255,255,0.8) !important; }
         @media (max-width: 768px) {
           .dash-sidebar { transform: translateX(-100%); }
           .dash-sidebar.open { transform: translateX(0) !important; }
