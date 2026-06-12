@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { useCart } from "../../context/CartContext";
-import { PRODUCTS } from "../../data/products";
+import API from "../../config";
 
 const TAG_COLORS = {
   "Best Seller": "bg-red-600 text-white",
@@ -32,7 +32,7 @@ function ProductCard({ p, index, vis }) {
   const handleQuickAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem({ id: p.id, name: p.name, price: p.price, img: p.img, catLabel: p.catLabel });
+    addItem({ id: p._id || p.id, name: p.name, price: p.price, img: p.img, catLabel: p.catLabel });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
@@ -118,7 +118,7 @@ function ProductCard({ p, index, vis }) {
       {/* Info */}
       <div className="p-4">
         <span className="block text-[10px] font-bold tracking-[2px] uppercase text-red-600 mb-1">{p.catLabel}</span>
-        <a href={`/product-details/${p.id}`}
+        <a href={`/product-details/${p._id || p.id}`}
           className="block text-[13px] font-bold text-gray-900 leading-snug mb-2 hover:text-red-600 transition-colors line-clamp-2">
           {p.name}
         </a>
@@ -135,7 +135,7 @@ function ProductCard({ p, index, vis }) {
             <span className="text-[11px] text-gray-400 line-through leading-none block">${p.oldPrice.toFixed(2)}</span>
             <span className="text-[20px] font-black text-gray-900 leading-none">${p.price.toFixed(2)}</span>
           </div>
-          <a href={`/product-details/${p.id}`}
+          <a href={`/product-details/${p._id || p.id}`}
             className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg text-[11px] font-bold text-white bg-gray-900 hover:bg-red-600 transition-colors duration-200">
             View
             <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -152,18 +152,26 @@ export default function BestSellers() {
   const trackRef   = useRef(null);
   const sectionRef = useRef(null);
   const vpRef      = useRef(null);
+  const [products, setProducts]     = useState([]);
   const [vis, setVis]               = useState(false);
   const [cur, setCur]               = useState(0);
   const [dragStart, setDragStart]   = useState(null);
   const [maxTranslate, setMaxTranslate] = useState(0);
-  const [maxSlide, setMaxSlide]     = useState(PRODUCTS.length - 4);
+  const [maxSlide, setMaxSlide]     = useState(0);
   const CARD_W = 242;
 
   useEffect(() => {
+    fetch(`${API}/products`)
+      .then(r => r.json())
+      .then(data => setProducts(Array.isArray(data) ? data : []))
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
     const calc = () => {
-      if (!vpRef.current) return;
+      if (!vpRef.current || products.length === 0) return;
       const vpW   = vpRef.current.offsetWidth;
-      const total = PRODUCTS.length * CARD_W - 22;
+      const total = products.length * CARD_W - 22;
       const maxTx = Math.max(0, total - vpW);
       setMaxTranslate(maxTx);
       setMaxSlide(Math.ceil(maxTx / CARD_W));
@@ -171,7 +179,7 @@ export default function BestSellers() {
     calc();
     window.addEventListener("resize", calc);
     return () => window.removeEventListener("resize", calc);
-  }, []);
+  }, [products]);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -256,7 +264,7 @@ export default function BestSellers() {
         onTouchStart={onDragStart} onTouchEnd={onDragEnd}>
         <div ref={trackRef} className="flex gap-[22px]"
           style={{ transition: "transform .5s cubic-bezier(.22,.68,0,1.2)", willChange: "transform" }}>
-          {PRODUCTS.map((p, i) => <ProductCard key={p.id} p={p} index={i} vis={vis} />)}
+          {products.map((p, i) => <ProductCard key={p._id || p.id} p={p} index={i} vis={vis} />)}
         </div>
       </div>
 
@@ -264,7 +272,7 @@ export default function BestSellers() {
       <div className="mt-10 border-t border-gray-100 pt-6 flex flex-wrap items-center justify-between gap-4"
         style={{ opacity: vis ? 1 : 0, transition: "opacity .6s ease .3s" }}>
         <p className="text-[13px] text-gray-400">
-          Showing <span className="font-bold text-gray-700">{PRODUCTS.length}</span> top products — updated weekly
+          Showing <span className="font-bold text-gray-700">{products.length}</span> top products — updated weekly
         </p>
         <div className="flex items-center gap-2 text-[12px] text-gray-400">
           <svg viewBox="0 0 24 24" className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>

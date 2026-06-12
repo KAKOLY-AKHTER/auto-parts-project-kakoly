@@ -6,7 +6,8 @@ const { protect, admin } = require('../middleware/authMiddleware');
 router.get('/', async (req, res) => {
   try {
     const filter = {};
-    if (req.query.category) filter.category   = req.query.category;
+    if (req.query.cat)      filter.cat        = req.query.cat;
+    if (req.query.category) filter.cat        = req.query.category;
     if (req.query.featured) filter.isFeatured = req.query.featured === 'true';
     const products = await Product.find(filter).sort({ createdAt: -1 });
     res.json(products);

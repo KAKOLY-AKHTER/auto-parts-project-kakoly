@@ -6,17 +6,6 @@ import API from '../config';
 
 const cats = ["All", "Tires", "Motor Oil", "Filters", "Brake Parts", "Engine Parts"];
 
-const products = [
-  { id: 1, img: "/tire-1.png",  name: "Michelin Defender T+H",       cat: "Tires",        catLabel: "All-Season Tires",  price: 142.00, oldPrice: 179.00, rating: 4.9, tag: "Best Seller" },
-  { id: 2, img: "/oil-4.png",   name: "Full Synthetic 5W-30 Oil",    cat: "Motor Oil",    catLabel: "Motor Oil",         price: 38.99,  oldPrice: 52.00,  rating: 4.8, tag: "Top Rated"  },
-  { id: 3, img: "/tire-2.png",  name: "Cooper Adventurer A/T",       cat: "Tires",        catLabel: "All-Terrain Tires", price: 128.00, oldPrice: 165.00, rating: 4.7, tag: null         },
-  { id: 4, img: "/oil-1.png",   name: "Premium Oil Filter Kit",      cat: "Filters",      catLabel: "Oil Filter",        price: 24.99,  oldPrice: 35.00,  rating: 4.8, tag: "Popular"    },
-  { id: 5, img: "/tire-3.png",  name: "Goodyear Assurance MaxLife",  cat: "Tires",        catLabel: "Touring Tires",     price: 156.00, oldPrice: 195.00, rating: 4.8, tag: "Sale"       },
-  { id: 6, img: "/motor.png",   name: "Castrol EDGE 10W-40 Synth",   cat: "Motor Oil",    catLabel: "Motor Oil",         price: 44.99,  oldPrice: 58.00,  rating: 4.9, tag: "Top Rated"  },
-  { id: 7, img: "/tire11.png",  name: "Performance Brake Pad Set",   cat: "Brake Parts",  catLabel: "Brake System",      price: 65.00,  oldPrice: 89.00,  rating: 4.7, tag: null         },
-  { id: 8, img: "/oil-2.png",   name: "High-Flow Air Filter",        cat: "Engine Parts", catLabel: "Engine Parts",      price: 29.99,  oldPrice: 42.00,  rating: 4.6, tag: "Sale"       },
-];
-
 function Stars({ rating }) {
   return (
     <div className="flex items-center gap-0.5">
@@ -31,12 +20,22 @@ function Stars({ rating }) {
 }
 
 export default function Shop() {
+  const [products,    setProducts]    = useState([]);
+  const [loading,     setLoading]     = useState(true);
   const [active,      setActive]      = useState("All");
   const [added,       setAdded]       = useState(null);
   const [wishlisted,  setWishlisted]  = useState(new Set());
   const [wishToast,   setWishToast]   = useState(null);
   const { addItem, count }            = useCart();
   const filtered = active === "All" ? products : products.filter(p => p.cat === active);
+
+  useEffect(() => {
+    fetch(`${API}/products`)
+      .then(r => r.json())
+      .then(data => setProducts(Array.isArray(data) ? data : []))
+      .catch(() => setProducts([]))
+      .finally(() => setLoading(false));
+  }, []);
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(u => {
@@ -49,23 +48,26 @@ export default function Shop() {
     return () => unsub();
   }, []);
 
+  const pid = (p) => p._id || p.id;
+
   const handleAdd = (p) => {
-    addItem(p);
-    setAdded(p.id);
+    addItem({ id: pid(p), name: p.name, price: p.price, img: p.img, catLabel: p.catLabel });
+    setAdded(pid(p));
     setTimeout(() => setAdded(null), 1400);
   };
 
   const toggleWishlist = async (p) => {
     const user = auth.currentUser;
     if (!user) { window.location.href = '/login'; return; }
-    const inList = wishlisted.has(p.id);
-    setWishlisted(prev => { const s = new Set(prev); inList ? s.delete(p.id) : s.add(p.id); return s; });
+    const id = pid(p);
+    const inList = wishlisted.has(id);
+    setWishlisted(prev => { const s = new Set(prev); inList ? s.delete(id) : s.add(id); return s; });
     if (inList) {
-      await fetch(`${API}/wishlist/${p.id}?email=${encodeURIComponent(user.email)}`, { method:'DELETE' }).catch(() => {});
+      await fetch(`${API}/wishlist/${id}?email=${encodeURIComponent(user.email)}`, { method:'DELETE' }).catch(() => {});
       setWishToast('Removed from wishlist');
     } else {
       await fetch(`${API}/wishlist`, { method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ email: user.email, item: { productId: p.id, name: p.name, price: p.price, image: p.img, category: p.catLabel || p.cat } })
+        body: JSON.stringify({ email: user.email, item: { productId: id, name: p.name, price: p.price, image: p.img, category: p.catLabel || p.cat } })
       }).catch(() => {});
       setWishToast('Saved to wishlist!');
     }
@@ -147,11 +149,15 @@ export default function Shop() {
             ))}
           </div>
 
+          {loading && (
+            <div className="text-center py-20 text-gray-400 font-semibold">Loading products…</div>
+          )}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
             {filtered.map((p) => {
-              const disc = Math.round((1 - p.price / p.oldPrice) * 100);
+              const id   = pid(p);
+              const disc = Math.round((1 - p.price / (p.oldPrice || p.price + 1)) * 100);
               return (
-                <div key={p.id}
+                <div key={id}
                   className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                   <div className="relative h-44 flex items-center justify-center bg-gray-50 overflow-hidden">
                     <img src={p.img} alt={p.name}
@@ -167,8 +173,8 @@ export default function Shop() {
                     </span>
                     <button onClick={(e) => { e.stopPropagation(); toggleWishlist(p); }}
                       className="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center border-none cursor-pointer transition-all"
-                      style={{ background: wishlisted.has(p.id) ? '#ef4444' : 'rgba(0,0,0,0.45)' }}
-                      title={wishlisted.has(p.id) ? 'Remove from wishlist' : 'Save to wishlist'}>
+                      style={{ background: wishlisted.has(id) ? '#ef4444' : 'rgba(0,0,0,0.45)' }}
+                      title={wishlisted.has(id) ? 'Remove from wishlist' : 'Save to wishlist'}>
                       <i className="fas fa-heart" style={{ fontSize:11, color:'#fff' }} />
                     </button>
                   </div>
@@ -188,10 +194,10 @@ export default function Shop() {
                       <button
                         onClick={() => handleAdd(p)}
                         className="w-9 h-9 rounded-xl flex items-center justify-center transition-all border-none cursor-pointer shadow-sm"
-                        style={{ background: added === p.id ? '#16a34a' : '#dc2626' }}
+                        style={{ background: added === id ? '#16a34a' : '#dc2626' }}
                         title="Add to cart"
                       >
-                        {added === p.id
+                        {added === id
                           ? <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4"><polyline points="20 6 9 17 4 12"/></svg>
                           : <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         }

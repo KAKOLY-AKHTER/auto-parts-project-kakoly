@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { getProduct, getRelated } from '../data/products';
+import API from '../config';
 
 function Stars({ rating, size = 'md' }) {
   const sz = size === 'sm' ? 'w-3 h-3' : 'w-4 h-4';
@@ -26,13 +26,13 @@ function RelatedCard({ p }) {
 
   const handleAdd = (e) => {
     e.stopPropagation();
-    addItem({ id: p.id, name: p.name, price: p.price, img: p.img, catLabel: p.catLabel });
+    addItem({ id: p._id || p.id, name: p.name, price: p.price, img: p.img, catLabel: p.catLabel });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
 
   return (
-    <div onClick={() => navigate(`/product-details/${p.id}`)}
+    <div onClick={() => navigate(`/product-details/${p._id || p.id}`)}
       style={{ cursor:'pointer', border:'1.5px solid #e5e7eb', borderRadius:14, overflow:'hidden', background:'#fff', transition:'all 0.2s' }}
       onMouseEnter={e => { e.currentTarget.style.borderColor='#dc2626'; e.currentTarget.style.boxShadow='0 8px 28px rgba(220,38,38,0.1)'; }}
       onMouseLeave={e => { e.currentTarget.style.borderColor='#e5e7eb'; e.currentTarget.style.boxShadow='none'; }}>
@@ -68,11 +68,36 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem, count } = useCart();
-  const product = getProduct(id);
+  const [product, setProduct] = useState(null);
+  const [related, setRelated] = useState([]);
+  const [loadingP, setLoadingP] = useState(true);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [toast, setToast] = useState(false);
   const [activeTab, setActiveTab] = useState('desc');
+
+  useEffect(() => {
+    setLoadingP(true);
+    fetch(`${API}/products/${id}`)
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(p => {
+        setProduct(p);
+        fetch(`${API}/products?cat=${encodeURIComponent(p.cat)}`)
+          .then(r => r.json())
+          .then(all => setRelated(Array.isArray(all) ? all.filter(x => (x._id || x.id) !== (p._id || p.id)).slice(0, 4) : []))
+          .catch(() => {});
+      })
+      .catch(() => setProduct(null))
+      .finally(() => setLoadingP(false));
+  }, [id]);
+
+  if (loadingP) {
+    return (
+      <div style={{ minHeight:'60vh', display:'flex', alignItems:'center', justifyContent:'center' }}>
+        <div style={{ fontSize:14, color:'#9ca3af', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.06em' }}>Loading…</div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -87,12 +112,11 @@ export default function ProductDetail() {
     );
   }
 
-  const related = getRelated(product);
-  const discount = Math.round((1 - product.price / product.oldPrice) * 100);
+  const discount = Math.round((1 - product.price / (product.oldPrice || product.price)) * 100);
 
   const handleAddToCart = () => {
     for (let i = 0; i < qty; i++) {
-      addItem({ id: product.id, name: product.name, price: product.price, img: product.img, catLabel: product.catLabel });
+      addItem({ id: product._id || product.id, name: product.name, price: product.price, img: product.img, catLabel: product.catLabel });
     }
     setAdded(true);
     setToast(true);
