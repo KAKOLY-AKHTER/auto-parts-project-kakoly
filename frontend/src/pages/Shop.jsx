@@ -100,58 +100,99 @@ export default function Shop() {
       )}
 
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden pt-36 md:pt-48 lg:pt-52 pb-20"
-        style={{ background: "linear-gradient(135deg,#050d18 0%,#0a1628 50%,#0d1f35 100%)" }}>
+      <section className="relative overflow-hidden pt-36 md:pt-48 lg:pt-52 pb-24"
+        style={{ background: "linear-gradient(135deg,#050d18 0%,#0a1628 55%,#0d1f35 100%)" }}>
+
+        {/* bg accents */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 inset-x-0 h-0.75" style={{ background: "linear-gradient(90deg,#dc2626,#f87171,#dc2626)" }} />
-          <div className="absolute -bottom-32 left-1/3 w-150 h-150 rounded-full opacity-[0.06]"
-            style={{ background: "radial-gradient(circle,#f59e0b,transparent 70%)" }} />
+          <div className="absolute top-0 inset-x-0 h-[3px]" style={{ background:"linear-gradient(90deg,#1d4ed8,#dc2626 50%,#1d4ed8)" }} />
+          <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full opacity-[0.07]"
+            style={{ background:"radial-gradient(circle,#dc2626,transparent 70%)" }} />
+          <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full opacity-[0.05]"
+            style={{ background:"radial-gradient(circle,#3b82f6,transparent 70%)" }} />
         </div>
-        <div className="max-w-7xl mx-auto px-5 relative z-10">
-          <div className="flex items-center gap-2 text-[12px] mb-8">
-            <Link to="/" className="text-slate-400 hover:text-red-400 no-underline transition-colors">Home</Link>
+
+        <div className="max-w-5xl mx-auto px-5 relative z-10 text-center">
+          {/* Breadcrumb */}
+          <div className="flex items-center justify-center gap-2 text-[12px] mb-7">
+            <Link to="/" className="text-slate-500 hover:text-red-400 no-underline transition-colors">Home</Link>
             <span className="text-slate-600">/</span>
-            <span className="text-slate-300">Shop</span>
+            <span className="text-slate-400">Shop</span>
           </div>
-          <h1 className="text-white font-black leading-none tracking-tight mb-5"
-            style={{ fontSize: "clamp(44px,6vw,80px)" }}>
-            Our <span style={{ color: "#dc2626" }}>Products</span>
+
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5"
+            style={{ background:'rgba(220,38,38,0.1)', border:'1px solid rgba(220,38,38,0.25)' }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block" />
+            <span className="text-red-400 text-[11px] font-black tracking-[3px] uppercase">Parts & Tires Store</span>
+          </div>
+
+          <h1 className="text-white font-black leading-none tracking-tight mb-4"
+            style={{ fontSize:"clamp(40px,6vw,72px)" }}>
+            Find the Right <span style={{ color:"#dc2626" }}>Parts</span> for Your Vehicle
           </h1>
-          <p className="text-slate-300 text-[17px] leading-relaxed max-w-xl mb-8">
-            Top-quality tires, oils, and auto parts. Competitive prices, fast in-store pickup available.
+          <p className="text-slate-400 text-[16px] leading-relaxed max-w-2xl mx-auto mb-10">
+            Search from our full catalog of tires, motor oils, filters, brake parts and more.
           </p>
 
-          {/* ── SEARCH BAR ── */}
-          <div className="relative max-w-xl">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-5 h-5 text-slate-400">
-                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-              </svg>
-            </div>
-            <input
-              type="text"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Search tires, oil, brake parts…"
-              className="w-full pl-14 pr-14 py-4 rounded-2xl text-[15px] font-medium outline-none"
-              style={{ background:'rgba(255,255,255,0.1)', border:'1.5px solid rgba(255,255,255,0.18)', color:'#fff', backdropFilter:'blur(8px)', transition:'border-color 0.2s' }}
-              onFocus={e => e.target.style.borderColor = 'rgba(220,38,38,0.7)'}
-              onBlur={e => e.target.style.borderColor  = 'rgba(255,255,255,0.18)'}
-            />
-            {search && (
-              <button onClick={() => setSearch("")}
-                className="absolute inset-y-0 right-0 flex items-center pr-5 border-none bg-transparent cursor-pointer text-slate-400 hover:text-white transition-colors">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          {/* ── SEARCH FORM ── */}
+          <div className="max-w-2xl mx-auto">
+            <div className="flex items-stretch gap-0 rounded-2xl overflow-hidden"
+              style={{ background:'rgba(255,255,255,0.07)', border:'1.5px solid rgba(255,255,255,0.15)', backdropFilter:'blur(12px)', boxShadow:'0 8px 40px rgba(0,0,0,0.4)' }}>
+              {/* Search icon */}
+              <div className="flex items-center pl-5 pr-3 shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-5 h-5 text-slate-400">
+                  <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
                 </svg>
+              </div>
+              {/* Input */}
+              <input
+                type="text"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search tires, oil, brake parts, filters…"
+                className="flex-1 py-4 text-[15px] font-medium outline-none bg-transparent"
+                style={{ color:'#fff', minWidth:0 }}
+              />
+              {/* Clear button */}
+              {search && (
+                <button onClick={() => setSearch("")}
+                  className="flex items-center px-4 border-none bg-transparent cursor-pointer text-slate-500 hover:text-white transition-colors shrink-0">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              )}
+              {/* Search button */}
+              <button className="px-7 m-1.5 rounded-xl font-black text-[13px] tracking-[1.5px] uppercase text-white border-none cursor-pointer shrink-0 transition-all"
+                style={{ background:'linear-gradient(135deg,#dc2626,#b91c1c)', boxShadow:'0 4px 16px rgba(220,38,38,0.4)', fontFamily:"'Oswald',sans-serif" }}>
+                Search
               </button>
+            </div>
+
+            {/* Result count */}
+            {search && (
+              <p className="text-slate-400 text-[13px] mt-3">
+                <span className="text-white font-semibold">{filtered.length}</span> result{filtered.length !== 1 ? 's' : ''} for "<span className="text-red-400 font-semibold">{search}</span>"
+              </p>
+            )}
+
+            {/* Quick searches */}
+            {!search && (
+              <div className="flex items-center justify-center gap-2 mt-5 flex-wrap">
+                <span className="text-slate-500 text-[12px]">Popular:</span>
+                {["All-Terrain Tires","Synthetic Oil","Brake Pads","Oil Filter","Performance Tires"].map(q => (
+                  <button key={q} onClick={() => setSearch(q)}
+                    className="px-3 py-1 rounded-full text-[11.5px] font-semibold cursor-pointer transition-all border-none"
+                    style={{ background:'rgba(255,255,255,0.07)', color:'rgba(255,255,255,0.6)', border:'1px solid rgba(255,255,255,0.1)' }}
+                    onMouseEnter={e => { e.currentTarget.style.background='rgba(220,38,38,0.15)'; e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='rgba(220,38,38,0.4)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.07)'; e.currentTarget.style.color='rgba(255,255,255,0.6)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)'; }}>
+                    {q}
+                  </button>
+                ))}
+              </div>
             )}
           </div>
-          {search && (
-            <p className="text-slate-400 text-[13px] mt-3">
-              {filtered.length} result{filtered.length !== 1 ? 's' : ''} for "<span className="text-white font-semibold">{search}</span>"
-            </p>
-          )}
         </div>
       </section>
 
