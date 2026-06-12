@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "../../context/ThemeContext";
 
 const posts = [
   {
@@ -88,6 +89,7 @@ function ImageCell({ post, index, vis }) {
 
 function TextCell({ post, index, vis }) {
   const [hov, setHov] = useState(false);
+  const { isDark } = useTheme();
   const delay = `${index * 0.1}s`;
 
   return (
@@ -99,7 +101,7 @@ function TextCell({ post, index, vis }) {
         opacity: vis ? 1 : 0,
         transform: vis ? "translateY(0)" : "translateY(40px)",
         transition: `all 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}`,
-        background: "#ffffff",
+        background: isDark ? "#1a2030" : "#ffffff",
         textDecoration: "none",
       }}
       onMouseEnter={() => setHov(true)}
@@ -119,7 +121,7 @@ function TextCell({ post, index, vis }) {
         </div>
 
         <h3 className="text-xl md:text-3xl font-bold leading-tight mb-2 md:mb-3"
-            style={{ color: hov ? "#dc2626" : "#111827", transition: "color 0.3s ease" }}>
+            style={{ color: hov ? "#dc2626" : isDark ? "#f1f5f9" : "#111827", transition: "color 0.3s ease" }}>
           {post.title}
         </h3>
 
@@ -146,6 +148,7 @@ function TextCell({ post, index, vis }) {
 export default function LatestNews() {
   const [vis, setVis] = useState(false);
   const ref = useRef(null);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -187,7 +190,7 @@ export default function LatestNews() {
         }
       `}</style>
 
-      <section ref={ref} className="py-14 md:py-20" style={{ background: "#ffffff" }}>
+      <section ref={ref} className="py-14 md:py-20" style={{ background: isDark ? '#111827' : '#ffffff' }}>
 
         {/* Heading */}
         <div

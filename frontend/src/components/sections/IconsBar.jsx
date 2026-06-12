@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "../../context/ThemeContext";
 
 const items = ["/icon1.png", "/icon2.png", "/icon3.png", "/icon4.png", "/icon5.png"];
 
 export default function IconsBar() {
   const [vis, setVis] = useState(false);
   const ref = useRef(null);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -21,7 +23,7 @@ export default function IconsBar() {
   }, []);
 
   return (
-    <section ref={ref} className="bg-white pt-10 pb-10 md:pt-12 md:pb-12 overflow-hidden">
+    <section ref={ref} className="pt-10 pb-10 md:pt-12 md:pb-12 overflow-hidden" style={{ background: isDark ? '#111827' : '#ffffff' }}>
 
       {/* Heading */}
       <div className="flex items-center justify-center gap-3 mb-8">
@@ -41,6 +43,7 @@ export default function IconsBar() {
         {[...items, ...items, ...items, ...items, ...items].map((icon, i) => (
           <img key={i} src={icon} alt=""
             className="w-20 h-20 md:w-28 md:h-28 object-contain shrink-0"
+            style={{ filter: isDark ? 'brightness(0) invert(1) opacity(0.75)' : 'none' }}
           />
         ))}
       </div>
