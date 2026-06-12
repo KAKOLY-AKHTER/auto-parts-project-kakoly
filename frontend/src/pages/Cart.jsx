@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import API from '../config';
 const SHIPPING_THRESHOLD = 99;
@@ -15,13 +16,18 @@ export default function Cart() {
   const tax      = subtotal * TAX_RATE;
   const total    = subtotal + shipping + tax;
 
-  const user = auth.currentUser;
-  const [form, setForm] = useState({
-    name:    user?.displayName || '',
-    email:   user?.email || '',
-    phone:   '',
-    address: '',
-  });
+  const [form, setForm] = useState({ name:'', email:'', phone:'', address:'' });
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => {
+      if (u) setForm(f => ({
+        ...f,
+        name:  f.name  || u.displayName || '',
+        email: f.email || u.email || '',
+      }));
+    });
+    return () => unsub();
+  }, []);
   const [placing,  setPlacing]  = useState(false);
   const [success,  setSuccess]  = useState(null);
   const [error,    setError]    = useState('');

@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
       orderId: order._id.toString().slice(-8).toUpperCase(),
       items:   order.items || [],
       total:   order.total,
-    }).catch(() => {});
+    }).catch(err => console.error('[EMAIL ERROR]', err.message));
   } catch (e) {
     res.status(400).json({ message: e.message });
   }
