@@ -1,41 +1,16 @@
-const nodemailer = require('nodemailer');
-const dns        = require('dns');
-const net        = require('net');
+const { Resend } = require('resend');
 
-dns.setDefaultResultOrder('ipv4first');
-dns.setServers(['8.8.8.8', '8.8.4.4']);
-if (typeof net.setDefaultAutoSelectFamily === 'function') {
-  net.setDefaultAutoSelectFamily(false);
+function getClient() {
+  return new Resend(process.env.RESEND_API_KEY);
 }
 
-function ipv4Lookup(hostname, _opts, cb) {
-  dns.resolve4(hostname, (err, addresses) => {
-    if (err) return cb(err);
-    cb(null, addresses[0], 4);
-  });
-}
-
-function makeTransport() {
-  return nodemailer.createTransport({
-    host:       'smtp.gmail.com',
-    port:       587,
-    secure:     false,
-    requireTLS: true,
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS,
-    },
-    tls:               { rejectUnauthorized: false },
-    lookup:            ipv4Lookup,
-    connectionTimeout: 30000,
-    greetingTimeout:   15000,
-    socketTimeout:     30000,
-  });
+function fromAddr() {
+  return process.env.FROM_EMAIL || 'onboarding@resend.dev';
 }
 
 function guard() {
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
-    console.log('[MAIL] skipped — no credentials');
+  if (!process.env.RESEND_API_KEY) {
+    console.log('[MAIL] skipped — no RESEND_API_KEY');
     return false;
   }
   return true;
@@ -45,12 +20,11 @@ async function sendBookingConfirmation({ to, name, service, date, time, refId })
   if (!guard()) return;
   console.log(`[MAIL] booking → ${to}`);
   const fmtDate = date
-    ? new Date(date).toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
+    ? new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     : date;
-  const t = makeTransport();
   try {
-    await t.sendMail({
-      from:    `"24HR Fremont Tire & Auto" <${process.env.GMAIL_USER}>`,
+    const { error } = await getClient().emails.send({
+      from:    fromAddr(),
       to,
       subject: `Booking Confirmed — ${service}`,
       html: `
@@ -79,9 +53,10 @@ async function sendBookingConfirmation({ to, name, service, date, time, refId })
         </div>
       `,
     });
+    if (error) throw new Error(error.message);
     console.log(`[MAIL] booking sent OK → ${to}`);
-  } finally {
-    t.close();
+  } catch (err) {
+    console.error('[EMAIL ERROR]', err.message);
   }
 }
 
@@ -95,10 +70,9 @@ async function sendOrderConfirmation({ to, name, orderId, items, total }) {
       <td style="padding:6px 0;color:#fff;font-size:13px;text-align:right">$${(i.price * i.qty).toFixed(2)}</td>
     </tr>`
   ).join('');
-  const t = makeTransport();
   try {
-    await t.sendMail({
-      from:    `"24HR Fremont Tire & Auto" <${process.env.GMAIL_USER}>`,
+    const { error } = await getClient().emails.send({
+      from:    fromAddr(),
       to,
       subject: `Order Confirmed — #${orderId}`,
       html: `
@@ -119,20 +93,20 @@ async function sendOrderConfirmation({ to, name, orderId, items, total }) {
         </div>
       `,
     });
+    if (error) throw new Error(error.message);
     console.log(`[MAIL] order sent OK → ${to}`);
-  } finally {
-    t.close();
+  } catch (err) {
+    console.error('[EMAIL ERROR]', err.message);
   }
 }
 
 async function sendContactNotification({ name, email, phone, subject, message }) {
   if (!guard()) return;
   console.log(`[MAIL] contact → ${email}`);
-  const t = makeTransport();
   try {
-    await t.sendMail({
-      from:    `"24HR Fremont Tire & Auto" <${process.env.GMAIL_USER}>`,
-      to:      process.env.GMAIL_USER,
+    const { error: e1 } = await getClient().emails.send({
+      from:    fromAddr(),
+      to:      process.env.NOTIFY_EMAIL || process.env.FROM_EMAIL || 'onboarding@resend.dev',
       subject: `New Contact Message: ${subject || '(no subject)'} — from ${name}`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0f0f17;color:#fff;border-radius:12px;overflow:hidden">
@@ -157,8 +131,10 @@ async function sendContactNotification({ name, email, phone, subject, message })
         </div>
       `,
     });
-    await t.sendMail({
-      from:    `"24HR Fremont Tire & Auto" <${process.env.GMAIL_USER}>`,
+    if (e1) throw new Error(e1.message);
+
+    const { error: e2 } = await getClient().emails.send({
+      from:    fromAddr(),
       to:      email,
       subject: `We received your message — 24HR Fremont Tire & Auto`,
       html: `
@@ -184,9 +160,10 @@ async function sendContactNotification({ name, email, phone, subject, message })
         </div>
       `,
     });
+    if (e2) throw new Error(e2.message);
     console.log(`[MAIL] contact sent OK → ${email}`);
-  } finally {
-    t.close();
+  } catch (err) {
+    console.error('[EMAIL ERROR]', err.message);
   }
 }
 
