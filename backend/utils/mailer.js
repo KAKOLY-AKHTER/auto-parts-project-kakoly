@@ -11,7 +11,8 @@ const transporter = nodemailer.createTransport({
 });
 
 async function sendBookingConfirmation({ to, name, service, date, time, refId }) {
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) return;
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) { console.log('[MAIL] skipped — no credentials'); return; }
+  console.log(`[MAIL] sending booking confirmation to ${to}`);
   const fmtDate = date ? new Date(date).toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) : date;
   await transporter.sendMail({
     from: `"24HR Fremont Tire & Auto" <${process.env.GMAIL_USER}>`,
@@ -46,7 +47,8 @@ async function sendBookingConfirmation({ to, name, service, date, time, refId })
 }
 
 async function sendOrderConfirmation({ to, name, orderId, items, total }) {
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) return;
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) { console.log('[MAIL] skipped — no credentials'); return; }
+  console.log(`[MAIL] sending order confirmation to ${to}`);
   const itemRows = items.map(i => `<tr><td style="padding:6px 0;color:#fff;font-size:13px">${i.name}</td><td style="padding:6px 0;color:rgba(255,255,255,0.6);font-size:13px">×${i.qty}</td><td style="padding:6px 0;color:#fff;font-size:13px;text-align:right">$${(i.price*i.qty).toFixed(2)}</td></tr>`).join('');
   await transporter.sendMail({
     from: `"24HR Fremont Tire & Auto" <${process.env.GMAIL_USER}>`,
