@@ -143,7 +143,7 @@ export default function SectionNotifications({ user }) {
               { label:'Unread',   value:unread,                                         color:'#e30613', icon:'fa-circle-dot' },
               { label:'Services', value:notifs.filter(n=>n.type==='service').length,    color:'#22c55e', icon:'fa-screwdriver-wrench' },
               { label:'Alerts',   value:notifs.filter(n=>n.type==='alert').length,      color:'#eab308', icon:'fa-triangle-exclamation' },
-              { label:'Promos',   value:notifs.filter(n=>n.type==='promo').length,      color:'#a855f7', icon:'fa-tag' },
+              { label:'Orders',   value:notifs.filter(n=>n.type==='order').length,      color:'#3b82f6', icon:'fa-box' },
             ].map(({ label, value, color, icon }) => (
               <div key={label} style={{ background:'#0f0f17', border:`1px solid ${color}22`, borderRadius:12, padding:'14px 16px', display:'flex', alignItems:'center', gap:12 }}>
                 <div style={{ width:34, height:34, borderRadius:8, background:`${color}14`, border:`1px solid ${color}30`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
@@ -159,7 +159,7 @@ export default function SectionNotifications({ user }) {
 
           {/* Filter pills */}
           <div style={{ display:'flex', gap:8, marginBottom:18, flexWrap:'wrap' }}>
-            {['all','unread','service','alert','promo','reward'].map(f => (
+            {['all','unread','service','order','alert'].map(f => (
               <button key={f} onClick={() => setFilter(f)}
                 style={{ padding:'6px 14px', borderRadius:99, border:`1px solid ${filter===f ? '#e30613' : 'rgba(255,255,255,0.12)'}`, background: filter===f ? 'rgba(227,6,19,0.14)' : 'transparent', color: filter===f ? '#fff' : 'rgba(255,255,255,0.5)', fontSize:12, fontWeight:700, cursor:'pointer', fontFamily:"'Oswald',sans-serif", textTransform:'capitalize', letterSpacing:'0.05em', transition:'all 0.15s' }}>
                 {f}
