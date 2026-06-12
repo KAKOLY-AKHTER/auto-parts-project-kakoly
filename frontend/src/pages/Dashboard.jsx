@@ -418,12 +418,6 @@ export default function Dashboard() {
               style={{ background:'none', border:'none', color:'#fff', cursor:'pointer', padding:4, display:'none' }}>
               <i className="fas fa-bars" style={{ fontSize:18 }} />
             </button>
-            <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-              <div style={{ width:3, height:18, background:'#e30613', borderRadius:2 }} />
-              <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:19, fontWeight:700, color:'#fff', letterSpacing:'0.06em' }}>
-                {NAV.find(n => n.id === active)?.label}
-              </div>
-            </div>
           </div>
           <div style={{ display:'flex', alignItems:'center', gap:10 }}>
             <button onClick={() => setActive('notifications')}
