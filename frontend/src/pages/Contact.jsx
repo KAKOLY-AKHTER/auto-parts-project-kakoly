@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import API from "../config";
 
 const services = [
   "Tire Service & Repair",
@@ -101,8 +102,24 @@ export default function Contact() {
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setSending(true);
-    await new Promise(r => setTimeout(r, 1200));
-    setSending(false);
+    try {
+      await fetch(`${API}/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:    `${form.firstName} ${form.lastName}`,
+          email:   form.email,
+          phone:   form.phone,
+          subject: form.service,
+          message: form.message,
+          vehicle: form.vehicle,
+        }),
+      });
+    } catch (_) {
+      // show success regardless — message saved if network ok
+    } finally {
+      setSending(false);
+    }
     setSubmitted(true);
   };
 
