@@ -171,12 +171,20 @@ function OrderCard({ order, onReorder }) {
 export default function SectionOrders({ user }) {
   const [orders,  setOrders]  = useState([]);
   const [loading, setLoading] = useState(true);
+  const [retrying, setRetrying] = useState(false);
   const { addItem } = useCart();
 
+  const loadOrders = (email) => {
+    setLoading(true);
+    fetch(`${API}/orders/mine?email=${encodeURIComponent(email)}`, { signal: AbortSignal.timeout(60000) })
+      .then(r => r.json()).then(data => setOrders(Array.isArray(data) ? data : []))
+      .catch(() => setOrders([]))
+      .finally(() => { setLoading(false); setRetrying(false); });
+  };
+
   useEffect(() => {
-    if (!user?.email) { Promise.resolve().then(() => setLoading(false)); return; }
-    fetch(`${API}/orders/mine?email=${encodeURIComponent(user.email)}`)
-      .then(r => r.json()).then(data => setOrders(Array.isArray(data) ? data : [])).catch(() => {}).finally(() => setLoading(false));
+    if (!user?.email) { setLoading(false); return; }
+    loadOrders(user.email);
   }, [user]);
 
   const handleReorder = (items) => {
@@ -189,9 +197,16 @@ export default function SectionOrders({ user }) {
         title="My Orders"
         sub={loading ? '' : `${orders.length} order${orders.length !== 1 ? 's' : ''} placed`}
         action={
-          <a href="/shop" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'#e30613', border:'none', color:'#fff', padding:'10px 22px', borderRadius:9, fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.07em', textTransform:'uppercase', cursor:'pointer', textDecoration:'none' }}>
-            <i className="fas fa-store" style={{ fontSize:11 }} /> Shop Now
-          </a>
+          <div style={{ display:'flex', gap:8 }}>
+            <button onClick={() => { setRetrying(true); loadOrders(user.email); }}
+              disabled={loading}
+              style={{ display:'inline-flex', alignItems:'center', gap:6, background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.12)', color:'rgba(255,255,255,0.6)', padding:'10px 16px', borderRadius:9, fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.07em', textTransform:'uppercase', cursor:'pointer' }}>
+              <i className={`fas fa-rotate-right${loading ? ' fa-spin' : ''}`} style={{ fontSize:11 }} /> Refresh
+            </button>
+            <a href="/shop" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'#e30613', border:'none', color:'#fff', padding:'10px 22px', borderRadius:9, fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.07em', textTransform:'uppercase', cursor:'pointer', textDecoration:'none' }}>
+              <i className="fas fa-store" style={{ fontSize:11 }} /> Shop Now
+            </a>
+          </div>
         }
       />
 
