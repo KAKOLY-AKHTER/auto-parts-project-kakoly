@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { auth } from '../../firebase';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import API from '../../config';
+
 import { Eye, EyeOff } from 'lucide-react';
+
+function decodeCode(code) {
+  try { return atob(code.padEnd(Math.ceil(code.length / 4) * 4, '=')).toLowerCase(); } catch { return ''; }
+}
 
 
 const friendly = (msg) =>
@@ -49,6 +55,23 @@ export default function SignUp() {
   const [gLoading, setGLoading] = useState(false);
   const [error, setError]       = useState('');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const registerReferral = (referredEmail) => {
+    const refParam = searchParams.get('ref');
+    if (!refParam) return;
+    const referrerEmail = decodeCode(refParam);
+    if (!referrerEmail || referrerEmail === referredEmail.toLowerCase()) return;
+    fetch(`${API}/referrals/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        referralCode:  refParam.slice(0, 8).toUpperCase(),
+        referrerEmail,
+        referredEmail: referredEmail.toLowerCase(),
+      }),
+    }).catch(() => {});
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +83,7 @@ export default function SignUp() {
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       if (name.trim()) await updateProfile(cred.user, { displayName: name.trim() });
+      registerReferral(email);
       navigate('/');
     } catch (err) { setError(friendly(err.message)); }
     finally { setLoading(false); }
@@ -67,7 +91,11 @@ export default function SignUp() {
 
   const handleGoogle = async () => {
     setGLoading(true); setError('');
-    try { await signInWithPopup(auth, new GoogleAuthProvider()); navigate('/'); }
+    try {
+      const cred = await signInWithPopup(auth, new GoogleAuthProvider());
+      registerReferral(cred.user.email);
+      navigate('/');
+    }
     catch (err) { setError(friendly(err.message)); }
     finally { setGLoading(false); }
   };

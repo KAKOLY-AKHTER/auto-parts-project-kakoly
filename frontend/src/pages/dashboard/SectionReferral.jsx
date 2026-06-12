@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, SectionTitle } from './shared';
+import API from '../../config';
 
 function b64(str) {
   try { return btoa(unescape(encodeURIComponent(str))); } catch { return str; }
@@ -7,9 +8,19 @@ function b64(str) {
 
 export default function SectionReferral({ user }) {
   const [copied, setCopied] = useState(false);
+  const [stats,  setStats]  = useState({ friendsJoined: 0, rewardsEarned: 0, bonusPoints: 0 });
 
-  const code    = user?.email ? b64(user.email).replace(/=/g, '').slice(0, 8).toUpperCase() : 'XXXXXX';
-  const refLink = `${window.location.origin}/?ref=${code}`;
+  useEffect(() => {
+    if (!user?.email) return;
+    fetch(`${API}/referrals/stats?email=${encodeURIComponent(user.email)}`)
+      .then(r => r.json())
+      .then(d => setStats(d))
+      .catch(() => {});
+  }, [user?.email]);
+
+  const fullB64 = user?.email ? b64(user.email).replace(/=/g, '') : '';
+  const code    = fullB64.slice(0, 8).toUpperCase() || 'XXXXXX';
+  const refLink = `${window.location.origin}/signup?ref=${fullB64}`;
 
   const copy = () => {
     navigator.clipboard.writeText(refLink).then(() => {
@@ -52,6 +63,21 @@ export default function SectionReferral({ user }) {
           <span style={{ color:'#e30613', fontFamily:"'Bebas Neue',sans-serif", fontSize:22, letterSpacing:'0.1em' }}>{code}</span>
         </div>
       </Card>
+
+      {/* Live stats */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:14, marginBottom:20 }}>
+        {[
+          { val: stats.friendsJoined, lbl: 'Friends Joined',  icon: 'fa-user-plus',  color: '#22c55e' },
+          { val: stats.rewardsEarned, lbl: 'Rewards Earned',  icon: 'fa-gift',       color: '#f59e0b' },
+          { val: stats.bonusPoints,   lbl: 'Bonus Points',    icon: 'fa-star',       color: '#a855f7' },
+        ].map(s => (
+          <Card key={s.lbl} style={{ padding:20, textAlign:'center' }}>
+            <i className={`fas ${s.icon}`} style={{ color: s.color, fontSize: 20, marginBottom: 10, display: 'block' }} />
+            <div style={{ color:'#fff', fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:26, marginBottom:4 }}>{s.val}</div>
+            <div style={{ color:'rgba(255,255,255,0.4)', fontSize:11, letterSpacing:'0.06em', textTransform:'uppercase' }}>{s.lbl}</div>
+          </Card>
+        ))}
+      </div>
 
       {/* How it works */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:14, marginBottom:20 }}>

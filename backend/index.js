@@ -15,7 +15,8 @@ const orderRoutes   = require('./routes/orders');
 const reviewRoutes  = require('./routes/reviews');
 const addressRoutes = require('./routes/addresses');
 const ticketRoutes   = require('./routes/tickets');
-const wishlistRoutes = require('./routes/wishlist');
+const wishlistRoutes  = require('./routes/wishlist');
+const referralRoutes  = require('./routes/referrals');
 
 const app = express();
 
@@ -32,7 +33,8 @@ app.use('/api/orders',    orderRoutes);
 app.use('/api/reviews',   reviewRoutes);
 app.use('/api/addresses', addressRoutes);
 app.use('/api/tickets',   ticketRoutes);
-app.use('/api/wishlist',  wishlistRoutes);
+app.use('/api/wishlist',   wishlistRoutes);
+app.use('/api/referrals', referralRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 

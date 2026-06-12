@@ -12,19 +12,28 @@ const TAX_RATE = 0.0875;
 export default function Cart() {
   const { items, removeItem, updateQty, clearCart, count, subtotal } = useCart();
 
-  const shipping = subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
-  const tax      = subtotal * TAX_RATE;
-  const total    = subtotal + shipping + tax;
+  const [hasDiscount, setHasDiscount] = useState(false);
+
+  const shipping   = subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  const tax        = subtotal * TAX_RATE;
+  const discountAmt = hasDiscount ? parseFloat((subtotal * 0.10).toFixed(2)) : 0;
+  const total      = subtotal + shipping + tax - discountAmt;
 
   const [form, setForm] = useState({ name:'', email:'', phone:'', address:'' });
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
-      if (u) setForm(f => ({
-        ...f,
-        name:  f.name  || u.displayName || '',
-        email: f.email || u.email || '',
-      }));
+      if (u) {
+        setForm(f => ({
+          ...f,
+          name:  f.name  || u.displayName || '',
+          email: f.email || u.email || '',
+        }));
+        fetch(`${API}/referrals/discount?email=${encodeURIComponent(u.email)}`)
+          .then(r => r.json())
+          .then(d => setHasDiscount(!!d.hasDiscount))
+          .catch(() => {});
+      }
     });
     return () => unsub();
   }, []);
@@ -50,6 +59,7 @@ export default function Cart() {
           subtotal:  parseFloat(subtotal.toFixed(2)),
           shipping:  parseFloat(shipping.toFixed(2)),
           tax:       parseFloat(tax.toFixed(2)),
+          discount:  discountAmt,
           total:     parseFloat(total.toFixed(2)),
           address:   form.address,
           phone:     form.phone,
@@ -57,6 +67,13 @@ export default function Cart() {
       });
       if (!res.ok) throw new Error();
       const order = await res.json();
+      if (hasDiscount) {
+        fetch(`${API}/referrals/redeem`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ referredEmail: form.email.toLowerCase() }),
+        }).catch(() => {});
+      }
       clearCart();
       setSuccess(order);
     } catch {
@@ -284,6 +301,12 @@ export default function Cart() {
                     <span>Tax (8.75%)</span>
                     <span className="font-semibold text-gray-700">${tax.toFixed(2)}</span>
                   </div>
+                  {hasDiscount && (
+                    <div className="flex justify-between text-[14px] text-green-600 bg-green-50 rounded-lg px-3 py-2">
+                      <span className="font-bold">Referral Discount (10%)</span>
+                      <span className="font-bold">−${discountAmt.toFixed(2)}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="flex justify-between items-center pt-4 border-t border-gray-100">
                   <span className="text-gray-900 font-black text-[16px]">Total</span>
@@ -325,7 +348,9 @@ export default function Cart() {
                     style={{ background: placing ? '#fca5a5' : '#dc2626', boxShadow: placing ? 'none' : '0 6px 24px rgba(220,38,38,0.35)' }}>
                     {placing
                       ? 'Placing Order…'
-                      : `Place Order — $${total.toFixed(2)}`}
+                      : hasDiscount
+                        ? `Place Order — $${total.toFixed(2)} (10% off!)`
+                        : `Place Order — $${total.toFixed(2)}`}
                   </button>
 
                   <div className="flex items-center justify-center gap-2 text-[11px] text-gray-400 pt-1">
