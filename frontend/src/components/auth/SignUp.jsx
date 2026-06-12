@@ -1,5 +1,5 @@
 import { useState } from 'react';
-// import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
