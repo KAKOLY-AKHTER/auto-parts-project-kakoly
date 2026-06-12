@@ -17,15 +17,16 @@ function ipv4Lookup(hostname, _opts, cb) {
 
 function makeTransport() {
   return nodemailer.createTransport({
-    host:    'smtp.gmail.com',
-    port:    465,
-    secure:  true,
+    host:       'smtp.gmail.com',
+    port:       587,
+    secure:     false,
+    requireTLS: true,
     auth: {
       user: process.env.GMAIL_USER,
       pass: process.env.GMAIL_PASS,
     },
-    tls:              { rejectUnauthorized: false },
-    lookup:           ipv4Lookup,
+    tls:               { rejectUnauthorized: false },
+    lookup:            ipv4Lookup,
     connectionTimeout: 30000,
     greetingTimeout:   15000,
     socketTimeout:     30000,
