@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const dns        = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -8,6 +10,8 @@ const transporter = nodemailer.createTransport({
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_PASS,
   },
+  tls: { rejectUnauthorized: false },
+  family: 4,
 });
 
 async function sendBookingConfirmation({ to, name, service, date, time, refId }) {
