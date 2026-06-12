@@ -23,11 +23,18 @@ export default function Shop() {
   const [products,    setProducts]    = useState([]);
   const [loading,     setLoading]     = useState(true);
   const [active,      setActive]      = useState("All");
+  const [search,      setSearch]      = useState("");
   const [added,       setAdded]       = useState(null);
   const [wishlisted,  setWishlisted]  = useState(new Set());
   const [wishToast,   setWishToast]   = useState(null);
   const { addItem, count }            = useCart();
-  const filtered = active === "All" ? products : products.filter(p => p.cat === active);
+
+  const filtered = products.filter(p => {
+    const matchCat    = active === "All" || p.cat === active;
+    const q           = search.trim().toLowerCase();
+    const matchSearch = !q || p.name?.toLowerCase().includes(q) || p.catLabel?.toLowerCase().includes(q) || p.brand?.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
 
   useEffect(() => {
     fetch(`${API}/products`)
@@ -110,9 +117,41 @@ export default function Shop() {
             style={{ fontSize: "clamp(44px,6vw,80px)" }}>
             Our <span style={{ color: "#dc2626" }}>Products</span>
           </h1>
-          <p className="text-slate-300 text-[17px] leading-relaxed max-w-xl">
+          <p className="text-slate-300 text-[17px] leading-relaxed max-w-xl mb-8">
             Top-quality tires, oils, and auto parts. Competitive prices, fast in-store pickup available.
           </p>
+
+          {/* ── SEARCH BAR ── */}
+          <div className="relative max-w-xl">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-5 h-5 text-slate-400">
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+              </svg>
+            </div>
+            <input
+              type="text"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search tires, oil, brake parts…"
+              className="w-full pl-14 pr-14 py-4 rounded-2xl text-[15px] font-medium outline-none"
+              style={{ background:'rgba(255,255,255,0.1)', border:'1.5px solid rgba(255,255,255,0.18)', color:'#fff', backdropFilter:'blur(8px)', transition:'border-color 0.2s' }}
+              onFocus={e => e.target.style.borderColor = 'rgba(220,38,38,0.7)'}
+              onBlur={e => e.target.style.borderColor  = 'rgba(255,255,255,0.18)'}
+            />
+            {search && (
+              <button onClick={() => setSearch("")}
+                className="absolute inset-y-0 right-0 flex items-center pr-5 border-none bg-transparent cursor-pointer text-slate-400 hover:text-white transition-colors">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            )}
+          </div>
+          {search && (
+            <p className="text-slate-400 text-[13px] mt-3">
+              {filtered.length} result{filtered.length !== 1 ? 's' : ''} for "<span className="text-white font-semibold">{search}</span>"
+            </p>
+          )}
         </div>
       </section>
 
@@ -209,13 +248,22 @@ export default function Shop() {
             })}
           </div>
 
-          {filtered.length === 0 && (
+          {!loading && filtered.length === 0 && (
             <div className="text-center py-20">
               <div className="text-5xl mb-4">🔍</div>
-              <h3 className="text-gray-600 font-bold text-lg">No products in this category yet.</h3>
-              <button onClick={() => setActive("All")} className="mt-4 px-5 py-2 bg-red-600 text-white rounded-xl text-sm font-bold border-none cursor-pointer hover:bg-red-700">
-                View All Products
-              </button>
+              <h3 className="text-gray-600 font-bold text-lg">
+                {search ? `No results for "${search}"` : "No products in this category yet."}
+              </h3>
+              <div className="flex items-center justify-center gap-3 mt-4 flex-wrap">
+                {search && (
+                  <button onClick={() => setSearch("")} className="px-5 py-2 bg-red-600 text-white rounded-xl text-sm font-bold border-none cursor-pointer hover:bg-red-700">
+                    Clear Search
+                  </button>
+                )}
+                <button onClick={() => { setActive("All"); setSearch(""); }} className="px-5 py-2 bg-gray-200 text-gray-700 rounded-xl text-sm font-bold border-none cursor-pointer hover:bg-gray-300">
+                  View All Products
+                </button>
+              </div>
             </div>
           )}
         </div>
