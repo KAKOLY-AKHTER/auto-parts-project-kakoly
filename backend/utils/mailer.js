@@ -8,6 +8,13 @@ if (typeof net.setDefaultAutoSelectFamily === 'function') {
   net.setDefaultAutoSelectFamily(false);
 }
 
+function ipv4Lookup(hostname, _opts, cb) {
+  dns.resolve4(hostname, (err, addresses) => {
+    if (err) return cb(err);
+    cb(null, addresses[0], 4);
+  });
+}
+
 function makeTransport() {
   return nodemailer.createTransport({
     host:    'smtp.gmail.com',
@@ -18,6 +25,7 @@ function makeTransport() {
       pass: process.env.GMAIL_PASS,
     },
     tls:              { rejectUnauthorized: false },
+    lookup:           ipv4Lookup,
     connectionTimeout: 30000,
     greetingTimeout:   15000,
     socketTimeout:     30000,
