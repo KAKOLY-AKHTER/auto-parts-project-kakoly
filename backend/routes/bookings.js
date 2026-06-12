@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
       date:    booking.date,
       time:    booking.time,
       refId:   booking._id.toString().slice(-8).toUpperCase(),
-    }).catch(() => {});
+    }).catch(err => console.error('[EMAIL ERROR]', err.message));
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
