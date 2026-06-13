@@ -244,11 +244,11 @@ const ANIM_CSS = `
   }
   .hero-img-panel {
     position: absolute;
-    top: 0; right: 0; bottom: 0;
+    inset: 0;
     overflow: hidden;
     z-index: 1;
     width: 100%;
-    opacity: 0.2;
+    opacity: 1;
   }
   .hero-left {
     position: relative;
@@ -267,7 +267,7 @@ const ANIM_CSS = `
   /* ── tablet sm ── */
   @media (min-width: 640px) {
     .hero-section { padding-top: 78px; align-items: center; }
-    .hero-img-panel { width: 52%; opacity: 1; }
+    .hero-img-panel { width: 100%; opacity: 1; }
     .hero-left { padding: 36px 24px 44px 36px; width: 60%; }
   }
   /* ── tablet md (top bar visible) ── */
@@ -277,7 +277,7 @@ const ANIM_CSS = `
   /* ── desktop ── */
   @media (min-width: 1024px) {
     .hero-section { min-height: 100vh; padding-top: 126px; align-items: center; }
-    .hero-img-panel { width: 52%; opacity: 1; }
+    .hero-img-panel { width: 100%; opacity: 1; }
     .hero-left { padding: 48px 24px 48px 80px; width: 52%; min-width: 440px; max-width: 780px; }
     .hero-form-overlay {
       display: block;
@@ -428,14 +428,16 @@ export default function Hero() {
             />
           ))}
 
-          {/* left fade — lighter so image shows through */}
+          {/* full-hero dark overlay so text stays readable */}
+          <div style={{ position:"absolute", inset:0, background:"rgba(8,6,18,0.55)", zIndex:2, pointerEvents:"none" }} />
+          {/* left-to-right gradient — darker on left for text, lighter on right */}
           <div style={{
-            position: "absolute", top: 0, left: 0, bottom: 0, width: "58%",
-            background: "linear-gradient(to right,rgba(14,12,24,0.98) 0%,rgba(14,12,24,0.88) 12%,rgba(14,12,24,0.65) 35%,rgba(14,12,24,0.25) 62%,transparent 100%)",
-            zIndex: 2, pointerEvents: "none",
+            position:"absolute", inset:0,
+            background:"linear-gradient(to right,rgba(10,8,20,0.75) 0%,rgba(10,8,20,0.45) 40%,rgba(10,8,20,0.1) 70%,transparent 100%)",
+            zIndex:3, pointerEvents:"none",
           }} />
-          <div style={{ position:"absolute",top:0,left:0,right:0,height:90,background:"linear-gradient(to bottom,rgba(12,10,20,0.85),transparent)",zIndex:2,pointerEvents:"none" }} />
-          <div style={{ position:"absolute",bottom:0,left:0,right:0,height:70,background:"linear-gradient(to top,rgba(12,10,20,0.6),transparent)",zIndex:2,pointerEvents:"none" }} />
+          <div style={{ position:"absolute",top:0,left:0,right:0,height:100,background:"linear-gradient(to bottom,rgba(8,6,18,0.7),transparent)",zIndex:3,pointerEvents:"none" }} />
+          <div style={{ position:"absolute",bottom:0,left:0,right:0,height:80,background:"linear-gradient(to top,rgba(8,6,18,0.55),transparent)",zIndex:3,pointerEvents:"none" }} />
 
           {/* dots */}
           <div style={{ position:"absolute",bottom:22,right:22,display:"flex",gap:7,zIndex:5 }}>
@@ -452,7 +454,7 @@ export default function Hero() {
         </div>
 
         {/* ── LEFT TEXT ── */}
-        <div className="hero-left" style={{ zIndex: 10, background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.03) 100%)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderRight: "1px solid rgba(255,255,255,0.08)", boxShadow: "inset 1px 0 0 rgba(255,255,255,0.06), 4px 0 40px rgba(0,0,0,0.25)" }}>
+        <div className="hero-left" style={{ zIndex: 10 }}>
 
           {/* 24/7 label */}
           <p style={{
