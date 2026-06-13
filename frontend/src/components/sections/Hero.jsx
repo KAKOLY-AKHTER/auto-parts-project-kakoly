@@ -504,7 +504,7 @@ export default function Hero() {
                 fontSize: "clamp(22px,2.8vw,42px)", fontWeight: 400,
                 color: "#fff", letterSpacing: "0.1em",
                 textTransform: "uppercase", lineHeight: 1,
-                display: "block", textAlign: "center",
+                display: "block", textAlign: "left",
               }}>
                 TIRE &amp; OIL CHANGE
               </span>
