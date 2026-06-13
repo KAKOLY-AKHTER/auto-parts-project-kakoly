@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import API from "../config";
 
 const services = [
@@ -73,9 +74,14 @@ function isOpenNow() {
 }
 
 export default function Contact() {
+  const [searchParams] = useSearchParams();
   const [vis, setVis] = useState(false);
   const ref = useRef(null);
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", service: "", vehicle: "", message: "" });
+  const [form, setForm] = useState({
+    firstName: "", lastName: "", email: "", phone: "",
+    service: searchParams.get("service") || "",
+    vehicle: "", message: "",
+  });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);

@@ -5,6 +5,17 @@ const SLIDES = ["/red-tire1.png","/red-oil.png", "/red-tire2.png", "/red-oil1.pn
 
 const checks = ["Tires", "Oil Change", "Auto Service", "Roadside Assistance"];
 
+const SERVICES = [
+  { value:"Tire Service & Repair",  icon:"fa-circle-dot",          label:"Tire Service & Repair" },
+  { value:"Oil Change",             icon:"fa-oil-can",             label:"Oil Change" },
+  { value:"Brake Repair",           icon:"fa-circle-stop",         label:"Brake Repair" },
+  { value:"Wheel Alignment",        icon:"fa-car",                 label:"Wheel Alignment" },
+  { value:"Battery Replacement",    icon:"fa-car-battery",         label:"Battery Replacement" },
+  { value:"A/C Evaluation",         icon:"fa-snowflake",           label:"A/C Evaluation" },
+  { value:"Roadside Assistance",    icon:"fa-truck-medical",       label:"Roadside Assistance" },
+  { value:"Mobile Service",         icon:"fa-mobile-screen-button",label:"Mobile Service" },
+];
+
 const stats = [
   { icon: "fa-truck",       title: "Fully Equipped",          desc: "Mobile Service Trucks",    href: "/fully-equipped" },
   { icon: "fa-users",       title: "Experienced Technicians", desc: "Trained & Certified",      href: "/our-technicians" },
@@ -317,14 +328,18 @@ const anim = (name, dur, delay, easing = "cubic-bezier(.22,.68,0,1.15)") =>
   `${name} ${dur}s ${easing} ${delay}s both`;
 
 export default function Hero() {
-  const [active,  setActive]  = useState(0);
-  const [query,   setQuery]   = useState("");
-  const navigate  = useNavigate();
+  const [active,   setActive]  = useState(0);
+  const [service,  setService] = useState("");
+  const [zip,      setZip]     = useState("");
+  const navigate   = useNavigate();
 
-  const handleSearch = (e) => {
+  const handleBook = (e) => {
     e.preventDefault();
-    const q = query.trim();
-    navigate(q ? `/shop?q=${encodeURIComponent(q)}` : "/shop");
+    const params = new URLSearchParams();
+    if (service) params.set("service", service);
+    if (zip)     params.set("zip", zip);
+    const qs = params.toString();
+    navigate(`/contacts${qs ? "?" + qs : ""}`);
   };
 
   useEffect(() => {
@@ -486,37 +501,114 @@ export default function Hero() {
             <span style={{ color:"rgba(255,255,255,0.9)",fontWeight:700 }}>Fast. Reliable. Professional.</span>
           </p>
 
-          {/* SEARCH FORM */}
-          <form onSubmit={handleSearch} style={{
-            display:"flex", alignItems:"stretch", gap:0, marginBottom:22, maxWidth:460,
-            background:"rgba(255,255,255,0.07)", border:"1.5px solid rgba(255,255,255,0.15)",
-            borderRadius:10, overflow:"hidden", backdropFilter:"blur(10px)",
-            boxShadow:"0 4px 24px rgba(0,0,0,0.35)",
+          {/* QUICK BOOKING FORM */}
+          <form onSubmit={handleBook} style={{
+            display:"flex", flexDirection:"column", gap:0, marginBottom:22, maxWidth:500,
+            background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.13)",
+            borderRadius:14, overflow:"hidden", backdropFilter:"blur(14px)",
+            boxShadow:"0 8px 40px rgba(0,0,0,0.45)",
             animation: anim("heroFadeUp", 0.6, 1.12, "ease-out"),
           }}>
-            <div style={{ display:"flex", alignItems:"center", paddingLeft:16, paddingRight:10, flexShrink:0 }}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" style={{ width:17, height:17 }}>
-                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-              </svg>
-            </div>
-            <input
-              type="text"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              placeholder="Search tires, oil, brake parts…"
-              style={{
-                flex:1, minWidth:0, background:"transparent", border:"none", outline:"none",
-                color:"#fff", fontSize:14, fontFamily:"'Inter',sans-serif", padding:"13px 0",
-              }}
-            />
-            <button type="submit" style={{
-              background:"linear-gradient(135deg,#e30613,#c0050f)", border:"none", color:"#fff",
-              padding:"0 22px", fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:13,
-              letterSpacing:"0.08em", textTransform:"uppercase", cursor:"pointer",
-              boxShadow:"-4px 0 16px rgba(0,0,0,0.2)", transition:"background 0.15s", flexShrink:0,
+            {/* Form header */}
+            <div style={{
+              background:"rgba(227,6,19,0.12)", borderBottom:"1px solid rgba(227,6,19,0.2)",
+              padding:"11px 18px", display:"flex", alignItems:"center", gap:9,
             }}>
-              Search
-            </button>
+              <i className="fas fa-calendar-check" style={{ color:"#e30613", fontSize:13 }} />
+              <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:13, color:"#fff", letterSpacing:"0.1em", textTransform:"uppercase" }}>
+                Book a Service
+              </span>
+              <span style={{ marginLeft:"auto", color:"rgba(255,255,255,0.35)", fontSize:11 }}>Quick & Easy</span>
+            </div>
+
+            {/* Fields row */}
+            <div style={{ display:"flex", alignItems:"stretch" }}>
+
+              {/* Service select */}
+              <div style={{ position:"relative", flex:"1 1 0", borderRight:"1px solid rgba(255,255,255,0.1)" }}>
+                <div style={{ position:"absolute", left:13, top:"50%", transform:"translateY(-50%)", pointerEvents:"none", zIndex:1 }}>
+                  <i className="fas fa-screwdriver-wrench" style={{ color:"rgba(227,6,19,0.8)", fontSize:13 }} />
+                </div>
+                <select
+                  value={service}
+                  onChange={e => setService(e.target.value)}
+                  style={{
+                    width:"100%", height:"100%", minHeight:52, background:"transparent", border:"none", outline:"none",
+                    color: service ? "#fff" : "rgba(255,255,255,0.45)", fontSize:13,
+                    fontFamily:"'Inter',sans-serif", padding:"14px 32px 14px 36px",
+                    cursor:"pointer", appearance:"none", WebkitAppearance:"none", boxSizing:"border-box",
+                  }}
+                >
+                  <option value="" style={{ background:"#12101e", color:"rgba(255,255,255,0.5)" }}>Select Service…</option>
+                  {SERVICES.map(s => (
+                    <option key={s.value} value={s.value} style={{ background:"#12101e", color:"#fff" }}>{s.label}</option>
+                  ))}
+                </select>
+                <div style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
+                  <i className="fas fa-chevron-down" style={{ color:"rgba(255,255,255,0.3)", fontSize:9 }} />
+                </div>
+              </div>
+
+              {/* ZIP input */}
+              <div style={{ position:"relative", flex:"0 0 130px", borderRight:"1px solid rgba(255,255,255,0.1)" }}>
+                <div style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
+                  <i className="fas fa-location-dot" style={{ color:"rgba(227,6,19,0.8)", fontSize:13 }} />
+                </div>
+                <input
+                  type="text"
+                  value={zip}
+                  onChange={e => setZip(e.target.value)}
+                  placeholder="ZIP Code"
+                  maxLength={10}
+                  style={{
+                    width:"100%", height:"100%", minHeight:52, background:"transparent", border:"none", outline:"none",
+                    color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif",
+                    padding:"14px 10px 14px 32px", boxSizing:"border-box",
+                  }}
+                />
+              </div>
+
+              {/* Book Now button */}
+              <button type="submit" style={{
+                background:"linear-gradient(135deg,#e30613 0%,#c0050f 100%)",
+                border:"none", color:"#fff", padding:"0 22px",
+                fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:14,
+                letterSpacing:"0.1em", textTransform:"uppercase", cursor:"pointer",
+                flexShrink:0, whiteSpace:"nowrap", minHeight:52,
+                boxShadow:"inset 0 1px 0 rgba(255,255,255,0.12)",
+                transition:"background 0.15s",
+              }}>
+                Book Now
+              </button>
+            </div>
+
+            {/* Popular services chips */}
+            <div style={{
+              borderTop:"1px solid rgba(255,255,255,0.08)",
+              padding:"9px 16px", display:"flex", flexWrap:"wrap", gap:"6px 8px", alignItems:"center",
+            }}>
+              <span style={{ color:"rgba(255,255,255,0.3)", fontSize:11, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em", marginRight:2 }}>
+                POPULAR:
+              </span>
+              {["Tire Service & Repair","Oil Change","Roadside Assistance","Brake Repair"].map(s => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setService(s)}
+                  style={{
+                    background: service === s ? "rgba(227,6,19,0.22)" : "rgba(255,255,255,0.06)",
+                    border: `1px solid ${service === s ? "rgba(227,6,19,0.5)" : "rgba(255,255,255,0.12)"}`,
+                    color: service === s ? "#fff" : "rgba(255,255,255,0.55)",
+                    borderRadius:99, padding:"3px 11px", fontSize:11,
+                    fontFamily:"'Oswald',sans-serif", fontWeight:600, letterSpacing:"0.05em",
+                    cursor:"pointer", textTransform:"uppercase", whiteSpace:"nowrap",
+                    transition:"all 0.15s",
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </form>
 
           {/* BUTTONS */}
