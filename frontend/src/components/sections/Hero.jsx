@@ -494,7 +494,7 @@ export default function Hero() {
             </div>
             <div style={{
               background: "#e30613",
-              padding: "7px 14px 9px",
+              padding: "13px 18px 14px",
               marginTop: 6,
               animation: anim("heroBarSlide", 0.65, 0.64),
               transformOrigin: "left center",
