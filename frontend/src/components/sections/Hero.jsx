@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import API from "../../config";
 
 const SLIDES = ["/red-tire1.png","/red-oil.png", "/red-tire2.png", "/red-oil1.png"];
 
@@ -328,18 +328,40 @@ const anim = (name, dur, delay, easing = "cubic-bezier(.22,.68,0,1.15)") =>
   `${name} ${dur}s ${easing} ${delay}s both`;
 
 export default function Hero() {
-  const [active,   setActive]  = useState(0);
-  const [service,  setService] = useState("");
-  const [phone,    setPhone]   = useState("");
-  const navigate   = useNavigate();
+  const [active,     setActive]    = useState(0);
+  const [service,    setService]   = useState("");
+  const [name,       setName]      = useState("");
+  const [phone,      setPhone]     = useState("");
+  const [note,       setNote]      = useState("");
+  const [submitting, setSubmitting]= useState(false);
+  const [submitted,  setSubmitted] = useState(false);
+  const [err,        setErr]       = useState("");
 
-  const handleBook = (e) => {
+  const handleBook = async (e) => {
     e.preventDefault();
-    const params = new URLSearchParams();
-    if (service) params.set("service", service);
-    if (phone)   params.set("phone", phone);
-    const qs = params.toString();
-    navigate(`/contacts${qs ? "?" + qs : ""}`);
+    if (!service) { setErr("Please select a service."); return; }
+    if (!name.trim()) { setErr("Please enter your name."); return; }
+    if (!phone.trim()) { setErr("Please enter your phone number."); return; }
+    setErr(""); setSubmitting(true);
+    try {
+      await fetch(`${API}/contacts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          email: "",
+          subject: service,
+          message: note || `Requesting: ${service}`,
+          vehicle: "",
+        }),
+      });
+      setSubmitted(true);
+    } catch {
+      setErr("Something went wrong. Please call us at (415) 634-7777.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -502,9 +524,9 @@ export default function Hero() {
           </p>
 
           {/* ── BOOKING FORM ── */}
-          <form onSubmit={handleBook} style={{
-            display:"flex", flexDirection:"column", gap:0, maxWidth:500,
-            background:"rgba(10,8,20,0.72)", border:"1.5px solid rgba(255,255,255,0.11)",
+          <div style={{
+            maxWidth:500,
+            background:"rgba(10,8,20,0.76)", border:"1.5px solid rgba(255,255,255,0.11)",
             borderRadius:18, overflow:"hidden", backdropFilter:"blur(18px)",
             WebkitBackdropFilter:"blur(18px)",
             boxShadow:"0 12px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07)",
@@ -515,108 +537,152 @@ export default function Hero() {
             <div style={{
               background:"linear-gradient(90deg,rgba(227,6,19,0.18) 0%,rgba(227,6,19,0.05) 100%)",
               borderBottom:"1px solid rgba(227,6,19,0.22)",
-              padding:"14px 20px", display:"flex", alignItems:"center", gap:10,
+              padding:"13px 18px", display:"flex", alignItems:"center", gap:10,
             }}>
-              <div style={{ width:32, height:32, borderRadius:8, background:"rgba(227,6,19,0.2)", border:"1px solid rgba(227,6,19,0.4)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                <i className="fas fa-calendar-check" style={{ color:"#e30613", fontSize:14 }} />
+              <div style={{ width:30, height:30, borderRadius:8, background:"rgba(227,6,19,0.2)", border:"1px solid rgba(227,6,19,0.4)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                <i className="fas fa-calendar-check" style={{ color:"#e30613", fontSize:13 }} />
               </div>
               <div>
-                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:15, color:"#fff", letterSpacing:"0.08em", textTransform:"uppercase", lineHeight:1 }}>
-                  Book a Service
-                </div>
-                <div style={{ color:"rgba(255,255,255,0.38)", fontSize:11, marginTop:3 }}>We come to you — Free estimate, no commitment</div>
+                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:14, color:"#fff", letterSpacing:"0.08em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
+                <div style={{ color:"rgba(255,255,255,0.38)", fontSize:11, marginTop:2 }}>We come to you — Free estimate, no commitment</div>
               </div>
-              <div style={{ marginLeft:"auto", background:"rgba(34,197,94,0.12)", border:"1px solid rgba(34,197,94,0.3)", borderRadius:99, padding:"3px 10px", display:"flex", alignItems:"center", gap:5 }}>
+              <div style={{ marginLeft:"auto", background:"rgba(34,197,94,0.12)", border:"1px solid rgba(34,197,94,0.3)", borderRadius:99, padding:"3px 10px", display:"flex", alignItems:"center", gap:5, flexShrink:0 }}>
                 <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e" }} />
                 <span style={{ color:"#22c55e", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.06em" }}>AVAILABLE NOW</span>
               </div>
             </div>
 
-            {/* Service grid */}
-            <div style={{ padding:"14px 16px 10px" }}>
-              <div style={{ color:"rgba(255,255,255,0.35)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:10 }}>
-                Select Your Service
-              </div>
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:7 }}>
-                {SERVICES.map(s => {
-                  const sel = service === s.value;
-                  return (
-                    <button
-                      key={s.value}
-                      type="button"
-                      onClick={() => setService(sel ? "" : s.value)}
-                      style={{
-                        display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
-                        gap:5, padding:"10px 6px",
-                        borderRadius:10,
-                        background: sel ? "rgba(227,6,19,0.18)" : "rgba(255,255,255,0.04)",
-                        border: `1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.09)"}`,
-                        color: sel ? "#fff" : "rgba(255,255,255,0.5)",
-                        cursor:"pointer",
-                        transition:"all 0.15s",
-                        boxShadow: sel ? "0 0 16px rgba(227,6,19,0.3)" : "none",
-                      }}
-                    >
-                      <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "rgba(255,255,255,0.35)" }} />
-                      <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:600, fontSize:9.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3 }}>
-                        {s.label}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Phone + Submit row */}
-            <div style={{ padding:"10px 16px 14px", display:"flex", gap:8, alignItems:"center" }}>
-              <div style={{ position:"relative", flex:1 }}>
-                <div style={{ position:"absolute", left:13, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
-                  <i className="fas fa-phone" style={{ color:"rgba(255,255,255,0.35)", fontSize:12 }} />
+            {submitted ? (
+              /* ── SUCCESS STATE ── */
+              <div style={{ padding:"32px 20px", textAlign:"center" }}>
+                <div style={{ width:58, height:58, borderRadius:"50%", background:"rgba(34,197,94,0.12)", border:"2px solid rgba(34,197,94,0.35)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>
+                  <i className="fas fa-circle-check" style={{ color:"#22c55e", fontSize:26 }} />
                 </div>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={e => setPhone(e.target.value)}
-                  placeholder="Your phone number"
-                  style={{
-                    width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)",
-                    borderRadius:10, outline:"none", color:"#fff", fontSize:13,
-                    fontFamily:"'Inter',sans-serif", padding:"12px 12px 12px 36px", boxSizing:"border-box",
-                  }}
-                />
-              </div>
-              <button type="submit" style={{
-                background:"linear-gradient(135deg,#e30613 0%,#c0050f 100%)",
-                border:"none", color:"#fff", borderRadius:10,
-                padding:"12px 22px", fontFamily:"'Oswald',sans-serif", fontWeight:700,
-                fontSize:14, letterSpacing:"0.1em", textTransform:"uppercase",
-                cursor:"pointer", flexShrink:0, whiteSpace:"nowrap",
-                boxShadow:"0 4px 20px rgba(227,6,19,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
-                display:"flex", alignItems:"center", gap:8,
-              }}>
-                <i className="fas fa-arrow-right" style={{ fontSize:12 }} />
-                Get Free Quote
-              </button>
-            </div>
-
-            {/* Trust strip */}
-            <div style={{
-              borderTop:"1px solid rgba(255,255,255,0.07)",
-              padding:"9px 16px",
-              display:"flex", gap:16, flexWrap:"wrap",
-            }}>
-              {[
-                { icon:"fa-bolt",         text:"Same-Day Available" },
-                { icon:"fa-shield-halved",text:"Licensed & Insured" },
-                { icon:"fa-clock",        text:"24/7 Service" },
-              ].map(t => (
-                <div key={t.text} style={{ display:"flex", alignItems:"center", gap:5 }}>
-                  <i className={`fas ${t.icon}`} style={{ color:"#e30613", fontSize:10 }} />
-                  <span style={{ color:"rgba(255,255,255,0.4)", fontSize:11, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.05em" }}>{t.text}</span>
+                <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:20, fontWeight:700, color:"#fff", letterSpacing:"0.06em", marginBottom:8 }}>REQUEST RECEIVED!</div>
+                <div style={{ color:"rgba(255,255,255,0.55)", fontSize:13, lineHeight:1.6, marginBottom:18 }}>
+                  We'll call you back shortly at <span style={{ color:"#fff", fontWeight:600 }}>{phone}</span>.<br />
+                  Service: <span style={{ color:"#e30613", fontWeight:600 }}>{service}</span>
                 </div>
-              ))}
-            </div>
-          </form>
+                <button
+                  onClick={() => { setSubmitted(false); setService(""); setName(""); setPhone(""); setNote(""); }}
+                  style={{ background:"rgba(255,255,255,0.07)", border:"1px solid rgba(255,255,255,0.15)", color:"rgba(255,255,255,0.7)", borderRadius:9, padding:"9px 20px", fontSize:12, fontFamily:"'Oswald',sans-serif", fontWeight:600, letterSpacing:"0.07em", cursor:"pointer" }}>
+                  Book Another Service
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleBook}>
+
+                {/* Service grid */}
+                <div style={{ padding:"13px 16px 8px" }}>
+                  <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:9 }}>
+                    1. Select Your Service
+                  </div>
+                  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:6 }}>
+                    {SERVICES.map(s => {
+                      const sel = service === s.value;
+                      return (
+                        <button key={s.value} type="button" onClick={() => { setService(sel ? "" : s.value); setErr(""); }}
+                          style={{
+                            display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+                            gap:5, padding:"9px 4px", borderRadius:10,
+                            background: sel ? "rgba(227,6,19,0.18)" : "rgba(255,255,255,0.04)",
+                            border:`1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.09)"}`,
+                            color: sel ? "#fff" : "rgba(255,255,255,0.45)",
+                            cursor:"pointer", transition:"all 0.15s",
+                            boxShadow: sel ? "0 0 14px rgba(227,6,19,0.28)" : "none",
+                          }}>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:14, color: sel ? "#e30613" : "rgba(255,255,255,0.3)" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:600, fontSize:9, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3 }}>
+                            {s.label}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Name + Phone */}
+                <div style={{ padding:"8px 16px 0", display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+                  <div>
+                    <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>
+                      2. Your Name
+                    </div>
+                    <div style={{ position:"relative" }}>
+                      <div style={{ position:"absolute", left:11, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
+                        <i className="fas fa-user" style={{ color:"rgba(255,255,255,0.25)", fontSize:11 }} />
+                      </div>
+                      <input type="text" value={name} onChange={e => { setName(e.target.value); setErr(""); }}
+                        placeholder="Full name"
+                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 10px 10px 30px", boxSizing:"border-box" }} />
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>
+                      3. Phone Number
+                    </div>
+                    <div style={{ position:"relative" }}>
+                      <div style={{ position:"absolute", left:11, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
+                        <i className="fas fa-phone" style={{ color:"rgba(255,255,255,0.25)", fontSize:11 }} />
+                      </div>
+                      <input type="tel" value={phone} onChange={e => { setPhone(e.target.value); setErr(""); }}
+                        placeholder="(415) 000-0000"
+                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 10px 10px 30px", boxSizing:"border-box" }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Note (optional) */}
+                <div style={{ padding:"8px 16px 0" }}>
+                  <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>
+                    4. Describe Your Issue <span style={{ color:"rgba(255,255,255,0.18)", fontWeight:400, textTransform:"none", letterSpacing:0 }}>(optional)</span>
+                  </div>
+                  <textarea value={note} onChange={e => setNote(e.target.value)} rows={2}
+                    placeholder="e.g. Flat tire on my 2019 Honda Civic, need same-day service in Fremont…"
+                    style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:12, fontFamily:"'Inter',sans-serif", padding:"10px 12px", boxSizing:"border-box", resize:"none", lineHeight:1.5 }} />
+                </div>
+
+                {/* Error */}
+                {err && (
+                  <div style={{ margin:"6px 16px 0", background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.25)", borderRadius:8, padding:"8px 12px", color:"#ef4444", fontSize:12, display:"flex", alignItems:"center", gap:7 }}>
+                    <i className="fas fa-circle-exclamation" style={{ fontSize:12 }} /> {err}
+                  </div>
+                )}
+
+                {/* Submit + trust */}
+                <div style={{ padding:"10px 16px 13px" }}>
+                  <button type="submit" disabled={submitting} style={{
+                    width:"100%", background:"linear-gradient(135deg,#e30613 0%,#c0050f 100%)",
+                    border:"none", color:"#fff", borderRadius:10,
+                    padding:"13px 20px", fontFamily:"'Oswald',sans-serif", fontWeight:700,
+                    fontSize:15, letterSpacing:"0.1em", textTransform:"uppercase",
+                    cursor: submitting ? "not-allowed" : "pointer",
+                    boxShadow:"0 4px 22px rgba(227,6,19,0.5), inset 0 1px 0 rgba(255,255,255,0.15)",
+                    display:"flex", alignItems:"center", justifyContent:"center", gap:9,
+                    opacity: submitting ? 0.7 : 1, transition:"opacity 0.15s",
+                  }}>
+                    {submitting
+                      ? <><i className="fas fa-spinner fa-spin" style={{ fontSize:13 }} /> Sending…</>
+                      : <><i className="fas fa-paper-plane" style={{ fontSize:13 }} /> Request Free Quote</>
+                    }
+                  </button>
+
+                  <div style={{ display:"flex", justifyContent:"center", gap:18, marginTop:9, flexWrap:"wrap" }}>
+                    {[
+                      { icon:"fa-bolt",         text:"Same-Day Available" },
+                      { icon:"fa-shield-halved",text:"Licensed & Insured" },
+                      { icon:"fa-clock",        text:"24/7 Service" },
+                    ].map(t => (
+                      <div key={t.text} style={{ display:"flex", alignItems:"center", gap:4 }}>
+                        <i className={`fas ${t.icon}`} style={{ color:"#e30613", fontSize:9 }} />
+                        <span style={{ color:"rgba(255,255,255,0.32)", fontSize:10, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.05em" }}>{t.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </form>
+            )}
+          </div>
         </div>
       </section>
 
