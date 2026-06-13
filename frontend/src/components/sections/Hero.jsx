@@ -240,8 +240,8 @@ const ANIM_CSS = `
     display: flex;
     align-items: flex-start;
     /* mobile default */
-    min-height: 100svh;
     padding-top: 70px;
+    padding-bottom: 32px;
   }
   .hero-img-panel {
     position: absolute;
@@ -256,16 +256,16 @@ const ANIM_CSS = `
     position: relative;
     z-index: 10;
     /* mobile default */
-    padding: 28px 20px 44px;
+    padding: 20px 20px 32px;
     width: 100%;
     min-width: 0;
     max-width: none;
   }
   /* ── tablet sm ── */
   @media (min-width: 640px) {
-    .hero-section { padding-top: 78px; align-items: center; }
+    .hero-section { padding-top: 78px; align-items: flex-start; }
     .hero-img-panel { width: 52%; opacity: 1; }
-    .hero-left { padding: 36px 24px 44px 36px; width: 60%; }
+    .hero-left { padding: 28px 24px 36px 36px; width: 60%; }
   }
   /* ── tablet md (top bar visible) ── */
   @media (min-width: 768px) {
@@ -273,9 +273,9 @@ const ANIM_CSS = `
   }
   /* ── desktop ── */
   @media (min-width: 1024px) {
-    .hero-section { min-height: 100vh; padding-top: 126px; align-items: center; }
+    .hero-section { padding-top: 112px; padding-bottom: 40px; align-items: flex-start; }
     .hero-img-panel { width: 52%; opacity: 1; }
-    .hero-left { padding: 48px 24px 48px 80px; width: 52%; min-width: 440px; max-width: 780px; }
+    .hero-left { padding: 28px 24px 36px 64px; width: 52%; min-width: 440px; max-width: 760px; }
   }
 
   /* hero buttons on small mobile */
@@ -443,19 +443,18 @@ export default function Hero() {
           {/* 24/7 label */}
           <p style={{
             fontFamily: "'Oswald',sans-serif",
-            fontSize: 14, fontWeight: 500,
+            fontSize: 13, fontWeight: 500,
             color: "#e30613", letterSpacing: "0.22em",
-            textTransform: "uppercase", marginBottom: 8, marginTop: 24,
+            textTransform: "uppercase", marginBottom: 4, marginTop: 4,
             animation: anim("heroFadeLeft", 0.6, 0.25),
           }}>
             24/7 Mobile Service
           </p>
 
-
           {/* 24HR */}
           <div style={{
             fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-            fontSize: "clamp(100px,12vw,168px)",
+            fontSize: "clamp(64px,8vw,110px)",
             fontWeight: 400, lineHeight: 0.88, letterSpacing: "0.01em",
             animation: anim("heroFadeLeft", 0.65, 0.38),
           }}>
@@ -466,11 +465,11 @@ export default function Hero() {
           {/* FREMONT */}
           <div style={{
             fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-            fontSize: "clamp(106px,14.5vw,200px)",
+            fontSize: "clamp(70px,9.5vw,138px)",
             fontWeight: 400, lineHeight: 0.84, letterSpacing: "0.01em",
             color: "#fff",
-            textShadow: "3px 4px 0 rgba(0,0,0,0.9),-1px -1px 0 rgba(0,0,0,0.5),5px 5px 14px rgba(0,0,0,0.8),2px 0 0 rgba(255,255,255,0.06)",
-            marginBottom: 10,
+            textShadow: "3px 4px 0 rgba(0,0,0,0.9),-1px -1px 0 rgba(0,0,0,0.5),5px 5px 14px rgba(0,0,0,0.8)",
+            marginBottom: 8,
             animation: anim("heroFadeLeft", 0.68, 0.5),
           }}>
             FREMONT
@@ -479,51 +478,41 @@ export default function Hero() {
           {/* RED BAR */}
           <div style={{
             background: "linear-gradient(90deg,#e30613 0%,#c0000f 65%,rgba(150,0,10,0) 100%)",
-            padding: "9px 60px 10px 20px",
-            display: "inline-block", marginBottom: 22, maxWidth: "100%",
-            boxShadow: "0 6px 28px rgba(227,6,19,0.4), inset 0 1px 0 rgba(255,255,255,0.1)",
+            padding: "6px 50px 7px 16px",
+            display: "inline-block", marginBottom: 12, maxWidth: "100%",
+            boxShadow: "0 4px 20px rgba(227,6,19,0.35)",
             animation: anim("heroBarSlide", 0.65, 0.64),
             transformOrigin: "left center",
           }}>
             <span style={{
               fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-              fontSize: "clamp(26px,3.6vw,52px)", fontWeight: 400,
+              fontSize: "clamp(20px,2.8vw,38px)", fontWeight: 400,
               color: "#fff", letterSpacing: "0.1em",
               textTransform: "uppercase", lineHeight: 1,
-              textShadow: "1px 1px 4px rgba(0,0,0,0.4)",
             }}>
               TIRE &amp; OIL CHANGE
             </span>
           </div>
 
           {/* CHECKMARKS */}
-          <div style={{ display:"flex",flexWrap:"wrap",gap:"8px 22px",marginBottom:16 }}>
+          <div style={{ display:"flex",flexWrap:"wrap",gap:"6px 18px",marginBottom:12 }}>
             {checks.map((c, i) => (
               <div key={c} style={{
-                display:"flex",alignItems:"center",gap:8,
+                display:"flex",alignItems:"center",gap:6,
                 animation: anim("checkPop", 0.5, 0.78 + i * 0.07),
               }}>
-                <svg viewBox="0 0 22 22" fill="none" style={{ width:19,height:19,flexShrink:0 }}>
+                <svg viewBox="0 0 22 22" fill="none" style={{ width:16,height:16,flexShrink:0 }}>
                   <circle cx="11" cy="11" r="10" stroke="#e30613" strokeWidth="2" fill="rgba(227,6,19,0.1)" />
                   <polyline points="6,11 9.5,14.5 16,7.5" stroke="#e30613" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span style={{
                   fontFamily:"'Oswald',sans-serif",
-                  fontSize:15,fontWeight:600,color:"#fff",
-                  textTransform:"uppercase",letterSpacing:"0.08em",
+                  fontSize:13,fontWeight:600,color:"rgba(255,255,255,0.85)",
+                  textTransform:"uppercase",letterSpacing:"0.07em",
                 }}>{c}</span>
               </div>
             ))}
           </div>
-
-          {/* DESCRIPTION */}
-          <p style={{
-            color:"rgba(255,255,255,0.82)",fontSize:16,lineHeight:1.65,marginBottom:30,maxWidth:460,
-            animation: anim("heroFadeUp", 0.6, 1.06, "ease-out"),
-          }}>
-            We come to you — Home, Business, Job Site, or Roadside.{" "}
-            <span style={{ color:"rgba(255,255,255,0.9)",fontWeight:700 }}>Fast. Reliable. Professional.</span>
-          </p>
 
           {/* ── BOOKING FORM ── */}
           <div style={{
@@ -539,7 +528,7 @@ export default function Hero() {
             <div style={{
               background:"linear-gradient(90deg,rgba(227,6,19,0.18) 0%,rgba(227,6,19,0.05) 100%)",
               borderBottom:"1px solid rgba(227,6,19,0.22)",
-              padding:"13px 18px", display:"flex", alignItems:"center", gap:10,
+              padding:"10px 16px", display:"flex", alignItems:"center", gap:10,
             }}>
               <div style={{ width:30, height:30, borderRadius:8, background:"rgba(227,6,19,0.2)", border:"1px solid rgba(227,6,19,0.4)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                 <i className="fas fa-calendar-check" style={{ color:"#e30613", fontSize:13 }} />
@@ -575,18 +564,18 @@ export default function Hero() {
               <form onSubmit={handleBook}>
 
                 {/* Service grid */}
-                <div style={{ padding:"13px 16px 8px" }}>
-                  <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:9 }}>
+                <div style={{ padding:"10px 14px 6px" }}>
+                  <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:7 }}>
                     1. Select Your Service
                   </div>
-                  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:6 }}>
+                  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
                     {SERVICES.map(s => {
                       const sel = service === s.value;
                       return (
                         <button key={s.value} type="button" onClick={() => { setService(sel ? "" : s.value); setErr(""); }}
                           style={{
                             display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
-                            gap:5, padding:"9px 4px", borderRadius:10,
+                            gap:4, padding:"7px 4px", borderRadius:9,
                             background: sel ? "rgba(227,6,19,0.18)" : "rgba(255,255,255,0.04)",
                             border:`1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.09)"}`,
                             color: sel ? "#fff" : "rgba(255,255,255,0.45)",
@@ -604,7 +593,7 @@ export default function Hero() {
                 </div>
 
                 {/* Name + Phone + Email */}
-                <div style={{ padding:"8px 16px 0", display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+                <div style={{ padding:"6px 14px 0", display:"grid", gridTemplateColumns:"1fr 1fr", gap:7 }}>
                   <div>
                     <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>
                       2. Your Name
@@ -615,7 +604,7 @@ export default function Hero() {
                       </div>
                       <input type="text" value={name} onChange={e => { setName(e.target.value); setErr(""); }}
                         placeholder="Full name"
-                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 10px 10px 30px", boxSizing:"border-box" }} />
+                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:8, outline:"none", color:"#fff", fontSize:12, fontFamily:"'Inter',sans-serif", padding:"8px 8px 8px 28px", boxSizing:"border-box" }} />
                     </div>
                   </div>
                   <div>
@@ -628,7 +617,7 @@ export default function Hero() {
                       </div>
                       <input type="tel" value={phone} onChange={e => { setPhone(e.target.value); setErr(""); }}
                         placeholder="(415) 000-0000"
-                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 10px 10px 30px", boxSizing:"border-box" }} />
+                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:8, outline:"none", color:"#fff", fontSize:12, fontFamily:"'Inter',sans-serif", padding:"8px 8px 8px 28px", boxSizing:"border-box" }} />
                     </div>
                   </div>
                   <div style={{ gridColumn:"1/-1" }}>
@@ -641,35 +630,35 @@ export default function Hero() {
                       </div>
                       <input type="email" value={email} onChange={e => { setEmail(e.target.value); setErr(""); }}
                         placeholder="your@email.com"
-                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 10px 10px 30px", boxSizing:"border-box" }} />
+                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:8, outline:"none", color:"#fff", fontSize:12, fontFamily:"'Inter',sans-serif", padding:"8px 8px 8px 28px", boxSizing:"border-box" }} />
                     </div>
                   </div>
                 </div>
 
                 {/* Note (optional) */}
-                <div style={{ padding:"8px 16px 0" }}>
+                <div style={{ padding:"6px 14px 0" }}>
                   <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>
                     5. Describe Your Issue <span style={{ color:"rgba(255,255,255,0.18)", fontWeight:400, textTransform:"none", letterSpacing:0 }}>(optional)</span>
                   </div>
                   <textarea value={note} onChange={e => setNote(e.target.value)} rows={2}
-                    placeholder="e.g. Flat tire on my 2019 Honda Civic, need same-day service in Fremont…"
-                    style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:12, fontFamily:"'Inter',sans-serif", padding:"10px 12px", boxSizing:"border-box", resize:"none", lineHeight:1.5 }} />
+                    placeholder="e.g. Flat tire on my 2019 Honda Civic, need same-day service…"
+                    style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:8, outline:"none", color:"#fff", fontSize:12, fontFamily:"'Inter',sans-serif", padding:"8px 10px", boxSizing:"border-box", resize:"none", lineHeight:1.5 }} />
                 </div>
 
                 {/* Error */}
                 {err && (
-                  <div style={{ margin:"6px 16px 0", background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.25)", borderRadius:8, padding:"8px 12px", color:"#ef4444", fontSize:12, display:"flex", alignItems:"center", gap:7 }}>
-                    <i className="fas fa-circle-exclamation" style={{ fontSize:12 }} /> {err}
+                  <div style={{ margin:"5px 14px 0", background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.25)", borderRadius:7, padding:"7px 11px", color:"#ef4444", fontSize:11, display:"flex", alignItems:"center", gap:7 }}>
+                    <i className="fas fa-circle-exclamation" style={{ fontSize:11 }} /> {err}
                   </div>
                 )}
 
                 {/* Submit + trust */}
-                <div style={{ padding:"10px 16px 13px" }}>
+                <div style={{ padding:"8px 14px 11px" }}>
                   <button type="submit" disabled={submitting} style={{
                     width:"100%", background:"linear-gradient(135deg,#e30613 0%,#c0050f 100%)",
-                    border:"none", color:"#fff", borderRadius:10,
-                    padding:"13px 20px", fontFamily:"'Oswald',sans-serif", fontWeight:700,
-                    fontSize:15, letterSpacing:"0.1em", textTransform:"uppercase",
+                    border:"none", color:"#fff", borderRadius:9,
+                    padding:"11px 20px", fontFamily:"'Oswald',sans-serif", fontWeight:700,
+                    fontSize:14, letterSpacing:"0.1em", textTransform:"uppercase",
                     cursor: submitting ? "not-allowed" : "pointer",
                     boxShadow:"0 4px 22px rgba(227,6,19,0.5), inset 0 1px 0 rgba(255,255,255,0.15)",
                     display:"flex", alignItems:"center", justifyContent:"center", gap:9,
@@ -681,7 +670,7 @@ export default function Hero() {
                     }
                   </button>
 
-                  <div style={{ display:"flex", justifyContent:"center", gap:18, marginTop:9, flexWrap:"wrap" }}>
+                  <div style={{ display:"flex", justifyContent:"center", gap:14, marginTop:7, flexWrap:"wrap" }}>
                     {[
                       { icon:"fa-bolt",         text:"Same-Day Available" },
                       { icon:"fa-shield-halved",text:"Licensed & Insured" },
