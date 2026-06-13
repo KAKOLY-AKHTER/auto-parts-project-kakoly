@@ -493,10 +493,7 @@ export default function Hero() {
 
           {/* RED BAR */}
           <div style={{
-            background: "linear-gradient(90deg,#e30613 0%,#c0000f 65%,rgba(150,0,10,0) 100%)",
-            padding: "9px 60px 10px 20px",
-            display: "inline-block", marginBottom: 22, maxWidth: "100%",
-            boxShadow: "0 6px 28px rgba(227,6,19,0.4), inset 0 1px 0 rgba(255,255,255,0.1)",
+            display: "inline-block", marginBottom: 22,
             animation: anim("heroBarSlide", 0.65, 0.64),
             transformOrigin: "left center",
           }}>
@@ -505,7 +502,9 @@ export default function Hero() {
               fontSize: "clamp(26px,3.6vw,52px)", fontWeight: 400,
               color: "#fff", letterSpacing: "0.1em",
               textTransform: "uppercase", lineHeight: 1,
-              textShadow: "1px 1px 4px rgba(0,0,0,0.4)",
+              background: "#000",
+              padding: "6px 14px 8px",
+              display: "inline-block",
             }}>
               TIRE &amp; OIL CHANGE
             </span>
