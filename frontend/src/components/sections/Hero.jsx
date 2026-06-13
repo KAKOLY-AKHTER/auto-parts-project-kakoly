@@ -502,7 +502,7 @@ export default function Hero() {
               fontSize: "clamp(26px,3.6vw,52px)", fontWeight: 400,
               color: "#fff", letterSpacing: "0.1em",
               textTransform: "uppercase", lineHeight: 1,
-              background: "#000",
+              background: "#e30613",
               padding: "6px 14px 8px",
               display: "inline-block",
             }}>
