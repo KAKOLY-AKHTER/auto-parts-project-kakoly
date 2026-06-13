@@ -439,19 +439,17 @@ export default function Hero() {
 
           {/* RED BAR */}
           <div style={{
-            background: "linear-gradient(90deg,#e30613 0%,#c0000f 100%)",
-            padding: "10px 28px 11px",
-            width: "calc(100% + 28px)", marginLeft: -28, marginBottom: 22,
-            boxShadow: "0 8px 36px rgba(227,6,19,0.55),inset 0 1px 0 rgba(255,255,255,0.12)",
+            display: "inline-flex", alignItems: "center", gap: 12,
+            marginBottom: 18,
             animation: anim("heroBarSlide", 0.65, 0.64),
             transformOrigin: "left center",
           }}>
+            <div style={{ width: 4, height: "100%", minHeight: 36, background: "#e30613", borderRadius: 2, flexShrink: 0 }} />
             <span style={{
               fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-              fontSize: "clamp(28px,3.8vw,58px)", fontWeight: 400,
-              color: "#fff", letterSpacing: "0.1em",
+              fontSize: "clamp(26px,3.4vw,50px)", fontWeight: 400,
+              color: "#fff", letterSpacing: "0.12em",
               textTransform: "uppercase", lineHeight: 1,
-              textShadow: "1px 1px 4px rgba(0,0,0,0.5)",
             }}>
               TIRE &amp; OIL CHANGE
             </span>
