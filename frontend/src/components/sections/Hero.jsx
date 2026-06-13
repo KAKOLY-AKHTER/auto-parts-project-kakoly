@@ -330,14 +330,14 @@ const anim = (name, dur, delay, easing = "cubic-bezier(.22,.68,0,1.15)") =>
 export default function Hero() {
   const [active,   setActive]  = useState(0);
   const [service,  setService] = useState("");
-  const [zip,      setZip]     = useState("");
+  const [phone,    setPhone]   = useState("");
   const navigate   = useNavigate();
 
   const handleBook = (e) => {
     e.preventDefault();
     const params = new URLSearchParams();
     if (service) params.set("service", service);
-    if (zip)     params.set("zip", zip);
+    if (phone)   params.set("phone", phone);
     const qs = params.toString();
     navigate(`/contacts${qs ? "?" + qs : ""}`);
   };
@@ -501,142 +501,122 @@ export default function Hero() {
             <span style={{ color:"rgba(255,255,255,0.9)",fontWeight:700 }}>Fast. Reliable. Professional.</span>
           </p>
 
-          {/* QUICK BOOKING FORM */}
+          {/* ── BOOKING FORM ── */}
           <form onSubmit={handleBook} style={{
-            display:"flex", flexDirection:"column", gap:0, marginBottom:22, maxWidth:500,
-            background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.13)",
-            borderRadius:14, overflow:"hidden", backdropFilter:"blur(14px)",
-            boxShadow:"0 8px 40px rgba(0,0,0,0.45)",
+            display:"flex", flexDirection:"column", gap:0, maxWidth:500,
+            background:"rgba(10,8,20,0.72)", border:"1.5px solid rgba(255,255,255,0.11)",
+            borderRadius:18, overflow:"hidden", backdropFilter:"blur(18px)",
+            WebkitBackdropFilter:"blur(18px)",
+            boxShadow:"0 12px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07)",
             animation: anim("heroFadeUp", 0.6, 1.12, "ease-out"),
           }}>
-            {/* Form header */}
+
+            {/* Header */}
             <div style={{
-              background:"rgba(227,6,19,0.12)", borderBottom:"1px solid rgba(227,6,19,0.2)",
-              padding:"11px 18px", display:"flex", alignItems:"center", gap:9,
+              background:"linear-gradient(90deg,rgba(227,6,19,0.18) 0%,rgba(227,6,19,0.05) 100%)",
+              borderBottom:"1px solid rgba(227,6,19,0.22)",
+              padding:"14px 20px", display:"flex", alignItems:"center", gap:10,
             }}>
-              <i className="fas fa-calendar-check" style={{ color:"#e30613", fontSize:13 }} />
-              <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:13, color:"#fff", letterSpacing:"0.1em", textTransform:"uppercase" }}>
-                Book a Service
-              </span>
-              <span style={{ marginLeft:"auto", color:"rgba(255,255,255,0.35)", fontSize:11 }}>Quick & Easy</span>
+              <div style={{ width:32, height:32, borderRadius:8, background:"rgba(227,6,19,0.2)", border:"1px solid rgba(227,6,19,0.4)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                <i className="fas fa-calendar-check" style={{ color:"#e30613", fontSize:14 }} />
+              </div>
+              <div>
+                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:15, color:"#fff", letterSpacing:"0.08em", textTransform:"uppercase", lineHeight:1 }}>
+                  Book a Service
+                </div>
+                <div style={{ color:"rgba(255,255,255,0.38)", fontSize:11, marginTop:3 }}>We come to you — Free estimate, no commitment</div>
+              </div>
+              <div style={{ marginLeft:"auto", background:"rgba(34,197,94,0.12)", border:"1px solid rgba(34,197,94,0.3)", borderRadius:99, padding:"3px 10px", display:"flex", alignItems:"center", gap:5 }}>
+                <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e" }} />
+                <span style={{ color:"#22c55e", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.06em" }}>AVAILABLE NOW</span>
+              </div>
             </div>
 
-            {/* Fields row */}
-            <div style={{ display:"flex", alignItems:"stretch" }}>
-
-              {/* Service select */}
-              <div style={{ position:"relative", flex:"1 1 0", borderRight:"1px solid rgba(255,255,255,0.1)" }}>
-                <div style={{ position:"absolute", left:13, top:"50%", transform:"translateY(-50%)", pointerEvents:"none", zIndex:1 }}>
-                  <i className="fas fa-screwdriver-wrench" style={{ color:"rgba(227,6,19,0.8)", fontSize:13 }} />
-                </div>
-                <select
-                  value={service}
-                  onChange={e => setService(e.target.value)}
-                  style={{
-                    width:"100%", height:"100%", minHeight:52, background:"transparent", border:"none", outline:"none",
-                    color: service ? "#fff" : "rgba(255,255,255,0.45)", fontSize:13,
-                    fontFamily:"'Inter',sans-serif", padding:"14px 32px 14px 36px",
-                    cursor:"pointer", appearance:"none", WebkitAppearance:"none", boxSizing:"border-box",
-                  }}
-                >
-                  <option value="" style={{ background:"#12101e", color:"rgba(255,255,255,0.5)" }}>Select Service…</option>
-                  {SERVICES.map(s => (
-                    <option key={s.value} value={s.value} style={{ background:"#12101e", color:"#fff" }}>{s.label}</option>
-                  ))}
-                </select>
-                <div style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
-                  <i className="fas fa-chevron-down" style={{ color:"rgba(255,255,255,0.3)", fontSize:9 }} />
-                </div>
+            {/* Service grid */}
+            <div style={{ padding:"14px 16px 10px" }}>
+              <div style={{ color:"rgba(255,255,255,0.35)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:10 }}>
+                Select Your Service
               </div>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:7 }}>
+                {SERVICES.map(s => {
+                  const sel = service === s.value;
+                  return (
+                    <button
+                      key={s.value}
+                      type="button"
+                      onClick={() => setService(sel ? "" : s.value)}
+                      style={{
+                        display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+                        gap:5, padding:"10px 6px",
+                        borderRadius:10,
+                        background: sel ? "rgba(227,6,19,0.18)" : "rgba(255,255,255,0.04)",
+                        border: `1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.09)"}`,
+                        color: sel ? "#fff" : "rgba(255,255,255,0.5)",
+                        cursor:"pointer",
+                        transition:"all 0.15s",
+                        boxShadow: sel ? "0 0 16px rgba(227,6,19,0.3)" : "none",
+                      }}
+                    >
+                      <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "rgba(255,255,255,0.35)" }} />
+                      <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:600, fontSize:9.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3 }}>
+                        {s.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-              {/* ZIP input */}
-              <div style={{ position:"relative", flex:"0 0 130px", borderRight:"1px solid rgba(255,255,255,0.1)" }}>
-                <div style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
-                  <i className="fas fa-location-dot" style={{ color:"rgba(227,6,19,0.8)", fontSize:13 }} />
+            {/* Phone + Submit row */}
+            <div style={{ padding:"10px 16px 14px", display:"flex", gap:8, alignItems:"center" }}>
+              <div style={{ position:"relative", flex:1 }}>
+                <div style={{ position:"absolute", left:13, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
+                  <i className="fas fa-phone" style={{ color:"rgba(255,255,255,0.35)", fontSize:12 }} />
                 </div>
                 <input
-                  type="text"
-                  value={zip}
-                  onChange={e => setZip(e.target.value)}
-                  placeholder="ZIP Code"
-                  maxLength={10}
+                  type="tel"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value)}
+                  placeholder="Your phone number"
                   style={{
-                    width:"100%", height:"100%", minHeight:52, background:"transparent", border:"none", outline:"none",
-                    color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif",
-                    padding:"14px 10px 14px 32px", boxSizing:"border-box",
+                    width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)",
+                    borderRadius:10, outline:"none", color:"#fff", fontSize:13,
+                    fontFamily:"'Inter',sans-serif", padding:"12px 12px 12px 36px", boxSizing:"border-box",
                   }}
                 />
               </div>
-
-              {/* Book Now button */}
               <button type="submit" style={{
                 background:"linear-gradient(135deg,#e30613 0%,#c0050f 100%)",
-                border:"none", color:"#fff", padding:"0 22px",
-                fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:14,
-                letterSpacing:"0.1em", textTransform:"uppercase", cursor:"pointer",
-                flexShrink:0, whiteSpace:"nowrap", minHeight:52,
-                boxShadow:"inset 0 1px 0 rgba(255,255,255,0.12)",
-                transition:"background 0.15s",
+                border:"none", color:"#fff", borderRadius:10,
+                padding:"12px 22px", fontFamily:"'Oswald',sans-serif", fontWeight:700,
+                fontSize:14, letterSpacing:"0.1em", textTransform:"uppercase",
+                cursor:"pointer", flexShrink:0, whiteSpace:"nowrap",
+                boxShadow:"0 4px 20px rgba(227,6,19,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
+                display:"flex", alignItems:"center", gap:8,
               }}>
-                Book Now
+                <i className="fas fa-arrow-right" style={{ fontSize:12 }} />
+                Get Free Quote
               </button>
             </div>
 
-            {/* Popular services chips */}
+            {/* Trust strip */}
             <div style={{
-              borderTop:"1px solid rgba(255,255,255,0.08)",
-              padding:"9px 16px", display:"flex", flexWrap:"wrap", gap:"6px 8px", alignItems:"center",
+              borderTop:"1px solid rgba(255,255,255,0.07)",
+              padding:"9px 16px",
+              display:"flex", gap:16, flexWrap:"wrap",
             }}>
-              <span style={{ color:"rgba(255,255,255,0.3)", fontSize:11, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em", marginRight:2 }}>
-                POPULAR:
-              </span>
-              {["Tire Service & Repair","Oil Change","Roadside Assistance","Brake Repair"].map(s => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => setService(s)}
-                  style={{
-                    background: service === s ? "rgba(227,6,19,0.22)" : "rgba(255,255,255,0.06)",
-                    border: `1px solid ${service === s ? "rgba(227,6,19,0.5)" : "rgba(255,255,255,0.12)"}`,
-                    color: service === s ? "#fff" : "rgba(255,255,255,0.55)",
-                    borderRadius:99, padding:"3px 11px", fontSize:11,
-                    fontFamily:"'Oswald',sans-serif", fontWeight:600, letterSpacing:"0.05em",
-                    cursor:"pointer", textTransform:"uppercase", whiteSpace:"nowrap",
-                    transition:"all 0.15s",
-                  }}
-                >
-                  {s}
-                </button>
+              {[
+                { icon:"fa-bolt",         text:"Same-Day Available" },
+                { icon:"fa-shield-halved",text:"Licensed & Insured" },
+                { icon:"fa-clock",        text:"24/7 Service" },
+              ].map(t => (
+                <div key={t.text} style={{ display:"flex", alignItems:"center", gap:5 }}>
+                  <i className={`fas ${t.icon}`} style={{ color:"#e30613", fontSize:10 }} />
+                  <span style={{ color:"rgba(255,255,255,0.4)", fontSize:11, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.05em" }}>{t.text}</span>
+                </div>
               ))}
             </div>
           </form>
-
-          {/* BUTTONS */}
-          <div style={{
-            display:"flex",flexWrap:"wrap",gap:12,
-            animation: anim("heroFadeUp", 0.6, 1.18, "ease-out"),
-          }}>
-
-            <a href="tel:+14156347777" className="hero-btn-call" style={{ boxShadow:"0 6px 32px rgba(227,6,19,0.55)", animation:"btnGlow 2.4s ease-in-out 1.8s infinite" }}>
-              <div className="cbtn-icon">
-                <i className="fas fa-phone cbtn-phone" style={{ color:"#fff",fontSize:15 }} />
-              </div>
-              <div>
-                <div className="cbtn-label" style={{ fontFamily:"'Oswald',sans-serif",fontSize:11,fontWeight:500,color:"rgba(255,255,255,0.75)",letterSpacing:"0.22em",textTransform:"uppercase",lineHeight:1,marginBottom:3 }}>Call Now</div>
-                <div className="cbtn-num" style={{ fontFamily:"'Oswald',sans-serif",fontSize:21,fontWeight:700,color:"#fff",letterSpacing:"0.04em",lineHeight:1 }}>(415) 634-7777</div>
-              </div>
-            </a>
-
-            <a href="/contacts" className="hero-btn-service">
-              <div className="sbtn-icon">
-                <i className="fas fa-calendar-check sbtn-cal" style={{ color:"#fff",fontSize:15 }} />
-              </div>
-              <div>
-                <div className="sbtn-title" style={{ fontFamily:"'Oswald',sans-serif",fontSize:17,fontWeight:600,color:"#fff",textTransform:"uppercase",letterSpacing:"0.08em",lineHeight:1.1 }}>Request Service</div>
-                <div style={{ fontSize:11.5,color:"rgba(255,255,255,0.45)",lineHeight:1.2 }}>We'll come to you</div>
-              </div>
-            </a>
-          </div>
         </div>
       </section>
 

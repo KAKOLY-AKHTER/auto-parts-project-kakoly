@@ -78,7 +78,8 @@ export default function Contact() {
   const [vis, setVis] = useState(false);
   const ref = useRef(null);
   const [form, setForm] = useState({
-    firstName: "", lastName: "", email: "", phone: "",
+    firstName: "", lastName: "", email: "",
+    phone: searchParams.get("phone") || "",
     service: searchParams.get("service") || "",
     vehicle: "", message: "",
   });
