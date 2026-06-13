@@ -420,24 +420,24 @@ export default function Hero() {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                objectPosition: "center center",
+                objectPosition: "right center",
                 opacity: i === active ? 1 : 0,
                 transition: "opacity 1.1s ease-in-out",
-                filter: "brightness(1.05) saturate(1.18) contrast(1.02)",
+                filter: "brightness(1.1) saturate(1.25) contrast(1.05)",
               }}
             />
           ))}
 
-          {/* full-hero dark overlay so text stays readable */}
-          <div style={{ position:"absolute", inset:0, background:"rgba(8,6,18,0.55)", zIndex:2, pointerEvents:"none" }} />
-          {/* left-to-right gradient — darker on left for text, lighter on right */}
+          {/* very light base overlay — image stays visible */}
+          <div style={{ position:"absolute", inset:0, background:"rgba(6,4,14,0.28)", zIndex:2, pointerEvents:"none" }} />
+          {/* left gradient — only darkens text area, right side stays open */}
           <div style={{
             position:"absolute", inset:0,
-            background:"linear-gradient(to right,rgba(10,8,20,0.75) 0%,rgba(10,8,20,0.45) 40%,rgba(10,8,20,0.1) 70%,transparent 100%)",
+            background:"linear-gradient(to right,rgba(6,4,14,0.88) 0%,rgba(6,4,14,0.72) 28%,rgba(6,4,14,0.35) 50%,rgba(6,4,14,0.05) 68%,transparent 100%)",
             zIndex:3, pointerEvents:"none",
           }} />
-          <div style={{ position:"absolute",top:0,left:0,right:0,height:100,background:"linear-gradient(to bottom,rgba(8,6,18,0.7),transparent)",zIndex:3,pointerEvents:"none" }} />
-          <div style={{ position:"absolute",bottom:0,left:0,right:0,height:80,background:"linear-gradient(to top,rgba(8,6,18,0.55),transparent)",zIndex:3,pointerEvents:"none" }} />
+          <div style={{ position:"absolute",top:0,left:0,right:0,height:90,background:"linear-gradient(to bottom,rgba(6,4,14,0.6),transparent)",zIndex:3,pointerEvents:"none" }} />
+          <div style={{ position:"absolute",bottom:0,left:0,right:0,height:70,background:"linear-gradient(to top,rgba(6,4,14,0.4),transparent)",zIndex:3,pointerEvents:"none" }} />
 
           {/* dots */}
           <div style={{ position:"absolute",bottom:22,right:22,display:"flex",gap:7,zIndex:5 }}>
