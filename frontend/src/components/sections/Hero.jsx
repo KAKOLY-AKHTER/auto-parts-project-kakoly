@@ -399,7 +399,7 @@ export default function Hero() {
         </div>
 
         {/* ── LEFT TEXT ── */}
-        <div className="hero-left" style={{ zIndex: 10, background: "linear-gradient(135deg, rgba(15,30,60,0.55) 0%, rgba(10,20,45,0.45) 100%)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderRight: "1px solid rgba(100,160,255,0.12)", borderBottom: "1px solid rgba(100,160,255,0.08)", boxShadow: "inset 0 0 60px rgba(30,80,180,0.08), 4px 0 32px rgba(0,0,0,0.3)" }}>
+        <div className="hero-left" style={{ zIndex: 10, background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.03) 100%)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderRight: "1px solid rgba(255,255,255,0.08)", boxShadow: "inset 1px 0 0 rgba(255,255,255,0.06), 4px 0 40px rgba(0,0,0,0.25)" }}>
 
           {/* 24/7 label */}
           <p style={{
