@@ -15,7 +15,8 @@ import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import ReturnPolicy from './pages/ReturnPolicy';
 import ClientLayout from './pages/ClientLayout';
-import Dashboard from './pages/Dashboard';
+import Dashboard      from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import ProductDetail from './pages/ProductDetail';
 
 import FleetServices      from './pages/services/FleetServices';
@@ -47,6 +48,7 @@ export default function App() {
         <Route path="/login"     element={<Login />} />
         <Route path="/signup"    element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin"     element={<AdminDashboard />} />
 
         {/* Main pages — with layout */}
         <Route path="/"               element={<Layout><Home /></Layout>} />

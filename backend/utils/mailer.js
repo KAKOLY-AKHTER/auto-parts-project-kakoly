@@ -133,11 +133,52 @@ async function sendContactNotification({ name, email, phone, subject, message })
     });
     if (e1) throw new Error(e1.message);
 
+    const isServiceRequest = subject && subject.length < 80 && !message.toLowerCase().startsWith('hi ');
     const { error: e2 } = await getClient().emails.send({
       from:    fromAddr(),
       to:      email,
-      subject: `We received your message — 24HR Fremont Tire & Auto`,
-      html: `
+      subject: isServiceRequest
+        ? `Service Request Received — ${subject} | 24HR Fremont`
+        : `We received your message — 24HR Fremont Tire & Auto`,
+      html: isServiceRequest ? `
+        <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0f0f17;color:#fff;border-radius:12px;overflow:hidden">
+          <div style="background:#e30613;padding:28px 32px">
+            <h1 style="margin:0;font-size:26px;letter-spacing:0.05em">24HR FREMONT TIRE & AUTO</h1>
+            <p style="margin:6px 0 0;opacity:0.85;font-size:14px">Service Request Received</p>
+          </div>
+          <div style="padding:32px">
+            <p style="font-size:17px;margin-bottom:6px">Hi <strong>${name}</strong>,</p>
+            <p style="color:rgba(255,255,255,0.7);line-height:1.7;margin-top:0">
+              Your service request has been received. Our team will call you back <strong style="color:#fff">within 2 hours</strong>.
+            </p>
+            <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:20px;margin:20px 0">
+              <table style="width:100%;border-collapse:collapse">
+                <tr>
+                  <td style="color:rgba(255,255,255,0.5);padding:8px 0;font-size:13px;width:110px">Service</td>
+                  <td style="color:#e30613;font-weight:700;font-size:15px">${subject}</td>
+                </tr>
+                <tr>
+                  <td style="color:rgba(255,255,255,0.5);padding:8px 0;font-size:13px">Call back to</td>
+                  <td style="color:#fff;font-weight:700;font-size:15px">${phone}</td>
+                </tr>
+                <tr>
+                  <td style="color:rgba(255,255,255,0.5);padding:8px 0;font-size:13px">Name</td>
+                  <td style="color:#fff;font-size:14px">${name}</td>
+                </tr>
+              </table>
+            </div>
+            <div style="background:rgba(227,6,19,0.08);border:1px solid rgba(227,6,19,0.25);border-radius:8px;padding:14px 18px;margin-bottom:20px">
+              <p style="margin:0;color:rgba(255,255,255,0.8);font-size:13px;line-height:1.6">
+                📞 Our technician will call <strong style="color:#fff">${phone}</strong> to confirm your appointment and provide a free estimate.
+              </p>
+            </div>
+            <p style="color:rgba(255,255,255,0.55);font-size:13px">Need immediate help? Call us: <strong style="color:#fff">(415) 634-7777</strong></p>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);padding:16px 32px;font-size:12px;color:rgba(255,255,255,0.3);text-align:center">
+            24HR Fremont Tire & Auto · Fremont, CA · Available 24/7
+          </div>
+        </div>
+      ` : `
         <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0f0f17;color:#fff;border-radius:12px;overflow:hidden">
           <div style="background:#e30613;padding:28px 32px">
             <h1 style="margin:0;font-size:28px;letter-spacing:0.05em">24HR FREMONT TIRE & AUTO</h1>

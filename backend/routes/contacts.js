@@ -10,8 +10,8 @@ router.post('/', async (req, res) => {
     sendContactNotification({
       name:    contact.name,
       email:   contact.email,
-      phone:   contact.phone,
-      subject: contact.subject,
+      phone:   contact.phone || '',
+      subject: contact.subject || '',
       message: contact.message,
     }).catch(err => console.error('[EMAIL ERROR]', err.message));
     res.status(201).json({ message: 'Message received', id: contact._id });

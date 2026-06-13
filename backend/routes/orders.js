@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Order  = require('../models/Order');
 const { sendOrderConfirmation } = require('../utils/mailer');
+const { protect, admin } = require('../middleware/authMiddleware');
 
 // POST /api/orders — place order (public)
 router.post('/', async (req, res) => {
@@ -17,6 +18,27 @@ router.post('/', async (req, res) => {
   } catch (e) {
     res.status(400).json({ message: e.message });
   }
+});
+
+// GET /api/orders — admin: all orders
+router.get('/', protect, admin, async (req, res) => {
+  try {
+    const orders = await Order.find().sort('-createdAt');
+    res.json(orders);
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// PATCH /api/orders/:id/status — admin: update status
+router.patch('/:id/status', protect, admin, async (req, res) => {
+  try {
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      { new: true }
+    );
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+    res.json(order);
+  } catch (e) { res.status(400).json({ message: e.message }); }
 });
 
 // GET /api/orders/mine?email=xxx — user's orders

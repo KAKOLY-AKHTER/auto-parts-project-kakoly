@@ -96,7 +96,7 @@ export default function DealsSection() {
                 <p className="text-[12px] font-bold text-gray-800 mb-[2px]">SAVE UP TO</p>
                 <p className="text-[34px] font-black text-red-600 leading-none mb-1">$100</p>
                 <p className="text-[12px] text-gray-600 font-medium mb-3 leading-snug">on Standard Brake<br />Service with Coupons*</p>
-                <a href="/contacts" className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white text-[11px] font-extrabold tracking-wider uppercase px-4 py-[8px] w-fit transition-all duration-200">
+                <a href="/contacts" className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white text-[10px] sm:text-[11px] font-extrabold tracking-wider uppercase px-3 sm:px-4 py-1.5 sm:py-2 w-fit transition-all duration-200">
                   Make an Appointment
                 </a>
                 <p className="text-[9px] text-gray-400 mt-2 leading-tight">
@@ -123,7 +123,7 @@ export default function DealsSection() {
                 <p className="text-[34px] font-black text-red-600 leading-none mb-1">$9.99</p>
                 <p className="text-[15px] font-black text-gray-900 leading-tight mb-1">A/C SYSTEM<br />EVALUATION</p>
                 <p className="text-[12px] text-gray-600 font-medium mb-3">with Coupon*</p>
-                <a href="/contacts" className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white text-[11px] font-extrabold tracking-wider uppercase px-4 py-[8px] w-fit transition-all duration-200">
+                <a href="/contacts" className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white text-[10px] sm:text-[11px] font-extrabold tracking-wider uppercase px-3 sm:px-4 py-1.5 sm:py-2 w-fit transition-all duration-200">
                   Make an Appointment
                 </a>
                 <p className="text-[9px] text-gray-400 mt-2 leading-tight">
@@ -145,14 +145,14 @@ export default function DealsSection() {
             transition: "opacity .6s ease .35s, transform .6s ease .35s",
           }}
         >
-          <p className="text-gray-900 text-[17px] md:text-[19px] font-black text-center">
+          <p className="text-gray-900 text-[15px] md:text-[19px] font-black text-center">
             The Best Deals for Tires, Oil, Brakes, Vehicle Service and More
           </p>
-          <div className="flex items-center gap-3">
-            <a href="/contacts" className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white text-[12px] font-extrabold tracking-wider uppercase px-6 py-3 transition-all duration-200">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 w-full sm:w-auto">
+            <a href="/contacts" className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white text-[11px] sm:text-[12px] font-extrabold tracking-wider uppercase px-5 sm:px-6 py-2.5 sm:py-3 w-full sm:w-auto transition-all duration-200">
               Make an Appointment
             </a>
-            <a href="/shop" className="inline-flex items-center bg-black hover:bg-gray-800 text-white text-[12px] font-extrabold tracking-wider uppercase px-6 py-3 transition-all duration-200">
+            <a href="/shop" className="inline-flex items-center justify-center bg-black hover:bg-gray-800 text-white text-[11px] sm:text-[12px] font-extrabold tracking-wider uppercase px-5 sm:px-6 py-2.5 sm:py-3 w-full sm:w-auto transition-all duration-200">
               See All Coupons &amp; Offers
             </a>
           </div>

@@ -104,7 +104,7 @@ function NavItem({ item, active }) {
           <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-0 h-0"
             style={{ borderLeft: "7px solid transparent", borderRight: "7px solid transparent", borderBottom: "7px solid #e30613" }} />
           <div className="dd-box"
-            style={{ background: "rgba(12,10,20,0.6)", backdropFilter: "blur(32px) saturate(1.8)", WebkitBackdropFilter: "blur(32px) saturate(1.8)", border: "1px solid rgba(255,255,255,0.13)", borderTop: "2px solid #e30613", borderRadius: "0 0 14px 14px", boxShadow: "0 28px 64px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.07)", padding: "6px 6px 8px" }}
+            style={{ background: "rgba(8,6,16,0.88)", backdropFilter: "blur(32px) saturate(1.8)", WebkitBackdropFilter: "blur(32px) saturate(1.8)", border: "1px solid rgba(255,255,255,0.15)", borderTop: "3px solid #e30613", borderRadius: "0 0 14px 14px", boxShadow: "0 28px 64px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.09), 0 0 40px rgba(227,6,19,0.1)", padding: "6px 6px 8px" }}
           >
             {item.children.map((c) => (
               <div key={c.label}>
@@ -118,11 +118,11 @@ function NavItem({ item, active }) {
                 >
                   {/* icon box */}
                   <div className="dd-icon flex items-center justify-center shrink-0"
-                    style={{ width: 28, height: 28, borderRadius: 6, background: "rgba(227,6,19,0.1)", border: "1px solid rgba(227,6,19,0.25)", transition: "all 0.2s ease" }}>
-                    <i className={`fas ${c.icon || "fa-chevron-right"}`} style={{ color: "#e30613", fontSize: 10 }} />
+                    style={{ width: 30, height: 30, borderRadius: 7, background: "rgba(227,6,19,0.18)", border: "1px solid rgba(227,6,19,0.45)", transition: "all 0.2s ease" }}>
+                    <i className={`fas ${c.icon || "fa-chevron-right"}`} style={{ color: "#e30613", fontSize: 11 }} />
                   </div>
                   {/* label */}
-                  <span className="dd-label" style={{ fontFamily: "'Inter',sans-serif", fontSize: 13.5, fontWeight: 500, color: "rgba(255,255,255,0.88)", letterSpacing: "0.01em", transition: "color 0.18s ease" }}>
+                  <span className="dd-label" style={{ fontFamily: "'Inter',sans-serif", fontSize: 13.5, fontWeight: 600, color: "#fff", letterSpacing: "0.01em", transition: "color 0.18s ease" }}>
                     {c.label}
                   </span>
                   {/* arrow */}
@@ -375,7 +375,7 @@ export default function Header() {
           transition: background 0.18s ease, padding-left 0.18s ease;
         }
         .dd-item:hover {
-          background: rgba(227,6,19,0.08);
+          background: rgba(227,6,19,0.14);
           padding-left: 14px !important;
         }
         .dd-item:hover .dd-label {
@@ -390,7 +390,12 @@ export default function Header() {
           color: rgba(227,6,19,0.85) !important;
           transform: translateX(2px);
         }
-        .dd-panel { transition: opacity 0.2s ease, transform 0.2s cubic-bezier(.22,.68,0,1.15); }
+        @keyframes ddSlideIn {
+          from { opacity: 0; transform: translateY(12px) scale(0.97); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .dd-panel { transition: opacity 0.22s ease, transform 0.22s ease; }
+        .group:hover .dd-panel { animation: ddSlideIn 0.32s cubic-bezier(0.22,1,0.36,1) both; }
 
         /* ── TOP SERVICE BAR RESPONSIVE ── */
         .hdr-topbar { scrollbar-width: none; -ms-overflow-style: none; }
