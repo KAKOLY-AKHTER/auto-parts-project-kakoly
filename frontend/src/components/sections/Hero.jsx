@@ -332,6 +332,7 @@ export default function Hero() {
   const [service,    setService]   = useState("");
   const [name,       setName]      = useState("");
   const [phone,      setPhone]     = useState("");
+  const [email,      setEmail]     = useState("");
   const [note,       setNote]      = useState("");
   const [submitting, setSubmitting]= useState(false);
   const [submitted,  setSubmitted] = useState(false);
@@ -342,6 +343,7 @@ export default function Hero() {
     if (!service) { setErr("Please select a service."); return; }
     if (!name.trim()) { setErr("Please enter your name."); return; }
     if (!phone.trim()) { setErr("Please enter your phone number."); return; }
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) { setErr("Please enter a valid email address."); return; }
     setErr(""); setSubmitting(true);
     try {
       await fetch(`${API}/contacts`, {
@@ -350,7 +352,7 @@ export default function Hero() {
         body: JSON.stringify({
           name,
           phone,
-          email: "",
+          email,
           subject: service,
           message: note || `Requesting: ${service}`,
           vehicle: "",
@@ -564,7 +566,7 @@ export default function Hero() {
                   Service: <span style={{ color:"#e30613", fontWeight:600 }}>{service}</span>
                 </div>
                 <button
-                  onClick={() => { setSubmitted(false); setService(""); setName(""); setPhone(""); setNote(""); }}
+                  onClick={() => { setSubmitted(false); setService(""); setName(""); setPhone(""); setEmail(""); setNote(""); }}
                   style={{ background:"rgba(255,255,255,0.07)", border:"1px solid rgba(255,255,255,0.15)", color:"rgba(255,255,255,0.7)", borderRadius:9, padding:"9px 20px", fontSize:12, fontFamily:"'Oswald',sans-serif", fontWeight:600, letterSpacing:"0.07em", cursor:"pointer" }}>
                   Book Another Service
                 </button>
@@ -601,7 +603,7 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* Name + Phone */}
+                {/* Name + Phone + Email */}
                 <div style={{ padding:"8px 16px 0", display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
                   <div>
                     <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>
@@ -629,12 +631,25 @@ export default function Hero() {
                         style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 10px 10px 30px", boxSizing:"border-box" }} />
                     </div>
                   </div>
+                  <div style={{ gridColumn:"1/-1" }}>
+                    <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>
+                      4. Email Address
+                    </div>
+                    <div style={{ position:"relative" }}>
+                      <div style={{ position:"absolute", left:11, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
+                        <i className="fas fa-envelope" style={{ color:"rgba(255,255,255,0.25)", fontSize:11 }} />
+                      </div>
+                      <input type="email" value={email} onChange={e => { setEmail(e.target.value); setErr(""); }}
+                        placeholder="your@email.com"
+                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 10px 10px 30px", boxSizing:"border-box" }} />
+                    </div>
+                  </div>
                 </div>
 
                 {/* Note (optional) */}
                 <div style={{ padding:"8px 16px 0" }}>
                   <div style={{ color:"rgba(255,255,255,0.3)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>
-                    4. Describe Your Issue <span style={{ color:"rgba(255,255,255,0.18)", fontWeight:400, textTransform:"none", letterSpacing:0 }}>(optional)</span>
+                    5. Describe Your Issue <span style={{ color:"rgba(255,255,255,0.18)", fontWeight:400, textTransform:"none", letterSpacing:0 }}>(optional)</span>
                   </div>
                   <textarea value={note} onChange={e => setNote(e.target.value)} rows={2}
                     placeholder="e.g. Flat tire on my 2019 Honda Civic, need same-day service in Fremont…"
