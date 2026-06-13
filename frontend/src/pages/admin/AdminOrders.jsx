@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import API from "../../config";
 import { StatusBadge, fmtDate } from "./AdminOverview";
 
@@ -55,9 +55,9 @@ export default function AdminOrders({ token }) {
           { label:"Delivered",     value:countBy("delivered"),color:"#22c55e" },
           { label:"Revenue",       value:`$${totalRevenue.toFixed(0)}`, color:"#e30613" },
         ].map(s => (
-          <div key={s.label} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"12px 16px", textAlign:"center" }}>
+          <div key={s.label} style={{ background:"#1c1933", border:"1px solid rgba(255,255,255,0.13)", borderRadius:10, padding:"12px 16px", textAlign:"center" }}>
             <div style={{ color:s.color, fontSize:s.label==="Revenue"?20:24, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{s.value}</div>
-            <div style={{ color:"rgba(255,255,255,0.4)", fontSize:11, textTransform:"uppercase", letterSpacing:"0.08em", fontFamily:"'Oswald',sans-serif" }}>{s.label}</div>
+            <div style={{ color:"rgba(255,255,255,0.65)", fontSize:11, textTransform:"uppercase", letterSpacing:"0.08em", fontFamily:"'Oswald',sans-serif" }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -67,7 +67,7 @@ export default function AdminOrders({ token }) {
         <div style={{ position:"relative", flex:"1 1 220px" }}>
           <i className="fas fa-search" style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.3)", fontSize:13, pointerEvents:"none" }} />
           <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search customer, email, order ID…"
-            style={{ width:"100%", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px 9px 34px", boxSizing:"border-box" }} />
+            style={{ width:"100%", background:"rgba(255,255,255,0.09)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px 9px 34px", boxSizing:"border-box" }} />
         </div>
         <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
           {["all",...ORDER_STATUSES].map(f => (
@@ -83,14 +83,14 @@ export default function AdminOrders({ token }) {
       {loading ? (
         <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.3)" }}><i className="fas fa-spinner fa-spin" style={{ fontSize:22 }} /></div>
       ) : filtered.length === 0 ? (
-        <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.25)", fontFamily:"'Oswald',sans-serif", fontSize:16 }}>No orders found</div>
+        <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.5)", fontFamily:"'Oswald',sans-serif", fontSize:16 }}>No orders found</div>
       ) : (
         <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
           {filtered.map(o => {
             const isOpen = expanded === o._id;
             const orderId = o._id?.slice(-8).toUpperCase();
             return (
-              <div key={o._id} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:12, overflow:"hidden" }}>
+              <div key={o._id} style={{ background:"#1c1933", border:"1px solid rgba(255,255,255,0.13)", borderRadius:12, overflow:"hidden" }}>
                 {/* Row */}
                 <div style={{ display:"flex", alignItems:"center", gap:14, padding:"14px 18px", cursor:"pointer" }}
                   onClick={() => setExpanded(isOpen?null:o._id)}>
@@ -110,8 +110,8 @@ export default function AdminOrders({ token }) {
                     <span style={{ color:"#e30613", fontSize:16, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>${(o.total||0).toFixed(2)}</span>
                     <StatusBadge status={o.status} />
                   </div>
-                  <span style={{ color:"rgba(255,255,255,0.25)", fontSize:10, marginLeft:8, whiteSpace:"nowrap" }}>{fmtDate(o.createdAt)}</span>
-                  <i className={`fas fa-chevron-${isOpen?"up":"down"}`} style={{ color:"rgba(255,255,255,0.25)", fontSize:11 }} />
+                  <span style={{ color:"rgba(255,255,255,0.5)", fontSize:10, marginLeft:8, whiteSpace:"nowrap" }}>{fmtDate(o.createdAt)}</span>
+                  <i className={`fas fa-chevron-${isOpen?"up":"down"}`} style={{ color:"rgba(255,255,255,0.5)", fontSize:11 }} />
                 </div>
 
                 {/* Expanded */}
@@ -119,18 +119,18 @@ export default function AdminOrders({ token }) {
                   <div style={{ padding:"0 18px 18px", borderTop:"1px solid rgba(255,255,255,0.06)" }}>
                     {/* Items table */}
                     {o.items?.length > 0 && (
-                      <div style={{ marginTop:14, marginBottom:14, background:"rgba(255,255,255,0.03)", borderRadius:8, overflow:"hidden" }}>
+                      <div style={{ marginTop:14, marginBottom:14, background:"#1c1933", borderRadius:8, overflow:"hidden" }}>
                         <table style={{ width:"100%", borderCollapse:"collapse" }}>
                           <thead>
-                            <tr style={{ background:"rgba(255,255,255,0.03)" }}>
+                            <tr style={{ background:"#1c1933" }}>
                               {["Product","Qty","Price","Subtotal"].map(h=>(
-                                <th key={h} style={{ color:"rgba(255,255,255,0.35)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em", textTransform:"uppercase", padding:"9px 12px", textAlign:"left" }}>{h}</th>
+                                <th key={h} style={{ color:"rgba(255,255,255,0.55)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em", textTransform:"uppercase", padding:"9px 12px", textAlign:"left" }}>{h}</th>
                               ))}
                             </tr>
                           </thead>
                           <tbody>
                             {o.items.map((item,i) => (
-                              <tr key={i} style={{ borderTop:"1px solid rgba(255,255,255,0.04)" }}>
+                              <tr key={i} style={{ borderTop:"1px solid rgba(255,255,255,0.13)" }}>
                                 <td style={{ padding:"9px 12px", color:"#fff", fontSize:13 }}>{item.name}</td>
                                 <td style={{ padding:"9px 12px", color:"rgba(255,255,255,0.55)", fontSize:13 }}>×{item.qty}</td>
                                 <td style={{ padding:"9px 12px", color:"rgba(255,255,255,0.55)", fontSize:13 }}>${(item.price||0).toFixed(2)}</td>

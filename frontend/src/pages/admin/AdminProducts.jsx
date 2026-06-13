@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import API from "../../config";
 
 const CATS = [
@@ -82,9 +82,9 @@ export default function AdminProducts({ token }) {
           { label:"Featured",       value:products.filter(p=>p.isFeatured).length, color:"#a78bfa" },
           { label:"Inventory Value",value:`$${totalValue.toLocaleString()}`, color:"#e30613" },
         ].map(s=>(
-          <div key={s.label} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"12px 16px", textAlign:"center" }}>
+          <div key={s.label} style={{ background:"#1c1933", border:"1px solid rgba(255,255,255,0.13)", borderRadius:10, padding:"12px 16px", textAlign:"center" }}>
             <div style={{ color:s.color, fontSize:s.label==="Inventory Value"?16:24, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{s.value}</div>
-            <div style={{ color:"rgba(255,255,255,0.4)", fontSize:10, textTransform:"uppercase", letterSpacing:"0.08em", fontFamily:"'Oswald',sans-serif", marginTop:2 }}>{s.label}</div>
+            <div style={{ color:"rgba(255,255,255,0.65)", fontSize:10, textTransform:"uppercase", letterSpacing:"0.08em", fontFamily:"'Oswald',sans-serif", marginTop:2 }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -94,10 +94,10 @@ export default function AdminProducts({ token }) {
         <div style={{ position:"relative", flex:"1 1 200px" }}>
           <i className="fas fa-search" style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.3)", fontSize:13, pointerEvents:"none" }} />
           <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search products…"
-            style={{ width:"100%", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px 9px 34px", boxSizing:"border-box" }} />
+            style={{ width:"100%", background:"rgba(255,255,255,0.09)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px 9px 34px", boxSizing:"border-box" }} />
         </div>
         <select value={catF} onChange={e=>setCatF(e.target.value)}
-          style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"rgba(255,255,255,0.7)", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px", cursor:"pointer" }}>
+          style={{ background:"rgba(255,255,255,0.09)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"rgba(255,255,255,0.7)", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px", cursor:"pointer" }}>
           {CATS.map(c=><option key={c.value} value={c.value} style={{ background:"#0d0b1a" }}>{c.label}</option>)}
         </select>
         <button onClick={openAdd}
@@ -110,15 +110,15 @@ export default function AdminProducts({ token }) {
       {loading ? (
         <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.3)" }}><i className="fas fa-spinner fa-spin" style={{ fontSize:22 }} /></div>
       ) : filtered.length===0 ? (
-        <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.25)", fontFamily:"'Oswald',sans-serif", fontSize:16 }}>No products found</div>
+        <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.5)", fontFamily:"'Oswald',sans-serif", fontSize:16 }}>No products found</div>
       ) : (
-        <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:14, overflow:"hidden" }}>
+        <div style={{ background:"#1c1933", border:"1px solid rgba(255,255,255,0.13)", borderRadius:14, overflow:"hidden" }}>
           <div style={{ overflowX:"auto" }}>
             <table style={{ width:"100%", borderCollapse:"collapse", minWidth:700 }}>
               <thead>
-                <tr style={{ background:"rgba(255,255,255,0.03)" }}>
+                <tr style={{ background:"#1c1933" }}>
                   {["Product","Category","Price","Stock","Featured","Actions"].map(h=>(
-                    <th key={h} style={{ color:"rgba(255,255,255,0.35)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", padding:"12px 16px", textAlign:"left", whiteSpace:"nowrap" }}>{h}</th>
+                    <th key={h} style={{ color:"rgba(255,255,255,0.55)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", padding:"12px 16px", textAlign:"left", whiteSpace:"nowrap" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -128,20 +128,20 @@ export default function AdminProducts({ token }) {
                     <td style={{ padding:"12px 16px" }}>
                       <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                         {p.img ? (
-                          <img src={p.img} alt={p.name} style={{ width:44, height:44, borderRadius:8, objectFit:"cover", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", flexShrink:0 }} onError={e=>{e.target.style.display="none";}} />
+                          <img src={p.img} alt={p.name} style={{ width:44, height:44, borderRadius:8, objectFit:"cover", background:"rgba(255,255,255,0.09)", border:"1px solid rgba(255,255,255,0.13)", flexShrink:0 }} onError={e=>{e.target.style.display="none";}} />
                         ) : (
-                          <div style={{ width:44, height:44, borderRadius:8, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                          <div style={{ width:44, height:44, borderRadius:8, background:"rgba(255,255,255,0.09)", border:"1px solid rgba(255,255,255,0.13)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                             <i className="fas fa-box" style={{ color:"rgba(255,255,255,0.2)", fontSize:16 }} />
                           </div>
                         )}
                         <div>
                           <div style={{ color:"#fff", fontSize:13, fontWeight:600 }}>{p.name}</div>
-                          <div style={{ color:"rgba(255,255,255,0.35)", fontSize:11 }}>{p.brand || "—"}</div>
+                          <div style={{ color:"rgba(255,255,255,0.55)", fontSize:11 }}>{p.brand || "—"}</div>
                         </div>
                       </div>
                     </td>
                     <td style={{ padding:"12px 16px" }}>
-                      <span style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:6, padding:"3px 9px", color:"rgba(255,255,255,0.6)", fontSize:11, fontFamily:"'Oswald',sans-serif", textTransform:"capitalize" }}>{p.catLabel||p.cat||"—"}</span>
+                      <span style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:6, padding:"3px 9px", color:"rgba(255,255,255,0.6)", fontSize:11, fontFamily:"'Oswald',sans-serif", textTransform:"capitalize" }}>{p.catLabel||p.cat||"—"}</span>
                     </td>
                     <td style={{ padding:"12px 16px" }}>
                       <div style={{ color:"#e30613", fontSize:14, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>${p.price?.toFixed(2)}</div>
@@ -249,7 +249,7 @@ export default function AdminProducts({ token }) {
             {err && <div style={{ marginTop:14, background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.25)", borderRadius:8, padding:"9px 13px", color:"#f87171", fontSize:13 }}>{err}</div>}
 
             <div style={{ display:"flex", gap:10, marginTop:22 }}>
-              <button onClick={()=>setModal(null)} style={{ flex:1, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, padding:"11px", color:"rgba(255,255,255,0.6)", fontFamily:"'Oswald',sans-serif", fontWeight:600, fontSize:13, cursor:"pointer" }}>Cancel</button>
+              <button onClick={()=>setModal(null)} style={{ flex:1, background:"rgba(255,255,255,0.09)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, padding:"11px", color:"rgba(255,255,255,0.6)", fontFamily:"'Oswald',sans-serif", fontWeight:600, fontSize:13, cursor:"pointer" }}>Cancel</button>
               <button onClick={handleSave} disabled={saving}
                 style={{ flex:2, background:"linear-gradient(135deg,#e30613,#bf040f)", border:"none", borderRadius:9, padding:"11px", color:"#fff", fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:13, letterSpacing:"0.07em", textTransform:"uppercase", cursor:saving?"not-allowed":"pointer", opacity:saving?0.7:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8 }}>
                 {saving ? <><i className="fas fa-spinner fa-spin" /> Saving…</> : <><i className="fas fa-check" /> {modal==="add"?"Add Product":"Save Changes"}</>}
@@ -269,7 +269,7 @@ export default function AdminProducts({ token }) {
             <div style={{ color:"#fff", fontSize:17, fontWeight:700, fontFamily:"'Oswald',sans-serif", marginBottom:8 }}>Delete Product?</div>
             <div style={{ color:"rgba(255,255,255,0.45)", fontSize:13, marginBottom:22 }}>This action cannot be undone.</div>
             <div style={{ display:"flex", gap:10 }}>
-              <button onClick={()=>setDelId(null)} style={{ flex:1, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, padding:"10px", color:"rgba(255,255,255,0.6)", fontFamily:"'Oswald',sans-serif", fontWeight:600, fontSize:13, cursor:"pointer" }}>Cancel</button>
+              <button onClick={()=>setDelId(null)} style={{ flex:1, background:"rgba(255,255,255,0.09)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, padding:"10px", color:"rgba(255,255,255,0.6)", fontFamily:"'Oswald',sans-serif", fontWeight:600, fontSize:13, cursor:"pointer" }}>Cancel</button>
               <button onClick={handleDelete} style={{ flex:1, background:"rgba(239,68,68,0.15)", border:"1px solid rgba(239,68,68,0.4)", borderRadius:9, padding:"10px", color:"#f87171", fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:13, cursor:"pointer" }}>Delete</button>
             </div>
           </div>
@@ -280,4 +280,4 @@ export default function AdminProducts({ token }) {
 }
 
 const LBL = { display:"block", color:"rgba(255,255,255,0.6)", fontSize:11, fontWeight:600, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:5 };
-const INP = { width:"100%", background:"rgba(255,255,255,0.05)", border:"1.5px solid rgba(255,255,255,0.09)", borderRadius:8, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 12px", boxSizing:"border-box" };
+const INP = { width:"100%", background:"rgba(255,255,255,0.09)", border:"1.5px solid rgba(255,255,255,0.09)", borderRadius:8, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"10px 12px", boxSizing:"border-box" };

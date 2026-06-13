@@ -54,9 +54,9 @@ export default function AdminBookings({ token }) {
           { label:"Completed", value:countBy("completed"), color:"#22c55e" },
           { label:"Cancelled", value:countBy("cancelled"), color:"#f87171" },
         ].map(s => (
-          <div key={s.label} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"12px 16px", textAlign:"center" }}>
+          <div key={s.label} style={{ background:"#1c1933", border:"1px solid rgba(255,255,255,0.12)", borderRadius:10, padding:"12px 16px", textAlign:"center" }}>
             <div style={{ color:s.color, fontSize:24, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{s.value}</div>
-            <div style={{ color:"rgba(255,255,255,0.4)", fontSize:11, textTransform:"uppercase", letterSpacing:"0.08em", fontFamily:"'Oswald',sans-serif" }}>{s.label}</div>
+            <div style={{ color:"rgba(255,255,255,0.65)", fontSize:12, textTransform:"uppercase", letterSpacing:"0.08em", fontFamily:"'Oswald',sans-serif" }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -66,7 +66,7 @@ export default function AdminBookings({ token }) {
         <div style={{ position:"relative", flex:"1 1 220px" }}>
           <i className="fas fa-search" style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.3)", fontSize:13, pointerEvents:"none" }} />
           <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search name, phone, service…"
-            style={{ width:"100%", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px 9px 34px", boxSizing:"border-box" }} />
+            style={{ width:"100%", background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.15)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px 9px 34px", boxSizing:"border-box" }} />
         </div>
         <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
           {["all",...STATUSES].map(f => (
@@ -79,18 +79,18 @@ export default function AdminBookings({ token }) {
       </div>
 
       {/* Table */}
-      <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:14, overflow:"hidden" }}>
+      <div style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:14, overflow:"hidden" }}>
         {loading ? (
           <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.3)" }}><i className="fas fa-spinner fa-spin" style={{ fontSize:22 }} /></div>
         ) : filtered.length === 0 ? (
-          <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.25)", fontFamily:"'Oswald',sans-serif", fontSize:16 }}>No bookings found</div>
+          <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.5)", fontFamily:"'Oswald',sans-serif", fontSize:16 }}>No bookings found</div>
         ) : (
           <div style={{ overflowX:"auto" }}>
             <table style={{ width:"100%", borderCollapse:"collapse" }}>
               <thead>
-                <tr style={{ background:"rgba(255,255,255,0.03)" }}>
+                <tr style={{ background:"rgba(255,255,255,0.06)" }}>
                   {["Customer","Service","Phone","Email","Date","Status","Action"].map(h => (
-                    <th key={h} style={{ color:"rgba(255,255,255,0.4)", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", padding:"12px 14px", textAlign:"left", whiteSpace:"nowrap" }}>{h}</th>
+                    <th key={h} style={{ color:"rgba(255,255,255,0.6)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", padding:"12px 14px", textAlign:"left", whiteSpace:"nowrap" }}>{h}</th>
                   ))}
                 </tr>
               </thead>

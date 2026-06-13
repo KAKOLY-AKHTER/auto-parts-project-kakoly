@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import API from "../../config";
 import { StatusBadge, fmtDate } from "./AdminOverview";
 
@@ -56,7 +56,7 @@ export default function AdminContacts({ token }) {
           <div style={{ position:"relative", flex:"1 1 220px" }}>
             <i className="fas fa-search" style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.3)", fontSize:13, pointerEvents:"none" }} />
             <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search name, email, subject…"
-              style={{ width:"100%", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px 9px 34px", boxSizing:"border-box" }} />
+              style={{ width:"100%", background:"rgba(255,255,255,0.09)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:9, outline:"none", color:"#fff", fontSize:13, fontFamily:"'Inter',sans-serif", padding:"9px 12px 9px 34px", boxSizing:"border-box" }} />
           </div>
           <div style={{ display:"flex", gap:6 }}>
             {["all","unread","read"].map(f => (
@@ -79,18 +79,18 @@ export default function AdminContacts({ token }) {
       {loading ? (
         <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.3)" }}><i className="fas fa-spinner fa-spin" style={{ fontSize:22 }} /></div>
       ) : filtered.length === 0 ? (
-        <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.25)", fontFamily:"'Oswald',sans-serif", fontSize:16 }}>No requests found</div>
+        <div style={{ padding:40, textAlign:"center", color:"rgba(255,255,255,0.5)", fontFamily:"'Oswald',sans-serif", fontSize:16 }}>No requests found</div>
       ) : (
         <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
           {filtered.map(c => {
             const isOpen = expanded === c._id;
             return (
-              <div key={c._id} style={{ background: c.read?"rgba(255,255,255,0.03)":"rgba(227,6,19,0.04)", border:`1px solid ${c.read?"rgba(255,255,255,0.07)":"rgba(227,6,19,0.2)"}`, borderRadius:12, overflow:"hidden", transition:"all 0.2s" }}>
+              <div key={c._id} style={{ background: c.read?"#1c1933":"rgba(227,6,19,0.04)", border:`1px solid ${c.read?"rgba(255,255,255,0.07)":"rgba(227,6,19,0.2)"}`, borderRadius:12, overflow:"hidden", transition:"all 0.2s" }}>
                 {/* Row */}
                 <div style={{ display:"flex", alignItems:"center", gap:14, padding:"14px 18px", cursor:"pointer" }}
                   onClick={() => setExpanded(isOpen ? null : c._id)}>
-                  <div style={{ width:40, height:40, borderRadius:10, background: c.read?"rgba(255,255,255,0.05)":"rgba(227,6,19,0.12)", border:`1px solid ${c.read?"rgba(255,255,255,0.08)":"rgba(227,6,19,0.3)"}`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                    <i className="fas fa-user" style={{ color: c.read?"rgba(255,255,255,0.35)":"#e30613", fontSize:14 }} />
+                  <div style={{ width:40, height:40, borderRadius:10, background: c.read?"rgba(255,255,255,0.09)":"rgba(227,6,19,0.12)", border:`1px solid ${c.read?"rgba(255,255,255,0.08)":"rgba(227,6,19,0.3)"}`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                    <i className="fas fa-user" style={{ color: c.read?"rgba(255,255,255,0.55)":"#e30613", fontSize:14 }} />
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:2 }}>
@@ -103,9 +103,9 @@ export default function AdminContacts({ token }) {
                   </div>
                   <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:5, flexShrink:0 }}>
                     <StatusBadge status={c.read?"read":"unread"} />
-                    <span style={{ color:"rgba(255,255,255,0.25)", fontSize:10 }}>{fmtDate(c.createdAt)}</span>
+                    <span style={{ color:"rgba(255,255,255,0.5)", fontSize:10 }}>{fmtDate(c.createdAt)}</span>
                   </div>
-                  <i className={`fas fa-chevron-${isOpen?"up":"down"}`} style={{ color:"rgba(255,255,255,0.25)", fontSize:11, marginLeft:8 }} />
+                  <i className={`fas fa-chevron-${isOpen?"up":"down"}`} style={{ color:"rgba(255,255,255,0.5)", fontSize:11, marginLeft:8 }} />
                 </div>
 
                 {/* Expanded details */}
@@ -117,8 +117,8 @@ export default function AdminContacts({ token }) {
                         { icon:"fa-phone",    label:"Phone",   value:c.phone || "—" },
                         { icon:"fa-tag",      label:"Subject", value:c.subject || "—" },
                       ].map(f => (
-                        <div key={f.label} style={{ background:"rgba(255,255,255,0.04)", borderRadius:8, padding:"10px 14px" }}>
-                          <div style={{ color:"rgba(255,255,255,0.35)", fontSize:10, fontWeight:600, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>
+                        <div key={f.label} style={{ background:"rgba(255,255,255,0.08)", borderRadius:8, padding:"10px 14px" }}>
+                          <div style={{ color:"rgba(255,255,255,0.55)", fontSize:10, fontWeight:600, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>
                             <i className={`fas ${f.icon}`} style={{ marginRight:5, fontSize:9 }} />{f.label}
                           </div>
                           <div style={{ color:"#fff", fontSize:13 }}>{f.value}</div>
@@ -126,8 +126,8 @@ export default function AdminContacts({ token }) {
                       ))}
                     </div>
                     {c.message && (
-                      <div style={{ background:"rgba(255,255,255,0.03)", borderLeft:"3px solid rgba(227,6,19,0.5)", borderRadius:"0 8px 8px 0", padding:"12px 16px", marginBottom:14 }}>
-                        <div style={{ color:"rgba(255,255,255,0.35)", fontSize:10, fontWeight:600, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>Message</div>
+                      <div style={{ background:"#1c1933", borderLeft:"3px solid rgba(227,6,19,0.5)", borderRadius:"0 8px 8px 0", padding:"12px 16px", marginBottom:14 }}>
+                        <div style={{ color:"rgba(255,255,255,0.55)", fontSize:10, fontWeight:600, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:6 }}>Message</div>
                         <p style={{ color:"rgba(255,255,255,0.75)", fontSize:13, lineHeight:1.65, margin:0 }}>{c.message}</p>
                       </div>
                     )}
@@ -146,7 +146,7 @@ export default function AdminContacts({ token }) {
                       )}
                       {!c.read && (
                         <button onClick={()=>markRead(c._id)} disabled={marking===c._id}
-                          style={{ display:"inline-flex", alignItems:"center", gap:7, background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", color:"rgba(255,255,255,0.6)", borderRadius:8, padding:"8px 14px", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"'Oswald',sans-serif", letterSpacing:"0.05em" }}>
+                          style={{ display:"inline-flex", alignItems:"center", gap:7, background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.12)", color:"rgba(255,255,255,0.6)", borderRadius:8, padding:"8px 14px", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"'Oswald',sans-serif", letterSpacing:"0.05em" }}>
                           {marking===c._id ? <i className="fas fa-spinner fa-spin" /> : <i className="fas fa-check" style={{ fontSize:11 }} />} Mark Read
                         </button>
                       )}
