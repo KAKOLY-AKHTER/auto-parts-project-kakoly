@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SLIDES = ["/red-tire1.png","/red-oil.png", "/red-tire2.png", "/red-oil1.png"];
 
@@ -316,7 +317,15 @@ const anim = (name, dur, delay, easing = "cubic-bezier(.22,.68,0,1.15)") =>
   `${name} ${dur}s ${easing} ${delay}s both`;
 
 export default function Hero() {
-  const [active, setActive] = useState(0);
+  const [active,  setActive]  = useState(0);
+  const [query,   setQuery]   = useState("");
+  const navigate  = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const q = query.trim();
+    navigate(q ? `/shop?q=${encodeURIComponent(q)}` : "/shop");
+  };
 
   useEffect(() => {
     const t = setInterval(() => setActive((p) => (p + 1) % SLIDES.length), 3800);
@@ -476,6 +485,39 @@ export default function Hero() {
             We come to you — Home, Business, Job Site, or Roadside.{" "}
             <span style={{ color:"rgba(255,255,255,0.9)",fontWeight:700 }}>Fast. Reliable. Professional.</span>
           </p>
+
+          {/* SEARCH FORM */}
+          <form onSubmit={handleSearch} style={{
+            display:"flex", alignItems:"stretch", gap:0, marginBottom:22, maxWidth:460,
+            background:"rgba(255,255,255,0.07)", border:"1.5px solid rgba(255,255,255,0.15)",
+            borderRadius:10, overflow:"hidden", backdropFilter:"blur(10px)",
+            boxShadow:"0 4px 24px rgba(0,0,0,0.35)",
+            animation: anim("heroFadeUp", 0.6, 1.12, "ease-out"),
+          }}>
+            <div style={{ display:"flex", alignItems:"center", paddingLeft:16, paddingRight:10, flexShrink:0 }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" style={{ width:17, height:17 }}>
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+              </svg>
+            </div>
+            <input
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search tires, oil, brake parts…"
+              style={{
+                flex:1, minWidth:0, background:"transparent", border:"none", outline:"none",
+                color:"#fff", fontSize:14, fontFamily:"'Inter',sans-serif", padding:"13px 0",
+              }}
+            />
+            <button type="submit" style={{
+              background:"linear-gradient(135deg,#e30613,#c0050f)", border:"none", color:"#fff",
+              padding:"0 22px", fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:13,
+              letterSpacing:"0.08em", textTransform:"uppercase", cursor:"pointer",
+              boxShadow:"-4px 0 16px rgba(0,0,0,0.2)", transition:"background 0.15s", flexShrink:0,
+            }}>
+              Search
+            </button>
+          </form>
 
           {/* BUTTONS */}
           <div style={{

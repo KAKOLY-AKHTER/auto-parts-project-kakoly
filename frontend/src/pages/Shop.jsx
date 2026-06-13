@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { auth } from '../firebase';
 import API from '../config';
@@ -20,10 +20,11 @@ function Stars({ rating }) {
 }
 
 export default function Shop() {
+  const [searchParams] = useSearchParams();
   const [products,    setProducts]    = useState([]);
   const [loading,     setLoading]     = useState(true);
   const [active,      setActive]      = useState("All");
-  const [search,      setSearch]      = useState("");
+  const [search,      setSearch]      = useState(searchParams.get('q') || "");
   const [added,       setAdded]       = useState(null);
   const [wishlisted,  setWishlisted]  = useState(new Set());
   const [wishToast,   setWishToast]   = useState(null);
