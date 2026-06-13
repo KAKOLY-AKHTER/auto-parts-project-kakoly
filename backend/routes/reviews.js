@@ -1,6 +1,14 @@
 const router = require('express').Router();
 const Review = require('../models/Review');
 
+// GET /api/reviews/product/:id — public
+router.get('/product/:id', async (req, res) => {
+  try {
+    const reviews = await Review.find({ type:'product', refId: req.params.id }).sort('-createdAt');
+    res.json(reviews);
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
 // GET /api/reviews/mine?email=xxx
 router.get('/mine', async (req, res) => {
   try {

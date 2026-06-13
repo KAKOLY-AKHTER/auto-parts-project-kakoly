@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Order  = require('../models/Order');
-const { sendOrderConfirmation } = require('../utils/mailer');
+const { sendOrderConfirmation, sendOrderStatusUpdate } = require('../utils/mailer');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 // POST /api/orders — place order (public)
@@ -38,6 +38,12 @@ router.patch('/:id/status', protect, admin, async (req, res) => {
     );
     if (!order) return res.status(404).json({ message: 'Order not found' });
     res.json(order);
+    sendOrderStatusUpdate({
+      to:      order.userEmail,
+      name:    order.userName || 'Customer',
+      orderId: order._id.toString().slice(-8).toUpperCase(),
+      status:  req.body.status,
+    }).catch(err => console.error('[EMAIL ERROR]', err.message));
   } catch (e) { res.status(400).json({ message: e.message }); }
 });
 

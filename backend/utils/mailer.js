@@ -208,4 +208,50 @@ async function sendContactNotification({ name, email, phone, subject, message })
   }
 }
 
-module.exports = { sendBookingConfirmation, sendOrderConfirmation, sendContactNotification };
+async function sendOrderStatusUpdate({ to, name, orderId, status }) {
+  if (!guard()) return;
+  const statusMap = {
+    pending:    { label:"Pending",    color:"#eab308", icon:"⏳", msg:"Your order is pending and will be processed soon." },
+    processing: { label:"Processing", color:"#3b82f6", icon:"⚙️", msg:"Your order is being processed and will ship shortly." },
+    shipped:    { label:"Shipped",    color:"#a78bfa", icon:"🚚", msg:"Your order is on the way! You'll receive it soon." },
+    delivered:  { label:"Delivered",  color:"#22c55e", icon:"✅", msg:"Your order has been delivered. Thank you for shopping with us!" },
+    cancelled:  { label:"Cancelled",  color:"#ef4444", icon:"❌", msg:"Your order has been cancelled. Contact us if you have questions." },
+  };
+  const s = statusMap[status] || statusMap.pending;
+  console.log(`[MAIL] order status update → ${to}`);
+  try {
+    const { error } = await getClient().emails.send({
+      from:    fromAddr(),
+      to,
+      subject: `Order ${s.label} — #${orderId} | 24HR Fremont`,
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0f0f17;color:#fff;border-radius:12px;overflow:hidden">
+          <div style="background:#e30613;padding:28px 32px">
+            <h1 style="margin:0;font-size:26px;letter-spacing:0.05em">24HR FREMONT TIRE & AUTO</h1>
+            <p style="margin:6px 0 0;opacity:0.85;font-size:14px">Order Status Update</p>
+          </div>
+          <div style="padding:32px">
+            <p style="font-size:16px">Hi <strong>${name}</strong>,</p>
+            <p style="color:rgba(255,255,255,0.7)">Your order status has been updated:</p>
+            <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:24px;margin:20px 0;text-align:center">
+              <div style="font-size:36px;margin-bottom:10px">${s.icon}</div>
+              <div style="color:${s.color};font-size:22px;font-weight:700;letter-spacing:0.05em">${s.label.toUpperCase()}</div>
+              <div style="color:rgba(255,255,255,0.4);font-size:12px;margin-top:4px">Order #${orderId}</div>
+            </div>
+            <p style="color:rgba(255,255,255,0.7);line-height:1.7">${s.msg}</p>
+            <p style="color:rgba(255,255,255,0.45);font-size:13px;margin-top:20px">Questions? Call us: <strong style="color:#fff">(415) 634-7777</strong></p>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);padding:16px 32px;font-size:12px;color:rgba(255,255,255,0.3);text-align:center">
+            24HR Fremont Tire & Auto · Fremont, CA · Available 24/7
+          </div>
+        </div>
+      `,
+    });
+    if (error) throw new Error(error.message);
+    console.log(`[MAIL] order status sent OK → ${to}`);
+  } catch (err) {
+    console.error('[EMAIL ERROR]', err.message);
+  }
+}
+
+module.exports = { sendBookingConfirmation, sendOrderConfirmation, sendContactNotification, sendOrderStatusUpdate };

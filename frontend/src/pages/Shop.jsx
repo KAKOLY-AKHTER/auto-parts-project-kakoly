@@ -4,7 +4,17 @@ import { useCart } from '../context/CartContext';
 import { auth } from '../firebase';
 import API from '../config';
 
-const cats = ["All", "Tires", "Motor Oil", "Filters", "Brake Parts", "Engine Parts"];
+const cats = [
+  { label:"All",          value:"all"      },
+  { label:"Tires",        value:"tire"     },
+  { label:"Engine Oil",   value:"oil"      },
+  { label:"Brakes",       value:"brake"    },
+  { label:"Batteries",    value:"battery"  },
+  { label:"Filters",      value:"filter"   },
+  { label:"Wheels",       value:"wheel"    },
+  { label:"Lighting",     value:"lighting" },
+  { label:"Accessories",  value:"accessory"},
+];
 
 function Stars({ rating }) {
   return (
@@ -23,19 +33,29 @@ export default function Shop() {
   const [searchParams] = useSearchParams();
   const [products,    setProducts]    = useState([]);
   const [loading,     setLoading]     = useState(true);
-  const [active,      setActive]      = useState("All");
+  const [active,      setActive]      = useState("all");
+  const [sortBy,      setSortBy]      = useState("newest");
+  const [priceMax,    setPriceMax]    = useState(1000);
   const [search,      setSearch]      = useState(searchParams.get('q') || "");
   const [added,       setAdded]       = useState(null);
   const [wishlisted,  setWishlisted]  = useState(new Set());
   const [wishToast,   setWishToast]   = useState(null);
   const { addItem, count }            = useCart();
 
-  const filtered = products.filter(p => {
-    const matchCat    = active === "All" || p.cat === active;
-    const q           = search.trim().toLowerCase();
-    const matchSearch = !q || p.name?.toLowerCase().includes(q) || p.catLabel?.toLowerCase().includes(q) || p.brand?.toLowerCase().includes(q);
-    return matchCat && matchSearch;
-  });
+  const filtered = products
+    .filter(p => {
+      const matchCat    = active === "all" || p.cat === active;
+      const q           = search.trim().toLowerCase();
+      const matchSearch = !q || p.name?.toLowerCase().includes(q) || p.catLabel?.toLowerCase().includes(q) || p.brand?.toLowerCase().includes(q);
+      const matchPrice  = (p.price || 0) <= priceMax;
+      return matchCat && matchSearch && matchPrice;
+    })
+    .sort((a, b) => {
+      if (sortBy === "price-asc")  return (a.price||0) - (b.price||0);
+      if (sortBy === "price-desc") return (b.price||0) - (a.price||0);
+      if (sortBy === "rating")     return (b.rating||0) - (a.rating||0);
+      return new Date(b.createdAt||0) - new Date(a.createdAt||0);
+    });
 
   useEffect(() => {
     fetch(`${API}/products`)
@@ -217,17 +237,40 @@ export default function Shop() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-5">
 
-          {/* Category filter */}
-          <div className="flex gap-2.5 mb-10 overflow-x-auto pb-2">
-            {cats.map(cat => (
-              <button key={cat} onClick={() => setActive(cat)}
-                className="shrink-0 px-5 py-2 rounded-full text-[12.5px] font-semibold border-none cursor-pointer transition-all duration-200"
-                style={active === cat
-                  ? { background: "#dc2626", color: "#fff", boxShadow: "0 2px 12px rgba(220,38,38,0.25)" }
-                  : { background: "#fff", color: "#6b7280", border: "1px solid #e5e7eb" }}>
-                {cat}
-              </button>
-            ))}
+          {/* Filters toolbar */}
+          <div className="flex flex-wrap items-center gap-3 mb-8">
+            {/* Category pills */}
+            <div className="flex gap-2 overflow-x-auto pb-1 flex-1">
+              {cats.map(cat => (
+                <button key={cat.value} onClick={() => setActive(cat.value)}
+                  className="shrink-0 px-4 py-2 rounded-full text-[12px] font-semibold border-none cursor-pointer transition-all duration-200"
+                  style={active === cat.value
+                    ? { background: "#dc2626", color: "#fff", boxShadow: "0 2px 12px rgba(220,38,38,0.25)" }
+                    : { background: "#fff", color: "#6b7280", border: "1px solid #e5e7eb" }}>
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+            {/* Sort */}
+            <select value={sortBy} onChange={e=>setSortBy(e.target.value)}
+              className="text-[12px] font-semibold rounded-xl px-3 py-2 border outline-none cursor-pointer"
+              style={{ background:"#fff", color:"#374151", border:"1px solid #e5e7eb" }}>
+              <option value="newest">Newest First</option>
+              <option value="price-asc">Price: Low → High</option>
+              <option value="price-desc">Price: High → Low</option>
+              <option value="rating">Top Rated</option>
+            </select>
+          </div>
+
+          {/* Price range */}
+          <div className="flex items-center gap-4 mb-8 bg-white rounded-2xl px-5 py-4 border border-gray-100 shadow-sm">
+            <span className="text-gray-500 text-[12px] font-semibold shrink-0">Max Price:</span>
+            <input type="range" min={10} max={1000} step={10} value={priceMax} onChange={e=>setPriceMax(+e.target.value)}
+              className="flex-1 accent-red-600" />
+            <span className="text-red-600 font-black text-[14px] w-16 text-right shrink-0">${priceMax}</span>
+            {priceMax < 1000 && (
+              <button onClick={()=>setPriceMax(1000)} className="text-gray-400 text-[11px] font-semibold border-none bg-transparent cursor-pointer hover:text-red-500 shrink-0">Reset</button>
+            )}
           </div>
 
           {loading && (

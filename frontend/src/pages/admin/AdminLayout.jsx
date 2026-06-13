@@ -5,6 +5,8 @@ const NAV = [
   { key:"bookings",  icon:"fa-calendar-check",     label:"Bookings" },
   { key:"contacts",  icon:"fa-message",            label:"Quote Requests" },
   { key:"orders",    icon:"fa-box",                label:"Orders" },
+  { key:"products",  icon:"fa-tags",               label:"Products" },
+  { key:"customers", icon:"fa-users",              label:"Customers" },
 ];
 
 export default function AdminLayout({ active, setActive, user, onLogout, children }) {

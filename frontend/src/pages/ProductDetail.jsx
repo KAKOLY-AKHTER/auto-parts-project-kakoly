@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import API from '../config';
 
 function Stars({ rating, size = 'md' }) {
@@ -74,7 +76,42 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [toast, setToast] = useState(false);
-  const [activeTab, setActiveTab] = useState('desc');
+  const [activeTab, setActiveTab]  = useState('desc');
+  const [reviews,   setReviews]    = useState([]);
+  const [fireUser,  setFireUser]   = useState(null);
+  const [rForm,     setRForm]      = useState({ rating:5, title:'', body:'' });
+  const [rSaving,   setRSaving]    = useState(false);
+  const [rErr,      setRErr]       = useState('');
+  const [rSuccess,  setRSuccess]   = useState(false);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, u => setFireUser(u));
+    return () => unsub();
+  }, []);
+
+  const loadReviews = () => {
+    fetch(`${API}/reviews/product/${id}`)
+      .then(r=>r.json()).then(d=>setReviews(Array.isArray(d)?d:[])).catch(()=>{});
+  };
+
+  useEffect(() => { loadReviews(); }, [id]);
+
+  const submitReview = async (e) => {
+    e.preventDefault();
+    if (!fireUser) return;
+    setRSaving(true); setRErr(''); setRSuccess(false);
+    try {
+      const res = await fetch(`${API}/reviews`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ userEmail: fireUser.email, userName: fireUser.displayName || fireUser.email.split('@')[0], type:'product', refId: id, refName: product?.name || '', ...rForm, rating:+rForm.rating }),
+      });
+      if (!res.ok) { const d=await res.json(); throw new Error(d.message); }
+      setRForm({ rating:5, title:'', body:'' });
+      setRSuccess(true);
+      loadReviews();
+    } catch(err) { setRErr(err.message); }
+    finally { setRSaving(false); }
+  };
 
   useEffect(() => {
     setLoadingP(true);
@@ -339,6 +376,103 @@ export default function ProductDetail() {
           </div>
         </div>
 
+        {/* ── REVIEWS ── */}
+        <div style={{ marginBottom:64 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:28 }}>
+            <div style={{ width:4, height:28, background:'#e30613', borderRadius:4 }} />
+            <h2 style={{ fontSize:24, fontWeight:900, color:'#111', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.03em', margin:0 }}>
+              Customer Reviews <span style={{ fontSize:16, color:'#9ca3af', fontWeight:600 }}>({reviews.length})</span>
+            </h2>
+          </div>
+
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:32, alignItems:'flex-start' }} className="reviews-grid">
+            {/* Left: existing reviews */}
+            <div>
+              {reviews.length === 0 ? (
+                <div style={{ background:'#fff', borderRadius:16, border:'1.5px solid #f0f0f0', padding:'32px', textAlign:'center', color:'#9ca3af' }}>
+                  <i className="fas fa-star" style={{ fontSize:32, marginBottom:12, display:'block', color:'#f3f4f6' }} />
+                  <div style={{ fontWeight:700, fontSize:15, color:'#374151', marginBottom:4 }}>No reviews yet</div>
+                  <div style={{ fontSize:13 }}>Be the first to review this product!</div>
+                </div>
+              ) : (
+                <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+                  {reviews.map(r => (
+                    <div key={r._id} style={{ background:'#fff', borderRadius:14, border:'1.5px solid #f0f0f0', padding:'18px 20px', boxShadow:'0 2px 12px rgba(0,0,0,0.04)' }}>
+                      <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:10, marginBottom:8 }}>
+                        <div>
+                          <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
+                            <div style={{ width:30, height:30, borderRadius:'50%', background:'#fef2f2', border:'1.5px solid #fecaca', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                              <i className="fas fa-user" style={{ color:'#e30613', fontSize:12 }} />
+                            </div>
+                            <span style={{ fontSize:13, fontWeight:700, color:'#111' }}>{r.userName || 'Customer'}</span>
+                          </div>
+                          <div style={{ display:'flex', gap:2 }}>
+                            {[1,2,3,4,5].map(s=>(
+                              <svg key={s} viewBox="0 0 24 24" style={{ width:13, height:13 }}
+                                fill={s<=r.rating?'#f59e0b':'none'} stroke="#f59e0b" strokeWidth="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                              </svg>
+                            ))}
+                          </div>
+                        </div>
+                        <span style={{ color:'#9ca3af', fontSize:11 }}>{new Date(r.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+                      </div>
+                      {r.title && <div style={{ fontWeight:700, fontSize:13, color:'#111', marginBottom:4 }}>{r.title}</div>}
+                      {r.body  && <div style={{ fontSize:13, color:'#6b7280', lineHeight:1.6 }}>{r.body}</div>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Right: write review */}
+            <div style={{ background:'#fff', borderRadius:16, border:'1.5px solid #f0f0f0', padding:'24px', boxShadow:'0 2px 12px rgba(0,0,0,0.04)' }}>
+              <div style={{ fontSize:16, fontWeight:800, color:'#111', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.03em', marginBottom:18 }}>Write a Review</div>
+              {!fireUser ? (
+                <div style={{ textAlign:'center', padding:'20px 0' }}>
+                  <i className="fas fa-lock" style={{ fontSize:28, color:'#d1d5db', marginBottom:10, display:'block' }} />
+                  <div style={{ fontSize:13, color:'#6b7280', marginBottom:14 }}>Sign in to write a review</div>
+                  <a href="/login" style={{ background:'#e30613', color:'#fff', borderRadius:9, padding:'10px 24px', fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.07em', textDecoration:'none', textTransform:'uppercase' }}>Sign In</a>
+                </div>
+              ) : (
+                <form onSubmit={submitReview}>
+                  {/* Star rating */}
+                  <div style={{ marginBottom:14 }}>
+                    <div style={{ fontSize:11, fontWeight:700, color:'#6b7280', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:8 }}>Your Rating</div>
+                    <div style={{ display:'flex', gap:6 }}>
+                      {[1,2,3,4,5].map(s=>(
+                        <button key={s} type="button" onClick={()=>setRForm(f=>({...f,rating:s}))}
+                          style={{ background:'none', border:'none', cursor:'pointer', padding:2 }}>
+                          <svg viewBox="0 0 24 24" style={{ width:28, height:28 }}
+                            fill={s<=rForm.rating?'#f59e0b':'none'} stroke="#f59e0b" strokeWidth="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                          </svg>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ marginBottom:12 }}>
+                    <div style={{ fontSize:11, fontWeight:700, color:'#6b7280', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Title</div>
+                    <input value={rForm.title} onChange={e=>setRForm(f=>({...f,title:e.target.value}))} placeholder="Summary of your review"
+                      style={{ width:'100%', border:'1.5px solid #e5e7eb', borderRadius:8, outline:'none', color:'#111', fontSize:13, padding:'10px 12px', boxSizing:'border-box', fontFamily:"'Inter',sans-serif" }} />
+                  </div>
+                  <div style={{ marginBottom:16 }}>
+                    <div style={{ fontSize:11, fontWeight:700, color:'#6b7280', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Review</div>
+                    <textarea value={rForm.body} onChange={e=>setRForm(f=>({...f,body:e.target.value}))} placeholder="Share your experience with this product…" rows={4}
+                      style={{ width:'100%', border:'1.5px solid #e5e7eb', borderRadius:8, outline:'none', color:'#111', fontSize:13, padding:'10px 12px', boxSizing:'border-box', resize:'vertical', fontFamily:"'Inter',sans-serif', lineHeight:1.6" }} />
+                  </div>
+                  {rErr && <div style={{ background:'#fef2f2', border:'1px solid #fecaca', borderRadius:8, padding:'8px 12px', color:'#dc2626', fontSize:12, marginBottom:12 }}>{rErr}</div>}
+                  {rSuccess && <div style={{ background:'#f0fdf4', border:'1px solid #bbf7d0', borderRadius:8, padding:'8px 12px', color:'#16a34a', fontSize:12, marginBottom:12 }}><i className="fas fa-check" style={{ marginRight:6 }} />Review submitted!</div>}
+                  <button type="submit" disabled={rSaving}
+                    style={{ width:'100%', background: rSaving?'#9ca3af':'#e30613', color:'#fff', border:'none', borderRadius:9, padding:'12px', fontSize:13, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.07em', textTransform:'uppercase', cursor:rSaving?'not-allowed':'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}>
+                    {rSaving ? <><i className="fas fa-spinner fa-spin" /> Submitting…</> : <><i className="fas fa-paper-plane" /> Submit Review</>}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* ── RELATED PRODUCTS ── */}
         {related.length > 0 && (
           <div style={{ marginBottom:64 }}>
@@ -357,6 +491,7 @@ export default function ProductDetail() {
       <style>{`
         @media (max-width: 768px) {
           .product-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+          .reviews-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

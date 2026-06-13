@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import AdminLogin    from "./admin/AdminLogin";
-import AdminLayout   from "./admin/AdminLayout";
-import AdminOverview from "./admin/AdminOverview";
-import AdminBookings from "./admin/AdminBookings";
-import AdminContacts from "./admin/AdminContacts";
-import AdminOrders   from "./admin/AdminOrders";
+import AdminLogin     from "./admin/AdminLogin";
+import AdminLayout    from "./admin/AdminLayout";
+import AdminOverview  from "./admin/AdminOverview";
+import AdminBookings  from "./admin/AdminBookings";
+import AdminContacts  from "./admin/AdminContacts";
+import AdminOrders    from "./admin/AdminOrders";
+import AdminProducts  from "./admin/AdminProducts";
+import AdminCustomers from "./admin/AdminCustomers";
 
 export default function AdminDashboard() {
   const [token,  setToken]  = useState(() => localStorage.getItem("adminToken") || "");
@@ -13,31 +15,24 @@ export default function AdminDashboard() {
   });
   const [active, setActive] = useState("overview");
 
-  // Validate token on mount
-  useEffect(() => {
-    if (!token) return;
-    // Simple check: if stored, trust it (JWT is stateless)
-  }, []);
+  useEffect(() => { if (!token) return; }, []);
 
-  const handleLogin = (u, t) => {
-    setUser(u); setToken(t);
-  };
-
+  const handleLogin  = (u, t) => { setUser(u); setToken(t); };
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
     localStorage.removeItem("adminUser");
     setToken(""); setUser(null);
   };
 
-  if (!token || !user) {
-    return <AdminLogin onLogin={handleLogin} />;
-  }
+  if (!token || !user) return <AdminLogin onLogin={handleLogin} />;
 
   const pages = {
-    overview: <AdminOverview token={token} />,
-    bookings: <AdminBookings token={token} />,
-    contacts: <AdminContacts token={token} />,
-    orders:   <AdminOrders   token={token} />,
+    overview:  <AdminOverview  token={token} />,
+    bookings:  <AdminBookings  token={token} />,
+    contacts:  <AdminContacts  token={token} />,
+    orders:    <AdminOrders    token={token} />,
+    products:  <AdminProducts  token={token} />,
+    customers: <AdminCustomers token={token} />,
   };
 
   return (
