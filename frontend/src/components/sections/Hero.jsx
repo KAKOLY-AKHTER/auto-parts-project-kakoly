@@ -478,36 +478,37 @@ export default function Hero() {
             <span style={{ color: "#fff", textShadow: "3px 3px 0 rgba(0,0,0,0.7)" }}>HR</span>
           </div>
 
-          {/* FREMONT */}
-          <div style={{
-            fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-            fontSize: "clamp(106px,14.5vw,200px)",
-            fontWeight: 400, lineHeight: 0.84, letterSpacing: "0.01em",
-            color: "#fff",
-            textShadow: "3px 4px 0 rgba(0,0,0,0.9),-1px -1px 0 rgba(0,0,0,0.5),5px 5px 14px rgba(0,0,0,0.8),2px 0 0 rgba(255,255,255,0.06)",
-            marginBottom: 10,
-            animation: anim("heroFadeLeft", 0.68, 0.5),
-          }}>
-            FREMONT
-          </div>
-
-          {/* RED BAR */}
+          {/* FREMONT + RED BAR — same width wrapper */}
           <div style={{
             display: "inline-block", marginBottom: 22,
-            animation: anim("heroBarSlide", 0.65, 0.64),
-            transformOrigin: "left center",
+            animation: anim("heroFadeLeft", 0.68, 0.5),
           }}>
-            <span style={{
+            <div style={{
               fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-              fontSize: "clamp(26px,3.6vw,52px)", fontWeight: 400,
-              color: "#fff", letterSpacing: "0.1em",
-              textTransform: "uppercase", lineHeight: 1,
-              background: "#e30613",
-              padding: "6px 14px 8px",
-              display: "inline-block",
+              fontSize: "clamp(106px,14.5vw,200px)",
+              fontWeight: 400, lineHeight: 0.84, letterSpacing: "0.01em",
+              color: "#fff",
+              textShadow: "3px 4px 0 rgba(0,0,0,0.9),-1px -1px 0 rgba(0,0,0,0.5),5px 5px 14px rgba(0,0,0,0.8)",
             }}>
-              TIRE &amp; OIL CHANGE
-            </span>
+              FREMONT
+            </div>
+            <div style={{
+              background: "#e30613",
+              padding: "7px 14px 9px",
+              marginTop: 6,
+              animation: anim("heroBarSlide", 0.65, 0.64),
+              transformOrigin: "left center",
+            }}>
+              <span style={{
+                fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
+                fontSize: "clamp(22px,2.8vw,42px)", fontWeight: 400,
+                color: "#fff", letterSpacing: "0.1em",
+                textTransform: "uppercase", lineHeight: 1,
+                display: "block", textAlign: "center",
+              }}>
+                TIRE &amp; OIL CHANGE
+              </span>
+            </div>
           </div>
 
           {/* CHECKMARKS */}
