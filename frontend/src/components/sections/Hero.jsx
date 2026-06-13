@@ -238,34 +238,37 @@ const ANIM_CSS = `
     background: linear-gradient(145deg, #111020 0%, #1a1228 45%, #0e0c18 100%);
     overflow: hidden;
     display: flex;
-    align-items: flex-start;
-    /* mobile default */
+    align-items: center;
+    min-height: 100svh;
     padding-top: 70px;
-    padding-bottom: 32px;
   }
   .hero-img-panel {
     position: absolute;
     top: 0; right: 0; bottom: 0;
     overflow: hidden;
     z-index: 1;
-    /* mobile: full-width faint background */
     width: 100%;
     opacity: 0.2;
   }
   .hero-left {
     position: relative;
     z-index: 10;
-    /* mobile default */
-    padding: 20px 20px 32px;
+    padding: 28px 20px 44px;
     width: 100%;
     min-width: 0;
     max-width: none;
   }
+  .hero-form-overlay {
+    display: none;
+  }
+  .hero-form-mobile {
+    display: block;
+  }
   /* ── tablet sm ── */
   @media (min-width: 640px) {
-    .hero-section { padding-top: 78px; align-items: flex-start; }
+    .hero-section { padding-top: 78px; align-items: center; }
     .hero-img-panel { width: 52%; opacity: 1; }
-    .hero-left { padding: 28px 24px 36px 36px; width: 60%; }
+    .hero-left { padding: 36px 24px 44px 36px; width: 60%; }
   }
   /* ── tablet md (top bar visible) ── */
   @media (min-width: 768px) {
@@ -273,9 +276,20 @@ const ANIM_CSS = `
   }
   /* ── desktop ── */
   @media (min-width: 1024px) {
-    .hero-section { padding-top: 112px; padding-bottom: 40px; align-items: flex-start; }
+    .hero-section { min-height: 100vh; padding-top: 126px; align-items: center; }
     .hero-img-panel { width: 52%; opacity: 1; }
-    .hero-left { padding: 28px 24px 36px 64px; width: 52%; min-width: 440px; max-width: 760px; }
+    .hero-left { padding: 48px 24px 48px 80px; width: 52%; min-width: 440px; max-width: 780px; }
+    .hero-form-overlay {
+      display: block;
+      position: absolute;
+      bottom: 36px;
+      right: 32px;
+      width: 340px;
+      z-index: 20;
+    }
+    .hero-form-mobile {
+      display: none;
+    }
   }
 
   /* hero buttons on small mobile */
@@ -443,9 +457,9 @@ export default function Hero() {
           {/* 24/7 label */}
           <p style={{
             fontFamily: "'Oswald',sans-serif",
-            fontSize: 13, fontWeight: 500,
+            fontSize: 14, fontWeight: 500,
             color: "#e30613", letterSpacing: "0.22em",
-            textTransform: "uppercase", marginBottom: 4, marginTop: 4,
+            textTransform: "uppercase", marginBottom: 8, marginTop: 24,
             animation: anim("heroFadeLeft", 0.6, 0.25),
           }}>
             24/7 Mobile Service
@@ -454,7 +468,7 @@ export default function Hero() {
           {/* 24HR */}
           <div style={{
             fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-            fontSize: "clamp(64px,8vw,110px)",
+            fontSize: "clamp(100px,12vw,168px)",
             fontWeight: 400, lineHeight: 0.88, letterSpacing: "0.01em",
             animation: anim("heroFadeLeft", 0.65, 0.38),
           }}>
@@ -465,11 +479,11 @@ export default function Hero() {
           {/* FREMONT */}
           <div style={{
             fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-            fontSize: "clamp(70px,9.5vw,138px)",
+            fontSize: "clamp(106px,14.5vw,200px)",
             fontWeight: 400, lineHeight: 0.84, letterSpacing: "0.01em",
             color: "#fff",
-            textShadow: "3px 4px 0 rgba(0,0,0,0.9),-1px -1px 0 rgba(0,0,0,0.5),5px 5px 14px rgba(0,0,0,0.8)",
-            marginBottom: 8,
+            textShadow: "3px 4px 0 rgba(0,0,0,0.9),-1px -1px 0 rgba(0,0,0,0.5),5px 5px 14px rgba(0,0,0,0.8),2px 0 0 rgba(255,255,255,0.06)",
+            marginBottom: 10,
             animation: anim("heroFadeLeft", 0.68, 0.5),
           }}>
             FREMONT
@@ -478,50 +492,59 @@ export default function Hero() {
           {/* RED BAR */}
           <div style={{
             background: "linear-gradient(90deg,#e30613 0%,#c0000f 65%,rgba(150,0,10,0) 100%)",
-            padding: "6px 50px 7px 16px",
-            display: "inline-block", marginBottom: 12, maxWidth: "100%",
-            boxShadow: "0 4px 20px rgba(227,6,19,0.35)",
+            padding: "9px 60px 10px 20px",
+            display: "inline-block", marginBottom: 22, maxWidth: "100%",
+            boxShadow: "0 6px 28px rgba(227,6,19,0.4), inset 0 1px 0 rgba(255,255,255,0.1)",
             animation: anim("heroBarSlide", 0.65, 0.64),
             transformOrigin: "left center",
           }}>
             <span style={{
               fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
-              fontSize: "clamp(20px,2.8vw,38px)", fontWeight: 400,
+              fontSize: "clamp(26px,3.6vw,52px)", fontWeight: 400,
               color: "#fff", letterSpacing: "0.1em",
               textTransform: "uppercase", lineHeight: 1,
+              textShadow: "1px 1px 4px rgba(0,0,0,0.4)",
             }}>
               TIRE &amp; OIL CHANGE
             </span>
           </div>
 
           {/* CHECKMARKS */}
-          <div style={{ display:"flex",flexWrap:"wrap",gap:"6px 18px",marginBottom:12 }}>
+          <div style={{ display:"flex",flexWrap:"wrap",gap:"8px 22px",marginBottom:16 }}>
             {checks.map((c, i) => (
               <div key={c} style={{
-                display:"flex",alignItems:"center",gap:6,
+                display:"flex",alignItems:"center",gap:8,
                 animation: anim("checkPop", 0.5, 0.78 + i * 0.07),
               }}>
-                <svg viewBox="0 0 22 22" fill="none" style={{ width:16,height:16,flexShrink:0 }}>
+                <svg viewBox="0 0 22 22" fill="none" style={{ width:19,height:19,flexShrink:0 }}>
                   <circle cx="11" cy="11" r="10" stroke="#e30613" strokeWidth="2" fill="rgba(227,6,19,0.1)" />
                   <polyline points="6,11 9.5,14.5 16,7.5" stroke="#e30613" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span style={{
                   fontFamily:"'Oswald',sans-serif",
-                  fontSize:13,fontWeight:600,color:"rgba(255,255,255,0.85)",
-                  textTransform:"uppercase",letterSpacing:"0.07em",
+                  fontSize:15,fontWeight:600,color:"#fff",
+                  textTransform:"uppercase",letterSpacing:"0.08em",
                 }}>{c}</span>
               </div>
             ))}
           </div>
 
-          {/* ── BOOKING FORM ── */}
-          <div style={{
-            maxWidth:500,
+          {/* DESCRIPTION */}
+          <p style={{
+            color:"rgba(255,255,255,0.82)",fontSize:16,lineHeight:1.65,marginBottom:16,maxWidth:460,
+            animation: anim("heroFadeUp", 0.6, 1.06, "ease-out"),
+          }}>
+            We come to you — Home, Business, Job Site, or Roadside.{" "}
+            <span style={{ color:"rgba(255,255,255,0.9)",fontWeight:700 }}>Fast. Reliable. Professional.</span>
+          </p>
+
+          {/* ── BOOKING FORM (mobile — shown inside left panel) ── */}
+          <div className="hero-form-mobile" style={{
             background:"rgba(10,8,20,0.76)", border:"1.5px solid rgba(255,255,255,0.11)",
-            borderRadius:18, overflow:"hidden", backdropFilter:"blur(18px)",
+            borderRadius:16, overflow:"hidden", backdropFilter:"blur(18px)",
             WebkitBackdropFilter:"blur(18px)",
-            boxShadow:"0 12px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07)",
-            animation: anim("heroFadeUp", 0.6, 1.12, "ease-out"),
+            boxShadow:"0 8px 40px rgba(0,0,0,0.5)",
+            marginTop:16,
           }}>
 
             {/* Header */}
@@ -688,6 +711,112 @@ export default function Hero() {
             )}
           </div>
         </div>
+
+        {/* ── BOOKING FORM OVERLAY (desktop — bottom right) ── */}
+        <div className="hero-form-overlay">
+          <div style={{
+            background:"rgba(8,6,18,0.88)", border:"1.5px solid rgba(255,255,255,0.11)",
+            borderRadius:16, overflow:"hidden", backdropFilter:"blur(20px)",
+            WebkitBackdropFilter:"blur(20px)",
+            boxShadow:"0 16px 60px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.07)",
+          }}>
+            {/* Header */}
+            <div style={{ background:"linear-gradient(90deg,rgba(227,6,19,0.18),rgba(227,6,19,0.04))", borderBottom:"1px solid rgba(227,6,19,0.2)", padding:"10px 14px", display:"flex", alignItems:"center", gap:8 }}>
+              <div style={{ width:26, height:26, borderRadius:7, background:"rgba(227,6,19,0.2)", border:"1px solid rgba(227,6,19,0.4)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                <i className="fas fa-calendar-check" style={{ color:"#e30613", fontSize:11 }} />
+              </div>
+              <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:13, color:"#fff", letterSpacing:"0.08em", textTransform:"uppercase" }}>Book a Service</div>
+              <div style={{ marginLeft:"auto", background:"rgba(34,197,94,0.12)", border:"1px solid rgba(34,197,94,0.3)", borderRadius:99, padding:"2px 9px", display:"flex", alignItems:"center", gap:4, flexShrink:0 }}>
+                <div style={{ width:5, height:5, borderRadius:"50%", background:"#22c55e" }} />
+                <span style={{ color:"#22c55e", fontSize:9, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.06em" }}>AVAILABLE NOW</span>
+              </div>
+            </div>
+
+            {submitted ? (
+              <div style={{ padding:"22px 16px", textAlign:"center" }}>
+                <div style={{ width:46, height:46, borderRadius:"50%", background:"rgba(34,197,94,0.12)", border:"2px solid rgba(34,197,94,0.35)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 12px" }}>
+                  <i className="fas fa-circle-check" style={{ color:"#22c55e", fontSize:22 }} />
+                </div>
+                <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:17, fontWeight:700, color:"#fff", letterSpacing:"0.06em", marginBottom:6 }}>REQUEST RECEIVED!</div>
+                <div style={{ color:"rgba(255,255,255,0.5)", fontSize:12, lineHeight:1.6, marginBottom:14 }}>
+                  We'll call you back at <span style={{ color:"#fff", fontWeight:600 }}>{phone}</span>.<br/>
+                  <span style={{ color:"#e30613" }}>{service}</span>
+                </div>
+                <button onClick={() => { setSubmitted(false); setService(""); setName(""); setPhone(""); setEmail(""); setNote(""); }}
+                  style={{ background:"rgba(255,255,255,0.07)", border:"1px solid rgba(255,255,255,0.14)", color:"rgba(255,255,255,0.65)", borderRadius:8, padding:"7px 16px", fontSize:11, fontFamily:"'Oswald',sans-serif", fontWeight:600, letterSpacing:"0.07em", cursor:"pointer" }}>
+                  Book Another
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleBook}>
+                {/* Service grid */}
+                <div style={{ padding:"10px 12px 6px" }}>
+                  <div style={{ color:"rgba(255,255,255,0.3)", fontSize:9, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:7 }}>Select Service</div>
+                  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
+                    {SERVICES.map(s => {
+                      const sel = service === s.value;
+                      return (
+                        <button key={s.value} type="button" onClick={() => { setService(sel ? "" : s.value); setErr(""); }}
+                          style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:3, padding:"7px 3px", borderRadius:8, background: sel ? "rgba(227,6,19,0.18)" : "rgba(255,255,255,0.04)", border:`1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.08)"}`, color: sel ? "#fff" : "rgba(255,255,255,0.4)", cursor:"pointer", transition:"all 0.15s", boxShadow: sel ? "0 0 12px rgba(227,6,19,0.25)" : "none" }}>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:12, color: sel ? "#e30613" : "rgba(255,255,255,0.28)" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:600, fontSize:8.5, letterSpacing:"0.03em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3 }}>{s.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Fields */}
+                <div style={{ padding:"6px 12px 0", display:"grid", gridTemplateColumns:"1fr 1fr", gap:6 }}>
+                  {[
+                    { key:"name",  type:"text",  icon:"fa-user",     val:name,  set:setName,  ph:"Full name" },
+                    { key:"phone", type:"tel",   icon:"fa-phone",    val:phone, set:setPhone, ph:"Phone number" },
+                  ].map(f => (
+                    <div key={f.key} style={{ position:"relative" }}>
+                      <div style={{ position:"absolute", left:9, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
+                        <i className={`fas ${f.icon}`} style={{ color:"rgba(255,255,255,0.22)", fontSize:10 }} />
+                      </div>
+                      <input type={f.type} value={f.val} onChange={e => { f.set(e.target.value); setErr(""); }} placeholder={f.ph}
+                        style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.09)", borderRadius:7, outline:"none", color:"#fff", fontSize:11, fontFamily:"'Inter',sans-serif", padding:"7px 7px 7px 26px", boxSizing:"border-box" }} />
+                    </div>
+                  ))}
+                  <div style={{ gridColumn:"1/-1", position:"relative" }}>
+                    <div style={{ position:"absolute", left:9, top:"50%", transform:"translateY(-50%)", pointerEvents:"none" }}>
+                      <i className="fas fa-envelope" style={{ color:"rgba(255,255,255,0.22)", fontSize:10 }} />
+                    </div>
+                    <input type="email" value={email} onChange={e => { setEmail(e.target.value); setErr(""); }} placeholder="Email address"
+                      style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.09)", borderRadius:7, outline:"none", color:"#fff", fontSize:11, fontFamily:"'Inter',sans-serif", padding:"7px 7px 7px 26px", boxSizing:"border-box" }} />
+                  </div>
+                  <div style={{ gridColumn:"1/-1", position:"relative" }}>
+                    <textarea value={note} onChange={e => setNote(e.target.value)} rows={2} placeholder="Describe your issue (optional)"
+                      style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1.5px solid rgba(255,255,255,0.09)", borderRadius:7, outline:"none", color:"#fff", fontSize:11, fontFamily:"'Inter',sans-serif", padding:"7px 10px", boxSizing:"border-box", resize:"none", lineHeight:1.5 }} />
+                  </div>
+                </div>
+
+                {err && (
+                  <div style={{ margin:"5px 12px 0", background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.22)", borderRadius:6, padding:"6px 10px", color:"#ef4444", fontSize:10, display:"flex", gap:6, alignItems:"center" }}>
+                    <i className="fas fa-circle-exclamation" /> {err}
+                  </div>
+                )}
+
+                <div style={{ padding:"8px 12px 11px" }}>
+                  <button type="submit" disabled={submitting} style={{ width:"100%", background:"linear-gradient(135deg,#e30613,#c0050f)", border:"none", color:"#fff", borderRadius:8, padding:"10px", fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:13, letterSpacing:"0.1em", textTransform:"uppercase", cursor: submitting ? "not-allowed" : "pointer", boxShadow:"0 4px 18px rgba(227,6,19,0.45)", display:"flex", alignItems:"center", justifyContent:"center", gap:7, opacity: submitting ? 0.7 : 1 }}>
+                    {submitting ? <><i className="fas fa-spinner fa-spin" style={{ fontSize:11 }} /> Sending…</> : <><i className="fas fa-paper-plane" style={{ fontSize:11 }} /> Request Free Quote</>}
+                  </button>
+                  <div style={{ display:"flex", justifyContent:"center", gap:12, marginTop:7 }}>
+                    {[{icon:"fa-bolt",text:"Same-Day"},{icon:"fa-shield-halved",text:"Licensed"},{icon:"fa-clock",text:"24/7"}].map(t => (
+                      <div key={t.text} style={{ display:"flex", alignItems:"center", gap:3 }}>
+                        <i className={`fas ${t.icon}`} style={{ color:"#e30613", fontSize:8 }} />
+                        <span style={{ color:"rgba(255,255,255,0.28)", fontSize:9.5, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.05em" }}>{t.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+
       </section>
 
       {/* ═══════════════ STATS BAR ═══════════════ */}
