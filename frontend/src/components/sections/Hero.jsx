@@ -424,6 +424,7 @@ export default function Hero() {
                 opacity: i === active ? 1 : 0,
                 transition: "opacity 1.1s ease-in-out",
                 filter: "brightness(1.1) saturate(1.25) contrast(1.05)",
+                transform: "scale(1.18)",
               }}
             />
           ))}
