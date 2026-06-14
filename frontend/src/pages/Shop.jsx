@@ -40,7 +40,9 @@ export default function Shop() {
   const [added,       setAdded]       = useState(null);
   const [wishlisted,  setWishlisted]  = useState(new Set());
   const [wishToast,   setWishToast]   = useState(null);
+  const [page,        setPage]        = useState(1);
   const { addItem, count }            = useCart();
+  const PER_PAGE = 8;
 
   const filtered = products
     .filter(p => {
@@ -75,6 +77,11 @@ export default function Shop() {
     });
     return () => unsub();
   }, []);
+
+  const totalPages = Math.ceil(filtered.length / PER_PAGE);
+  const paginated  = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  const goPage = (n) => { setPage(n); window.scrollTo({ top: 520, behavior: 'smooth' }); };
 
   const pid = (p) => p._id || p.id;
 
@@ -170,7 +177,7 @@ export default function Shop() {
               <input
                 type="text"
                 value={search}
-                onChange={e => setSearch(e.target.value)}
+                onChange={e => { setSearch(e.target.value); setPage(1); }}
                 placeholder="Search tires, oil, brake parts, filters…"
                 className="flex-1 py-4 text-[15px] font-medium outline-none bg-transparent"
                 style={{ color:'#fff', minWidth:0 }}
@@ -242,7 +249,7 @@ export default function Shop() {
             {/* Category pills */}
             <div className="flex gap-2 overflow-x-auto pb-1 flex-1">
               {cats.map(cat => (
-                <button key={cat.value} onClick={() => setActive(cat.value)}
+                <button key={cat.value} onClick={() => { setActive(cat.value); setPage(1); }}
                   className="shrink-0 px-4 py-2 rounded-full text-[12px] font-semibold border-none cursor-pointer transition-all duration-200"
                   style={active === cat.value
                     ? { background: "#dc2626", color: "#fff", boxShadow: "0 2px 12px rgba(220,38,38,0.25)" }
@@ -276,8 +283,17 @@ export default function Shop() {
           {loading && (
             <div className="text-center py-20 text-gray-400 font-semibold">Loading products…</div>
           )}
+          {/* Result count */}
+          {!loading && (
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-gray-500 text-[13px]">
+                Showing <span className="font-bold text-gray-800">{(page-1)*PER_PAGE+1}–{Math.min(page*PER_PAGE, filtered.length)}</span> of <span className="font-bold text-gray-800">{filtered.length}</span> products
+              </p>
+            </div>
+          )}
+
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-            {filtered.map((p) => {
+            {paginated.map((p) => {
               const id   = pid(p);
               const disc = Math.round((1 - p.price / (p.oldPrice || p.price + 1)) * 100);
               return (
@@ -332,6 +348,33 @@ export default function Shop() {
               );
             })}
           </div>
+
+          {/* Pagination */}
+          {!loading && totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-12">
+              <button onClick={() => goPage(page - 1)} disabled={page === 1}
+                className="w-10 h-10 rounded-xl flex items-center justify-center border-none cursor-pointer transition-all font-bold text-[13px]"
+                style={{ background: page===1 ? '#f3f4f6' : '#fff', color: page===1 ? '#d1d5db' : '#374151', border:'1px solid #e5e7eb', cursor: page===1 ? 'not-allowed' : 'pointer' }}>
+                <i className="fas fa-chevron-left" style={{ fontSize:11 }} />
+              </button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+                <button key={n} onClick={() => goPage(n)}
+                  className="w-10 h-10 rounded-xl flex items-center justify-center border-none cursor-pointer transition-all font-bold text-[13px]"
+                  style={page === n
+                    ? { background:'#dc2626', color:'#fff', boxShadow:'0 2px 12px rgba(220,38,38,0.3)', border:'1px solid #dc2626' }
+                    : { background:'#fff', color:'#374151', border:'1px solid #e5e7eb' }}>
+                  {n}
+                </button>
+              ))}
+
+              <button onClick={() => goPage(page + 1)} disabled={page === totalPages}
+                className="w-10 h-10 rounded-xl flex items-center justify-center border-none cursor-pointer transition-all font-bold text-[13px]"
+                style={{ background: page===totalPages ? '#f3f4f6' : '#fff', color: page===totalPages ? '#d1d5db' : '#374151', border:'1px solid #e5e7eb', cursor: page===totalPages ? 'not-allowed' : 'pointer' }}>
+                <i className="fas fa-chevron-right" style={{ fontSize:11 }} />
+              </button>
+            </div>
+          )}
 
           {!loading && filtered.length === 0 && (
             <div className="text-center py-20">
