@@ -216,19 +216,21 @@ const ANIM_CSS = `
   }
   /* input */
   .hf-input {
-    width: 100%; background: rgba(255,255,255,0.20);
-    border: 1.5px solid rgba(255,255,255,0.62); border-radius: 8px; outline: none;
+    width: 100%; background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255,255,255,0.18); border-radius: 8px; outline: none;
     color: #fff; font-size: 13px; font-family: 'Inter',sans-serif;
     padding: 10px 10px 10px 30px; box-sizing: border-box;
     transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
   }
   .hf-input:focus {
     border-color: #e30613;
-    background: rgba(227,6,19,0.14);
-    box-shadow: 0 0 0 3px rgba(227,6,19,0.18);
+    background: rgba(227,6,19,0.08);
+    box-shadow: 0 0 0 3px rgba(227,6,19,0.15), inset 0 1px 0 rgba(255,255,255,0.08);
     animation: inputFocusPulse 0.5s ease-out;
   }
-  .hf-input::placeholder { color: rgba(255,255,255,0.82); }
+  .hf-input::placeholder { color: rgba(255,255,255,0.45); }
   /* submit button */
   .hf-submit {
     width: 100%; border: none; color: #fff; border-radius: 10px; padding: 13px 20px;
