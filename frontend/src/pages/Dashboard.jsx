@@ -435,7 +435,7 @@ export default function Dashboard() {
         </header>
 
         {/* Page content */}
-        <main style={{ flex:1, padding:'30px 28px', maxWidth:1160, width:'100%' }}>
+        <main className="dash-content" style={{ flex:1, padding:'30px 28px', maxWidth:1160, width:'100%' }}>
           {SECTIONS[active]}
         </main>
       </div>
@@ -447,6 +447,7 @@ export default function Dashboard() {
           .dash-sidebar.open { transform: translateX(0) !important; }
           .dash-main { margin-left: 0 !important; }
           .dash-hamburger { display: flex !important; }
+          .dash-content { padding: 18px 14px !important; }
         }
       `}</style>
     </div>

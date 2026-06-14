@@ -9,7 +9,7 @@ function AddressModal({ form, setForm, onSave, onClose, saving, error }) {
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={onClose}>
-      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:28, maxWidth:520, width:'100%', maxHeight:'90vh', overflowY:'auto' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:28, maxWidth:'min(520px,95vw)', width:'100%', maxHeight:'90vh', overflowY:'auto' }} onClick={e => e.stopPropagation()}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:22 }}>
           <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:26, color:'#fff', letterSpacing:'0.05em' }}>ADD ADDRESS</div>
           <button onClick={onClose} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.4)', cursor:'pointer', fontSize:20 }}>✕</button>
@@ -131,7 +131,7 @@ export default function SectionAddressBook({ user }) {
           action={<RedBtn onClick={() => setShowModal(true)}><i className="fas fa-plus" style={{ fontSize:11 }} /> Add First Address</RedBtn>}
         />
       ) : (
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:16 }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(300px,100%),1fr))', gap:16 }}>
           {addresses.map(addr => (
             <Card key={addr._id} style={{ padding:'20px 22px', border: addr.isDefault ? '1px solid rgba(227,6,19,0.35)' : undefined, position:'relative' }}>
               {addr.isDefault && (

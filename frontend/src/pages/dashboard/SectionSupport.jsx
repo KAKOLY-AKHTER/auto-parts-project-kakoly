@@ -36,7 +36,7 @@ function TicketThread({ ticket, userEmail, onUpdate, onClose }) {
 
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.88)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={onClose}>
-      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:0, maxWidth:580, width:'100%', maxHeight:'90vh', display:'flex', flexDirection:'column', overflow:'hidden' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:0, maxWidth:'min(580px,95vw)', width:'100%', maxHeight:'90vh', display:'flex', flexDirection:'column', overflow:'hidden' }} onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div style={{ padding:'20px 24px', borderBottom:'1px solid rgba(255,255,255,0.07)', display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0 }}>
           <div>
@@ -116,7 +116,7 @@ function NewTicketModal({ user, onDone, onClose }) {
 
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.88)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={onClose}>
-      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:28, maxWidth:500, width:'100%' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:28, maxWidth:'min(500px,95vw)', width:'100%' }} onClick={e => e.stopPropagation()}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:22 }}>
           <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:26, color:'#fff', letterSpacing:'0.05em' }}>NEW SUPPORT TICKET</div>
           <button onClick={onClose} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.4)', cursor:'pointer', fontSize:20 }}>✕</button>
@@ -178,7 +178,7 @@ export default function SectionSupport({ user }) {
       />
 
       {/* Contact bar */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:12, marginBottom:24 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(220px,100%),1fr))', gap:12, marginBottom:24 }}>
         <a href="tel:+14156347777" style={{ display:'flex', alignItems:'center', gap:12, background:'rgba(227,6,19,0.07)', border:'1px solid rgba(227,6,19,0.2)', borderRadius:12, padding:'14px 18px', textDecoration:'none', color:'#fff' }}>
           <i className="fas fa-phone" style={{ color:'#e30613', fontSize:18 }} />
           <div><div style={{ fontWeight:700, fontSize:14, fontFamily:"'Oswald',sans-serif" }}>(415) 634-7777</div><div style={{ color:'rgba(255,255,255,0.4)', fontSize:11 }}>Call or Text — 24/7</div></div>

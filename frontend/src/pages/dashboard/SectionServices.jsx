@@ -85,7 +85,7 @@ function BookingForm({ onDone, user, vehicles }) {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:12 }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:12 }}>
           <Select label="Service Type" value={form.service} onChange={e => set('service', e.target.value)} required>
             <option value="">Select a service…</option>
             {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -161,7 +161,7 @@ function RescheduleModal({ booking, userEmail, onDone, onClose }) {
 
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={onClose}>
-      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:28, maxWidth:440, width:'100%' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:28, maxWidth:'min(440px,95vw)', width:'100%' }} onClick={e => e.stopPropagation()}>
         <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:24, color:'#fff', marginBottom:18 }}>RESCHEDULE BOOKING</div>
         <div style={{ color:'rgba(255,255,255,0.5)', fontSize:13, marginBottom:18 }}>{booking.service}</div>
         <Input label="New Date" type="date" value={date} min={minDateStr} onChange={e => setDate(e.target.value)} />

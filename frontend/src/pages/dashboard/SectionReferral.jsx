@@ -48,12 +48,12 @@ export default function SectionReferral({ user }) {
           Give your friends 10% off their first order. You earn 200 loyalty points for each friend who shops with us.
         </div>
 
-        <div style={{ display:'flex', gap:8, maxWidth:480, margin:'0 auto' }}>
-          <div style={{ flex:1, background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:10, padding:'12px 16px', color:'#fff', fontSize:13, fontFamily:'monospace', textAlign:'left', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+        <div style={{ display:'flex', gap:8, maxWidth:480, margin:'0 auto', flexWrap:'wrap' }}>
+          <div style={{ flex:1, minWidth:0, background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:10, padding:'12px 16px', color:'#fff', fontSize:13, fontFamily:'monospace', textAlign:'left', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
             {refLink}
           </div>
           <button onClick={copy}
-            style={{ padding:'12px 20px', borderRadius:10, background: copied ? '#22c55e' : '#e30613', border:'none', color:'#fff', fontWeight:700, fontSize:12, cursor:'pointer', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.06em', flexShrink:0, transition:'background 0.2s' }}>
+            style={{ padding:'12px 20px', borderRadius:10, background: copied ? '#22c55e' : '#e30613', border:'none', color:'#fff', fontWeight:700, fontSize:12, cursor:'pointer', fontFamily:"'Oswald',sans-serif", letterSpacing:'0.06em', flexShrink:0, transition:'background 0.2s', alignSelf:'stretch' }}>
             {copied ? <><i className="fas fa-check" style={{ marginRight:6 }} />Copied!</> : <><i className="fas fa-copy" style={{ marginRight:6 }} />Copy Link</>}
           </button>
         </div>

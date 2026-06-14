@@ -13,7 +13,7 @@ function VehicleModal({ form, setForm, onSave, onClose, saving, error }) {
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }}
       onClick={onClose}>
-      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:32, maxWidth:560, width:'100%', maxHeight:'90vh', overflowY:'auto' }}
+      <div style={{ background:'#131318', border:'1px solid rgba(255,255,255,0.12)', borderRadius:18, padding:32, maxWidth:'min(560px,95vw)', width:'100%', maxHeight:'90vh', overflowY:'auto' }}
         onClick={e => e.stopPropagation()}>
 
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:24 }}>
@@ -132,7 +132,7 @@ export default function SectionGarage({ user }) {
           action={<RedBtn onClick={() => setShowModal(true)}><i className="fas fa-plus" style={{ fontSize:11 }} /> Add First Vehicle</RedBtn>}
         />
       ) : (
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:18, alignItems:'start' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(300px,100%),1fr))', gap:18, alignItems:'start' }}>
           {vehicles.map(v => (
             <Card key={v._id} style={{ overflow:'hidden' }}>
               <div style={{ height:4, background:`linear-gradient(90deg,${v.color || '#e30613'},${v.color || '#e30613'}55)` }} />

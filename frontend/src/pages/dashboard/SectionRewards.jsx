@@ -99,7 +99,7 @@ export default function SectionRewards({ user }) {
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:16 }}>
               <div>
                 <div style={{ color:'rgba(255,255,255,0.45)', fontSize:12, fontFamily:"'Oswald',sans-serif", letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:4 }}>Your Points Balance</div>
-                <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:64, color:'#fff', lineHeight:1, letterSpacing:'0.03em' }}>
+                <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'clamp(36px,8vw,64px)', color:'#fff', lineHeight:1, letterSpacing:'0.03em' }}>
                   {points.toLocaleString()}
                   <span style={{ fontSize:22, color:'rgba(255,255,255,0.4)', marginLeft:8 }}>pts</span>
                 </div>
@@ -131,7 +131,7 @@ export default function SectionRewards({ user }) {
             )}
           </Card>
 
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))', gap:20, marginBottom:20 }}>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(300px,100%),1fr))', gap:20, marginBottom:20 }}>
             {/* Redeem */}
             <Card style={{ padding:24 }}>
               <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:16, fontWeight:700, color:'rgba(255,255,255,0.7)', letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:16 }}>Redeem Points</div>
