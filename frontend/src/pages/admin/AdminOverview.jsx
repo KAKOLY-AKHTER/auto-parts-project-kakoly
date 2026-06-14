@@ -97,7 +97,7 @@ export default function AdminOverview({ token }) {
         <StatCard icon="fa-dollar-sign"    label="Revenue"          value={`$${totalRevenue.toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0})}`} sub={`${pendingOrders} orders pending`} color="#60a5fa" loading={loading} />
       </div>
 
-      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18, marginBottom:24 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(280px,100%),1fr))", gap:18, marginBottom:24 }}>
 
         {/* Popular services */}
         <div style={CARD}>

@@ -151,10 +151,16 @@ export default function AdminLayout({ active, setActive, user, onLogout, childre
         </div>
 
         {/* Page content */}
-        <div style={{ flex:1, padding:"32px 28px", overflowY:"auto", background:"#13112a" }}>
+        <div className="admin-page-content" style={{ flex:1, padding:"32px 28px", overflowY:"auto", background:"#13112a" }}>
           {children}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .admin-page-content { padding: 16px 14px !important; }
+        }
+      `}</style>
     </div>
   );
 }

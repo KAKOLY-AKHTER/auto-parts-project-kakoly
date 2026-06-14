@@ -180,13 +180,13 @@ export default function AdminProducts({ token }) {
       {/* Add/Edit Modal */}
       {modal && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.7)", zIndex:100, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
-          <div style={{ background:"#0d0b1a", border:"1px solid rgba(255,255,255,0.1)", borderRadius:16, padding:"28px 26px", width:"100%", maxWidth:560, maxHeight:"90vh", overflowY:"auto", borderTop:"3px solid #e30613" }}>
+          <div style={{ background:"#0d0b1a", border:"1px solid rgba(255,255,255,0.1)", borderRadius:16, padding:"28px 26px", width:"100%", maxWidth:"min(560px,95vw)", maxHeight:"90vh", overflowY:"auto", borderTop:"3px solid #e30613" }}>
             <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:18, color:"#fff", letterSpacing:"0.06em", textTransform:"uppercase", marginBottom:22 }}>
               <i className="fas fa-box" style={{ color:"#e30613", marginRight:8 }} />
               {modal==="add" ? "Add New Product" : "Edit Product"}
             </div>
 
-            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))", gap:14 }}>
               {/* Name */}
               <div style={{ gridColumn:"1/-1" }}>
                 <label style={LBL}>Product Name *</label>
@@ -262,7 +262,7 @@ export default function AdminProducts({ token }) {
       {/* Delete Confirm */}
       {delId && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.7)", zIndex:100, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
-          <div style={{ background:"#0d0b1a", border:"1px solid rgba(239,68,68,0.3)", borderRadius:14, padding:"28px 26px", width:"100%", maxWidth:380, textAlign:"center" }}>
+          <div style={{ background:"#0d0b1a", border:"1px solid rgba(239,68,68,0.3)", borderRadius:14, padding:"28px 26px", width:"100%", maxWidth:"min(380px,95vw)", textAlign:"center" }}>
             <div style={{ width:52, height:52, borderRadius:14, background:"rgba(239,68,68,0.12)", border:"1px solid rgba(239,68,68,0.3)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>
               <i className="fas fa-trash" style={{ color:"#f87171", fontSize:20 }} />
             </div>
