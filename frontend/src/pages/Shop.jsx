@@ -44,7 +44,7 @@ export default function Shop() {
 
   const filtered = products
     .filter(p => {
-      const matchCat    = active === "all" || p.cat === active;
+      const matchCat    = active === "all" || p.cat?.toLowerCase() === active.toLowerCase() || p.catLabel?.toLowerCase().includes(active.toLowerCase());
       const q           = search.trim().toLowerCase();
       const matchSearch = !q || p.name?.toLowerCase().includes(q) || p.catLabel?.toLowerCase().includes(q) || p.brand?.toLowerCase().includes(q);
       const matchPrice  = (p.price || 0) <= priceMax;
