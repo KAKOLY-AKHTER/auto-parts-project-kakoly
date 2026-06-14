@@ -200,34 +200,35 @@ const ANIM_CSS = `
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 4px; padding: 9px 4px; border-radius: 9px; cursor: pointer;
     transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.15s;
-    background: rgba(255,255,255,0.10) !important;
-    border: 1.5px solid rgba(255,255,255,0.28) !important;
+    background: rgba(255,255,255,0.13) !important;
+    border: 1.5px solid rgba(255,255,255,0.45) !important;
   }
   .svc-tile:hover {
-    background: rgba(255,255,255,0.18) !important;
-    border-color: rgba(255,255,255,0.55) !important;
+    background: rgba(255,255,255,0.22) !important;
+    border-color: rgba(255,255,255,0.75) !important;
     transform: translateY(-2px);
   }
   .svc-tile.sel {
-    background: rgba(227,6,19,0.28) !important;
-    border-color: rgba(227,6,19,0.95) !important;
-    box-shadow: 0 0 20px rgba(227,6,19,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+    background: rgba(227,6,19,0.35) !important;
+    border-color: #e30613 !important;
+    box-shadow: 0 0 20px rgba(227,6,19,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
     transform: translateY(-1px);
   }
-  /* input focus ring */
+  /* input */
   .hf-input {
-    width: 100%; background: rgba(255,255,255,0.12);
-    border: 1.5px solid rgba(255,255,255,0.28); border-radius: 8px; outline: none;
-    color: #fff; font-size: 11.5px; font-family: 'Inter',sans-serif;
-    padding: 9px 9px 9px 28px; box-sizing: border-box;
+    width: 100%; background: rgba(255,255,255,0.14);
+    border: 1.5px solid rgba(255,255,255,0.45); border-radius: 8px; outline: none;
+    color: #fff; font-size: 12px; font-family: 'Inter',sans-serif;
+    padding: 10px 10px 10px 30px; box-sizing: border-box;
     transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
   }
   .hf-input:focus {
     border-color: #e30613;
-    background: rgba(227,6,19,0.10);
+    background: rgba(227,6,19,0.12);
+    box-shadow: 0 0 0 3px rgba(227,6,19,0.15);
     animation: inputFocusPulse 0.5s ease-out;
   }
-  .hf-input::placeholder { color: rgba(255,255,255,0.55); }
+  .hf-input::placeholder { color: rgba(255,255,255,0.65); }
   /* submit button */
   .hf-submit {
     width: 100%; border: none; color: #fff; border-radius: 10px; padding: 13px 20px;
@@ -616,11 +617,11 @@ export default function Hero() {
           {/* ── BOOKING FORM (mobile — shown inside left panel) ── */}
           <div className="hero-form-mobile" style={{ marginTop:16 }}>
           <div style={{
-            background:"rgba(6,4,16,0.97)",
+            background:"rgba(12,8,28,0.97)",
             borderRadius:14, overflow:"hidden",
             backdropFilter:"blur(40px) saturate(2)", WebkitBackdropFilter:"blur(40px) saturate(2)",
-            border:"1.5px solid rgba(227,6,19,0.45)",
-            boxShadow:"0 0 0 1px rgba(255,255,255,0.07), 0 28px 64px rgba(0,0,0,0.9), 0 0 40px rgba(227,6,19,0.18), inset 0 1px 0 rgba(255,255,255,0.08)",
+            border:"1.5px solid rgba(227,6,19,0.55)",
+            boxShadow:"0 0 0 1px rgba(255,255,255,0.12), 0 28px 64px rgba(0,0,0,0.9), 0 0 40px rgba(227,6,19,0.2), inset 0 1px 0 rgba(255,255,255,0.12)",
             borderTop:"3px solid #e30613",
           }}>
 
@@ -675,11 +676,11 @@ export default function Hero() {
                           className={`svc-tile${sel?" sel":""}`}
                           onClick={() => { setService(sel?"":s.value); setErr(""); }}
                           style={{
-                            background: sel ? "rgba(227,6,19,0.28)" : "rgba(255,255,255,0.10)",
-                            border:`1.5px solid ${sel ? "rgba(227,6,19,0.95)" : "rgba(255,255,255,0.28)"}`,
+                            background: sel ? "rgba(227,6,19,0.35)" : "rgba(255,255,255,0.13)",
+                            border:`1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.45)"}`,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:14, color: sel ? "#e30613" : "rgba(255,255,255,0.9)", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:9, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "rgba(255,255,255,0.95)" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:14, color: sel ? "#e30613" : "#fff", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:9, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color:"#fff" }}>{s.label}</span>
                         </button>
                       );
                     })}
@@ -758,11 +759,11 @@ export default function Hero() {
         {/* ── BOOKING FORM OVERLAY (desktop — bottom right) ── */}
         <div className="hero-form-overlay">
           <div style={{
-            background:"rgba(6,4,16,0.97)",
+            background:"rgba(12,8,28,0.97)",
             borderRadius:14, overflow:"hidden",
             backdropFilter:"blur(40px) saturate(2)", WebkitBackdropFilter:"blur(40px) saturate(2)",
-            border:"1.5px solid rgba(227,6,19,0.45)",
-            boxShadow:"0 0 0 1px rgba(255,255,255,0.07), 0 28px 64px rgba(0,0,0,0.9), 0 0 40px rgba(227,6,19,0.18), inset 0 1px 0 rgba(255,255,255,0.08)",
+            border:"1.5px solid rgba(227,6,19,0.55)",
+            boxShadow:"0 0 0 1px rgba(255,255,255,0.12), 0 28px 64px rgba(0,0,0,0.9), 0 0 40px rgba(227,6,19,0.2), inset 0 1px 0 rgba(255,255,255,0.12)",
             borderTop:"3px solid #e30613",
           }}>
 
@@ -821,8 +822,8 @@ export default function Hero() {
                             background: sel ? "rgba(227,6,19,0.28)" : "rgba(255,255,255,0.10)",
                             border: `1.5px solid ${sel ? "rgba(227,6,19,0.95)" : "rgba(255,255,255,0.28)"}`,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:14, color: sel ? "#e30613" : "rgba(255,255,255,0.9)", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:9, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "rgba(255,255,255,0.95)" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:14, color: sel ? "#e30613" : "#fff", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:9, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color:"#fff" }}>{s.label}</span>
                         </button>
                       );
                     })}
