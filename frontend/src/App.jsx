@@ -11,6 +11,7 @@ import Services from './pages/Services';
 import WhyUs from './pages/WhyUs';
 import Careers from './pages/Careers';
 import Blog from './pages/Blog';
+import BlogDetail from './pages/BlogDetail';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import ReturnPolicy from './pages/ReturnPolicy';
@@ -61,7 +62,8 @@ export default function App() {
         <Route path="/auto-service"   element={<Layout><Services /></Layout>} />
         <Route path="/why-us"         element={<Layout><WhyUs /></Layout>} />
         <Route path="/careers"        element={<Layout><Careers /></Layout>} />
-        <Route path="/blog"           element={<Layout><Blog /></Layout>} />
+        <Route path="/blog"            element={<Layout><Blog /></Layout>} />
+        <Route path="/blog/:id"       element={<Layout><BlogDetail /></Layout>} />
         <Route path="/shop"           element={<Layout><Shop /></Layout>} />
         <Route path="/cart"           element={<Layout><Cart /></Layout>} />
         <Route path="/product-details/:id" element={<Layout><ProductDetail /></Layout>} />

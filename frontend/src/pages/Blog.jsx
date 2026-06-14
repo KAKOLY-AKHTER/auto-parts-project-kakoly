@@ -1,13 +1,5 @@
 import { Link } from 'react-router-dom';
-
-const posts = [
-  { id: 1, cat: "Tire Tips",   catColor: "#dc2626", title: "How Often Should You Rotate Your Tires?",          excerpt: "Regular rotation is one of the simplest ways to extend tire life. Learn the optimal schedule and why it matters for your safety.",             date: "May 12, 2025", readTime: "4 min",  img: "/tire-1.png"     },
-  { id: 2, cat: "Oil & Fluids", catColor: "#f59e0b", title: "Synthetic vs Conventional Oil: What's Right?",      excerpt: "We break down the real differences between synthetic and conventional oil — and which one your vehicle actually needs right now.",          date: "Apr 28, 2025", readTime: "6 min",  img: "/oil-1.png"      },
-  { id: 3, cat: "Safety",      catColor: "#10b981", title: "5 Signs Your Brakes Need Immediate Attention",       excerpt: "Don't ignore these warning signs. From squealing sounds to a pulsating pedal — here's what your brakes are trying to tell you.",           date: "Apr 15, 2025", readTime: "5 min",  img: "/tire-2.png"     },
-  { id: 4, cat: "Tire Tips",   catColor: "#dc2626", title: "Understanding Tire Size Numbers: A Complete Guide",  excerpt: "That string of numbers on your tire sidewall contains critical info. Here's exactly how to read and understand every digit.",             date: "Mar 30, 2025", readTime: "7 min",  img: "/tire-3.png"     },
-  { id: 5, cat: "Maintenance", catColor: "#3b82f6", title: "The Ultimate Car Maintenance Schedule for 2025",     excerpt: "From 3,000-mile oil changes to 60,000-mile timing belts — a complete maintenance calendar to keep your car running like new.",           date: "Mar 18, 2025", readTime: "8 min",  img: "/tire-oil.png"   },
-  { id: 6, cat: "Oil & Fluids", catColor: "#f59e0b", title: "Why Your Check Engine Light Came On",               excerpt: "A check engine light doesn't always mean disaster. Learn the most common causes and how to respond calmly and correctly.",              date: "Mar 5, 2025",  readTime: "5 min",  img: "/oil-2.png"      },
-];
+import { blogPosts as posts } from '../data/blogPosts';
 
 const featured = posts[0];
 const rest = posts.slice(1);
@@ -46,7 +38,7 @@ export default function Blog() {
           <p className="text-[11px] font-black tracking-[4px] text-red-600 uppercase mb-6 flex items-center gap-2">
             <span className="w-8 h-px bg-red-600" />Featured Article
           </p>
-          <div className="grid lg:grid-cols-2 gap-10 items-center rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 p-8 md:p-10 hover:shadow-xl transition-shadow duration-300 cursor-pointer group">
+          <Link to={`/blog/${featured.id}`} className="grid lg:grid-cols-2 gap-10 items-center rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 p-8 md:p-10 hover:shadow-xl transition-shadow duration-300 cursor-pointer group" style={{ textDecoration: 'none' }}>
             <div>
               <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold mb-4"
                 style={{ background: `${featured.catColor}18`, color: featured.catColor }}>
@@ -71,7 +63,7 @@ export default function Blog() {
                 className="max-h-full max-w-full object-contain p-8 transition-transform duration-500 group-hover:scale-105"
                 onError={e => e.target.style.display = 'none'} />
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 
@@ -81,7 +73,8 @@ export default function Blog() {
           <h2 className="text-gray-900 font-black text-3xl mb-10 tracking-tight">More Articles</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7">
             {rest.map(({ id, cat, catColor, title, excerpt, date, readTime, img }) => (
-              <article key={id}
+              <Link key={id} to={`/blog/${id}`} style={{ textDecoration: 'none' }}>
+              <article
                 className="bg-white rounded-2xl overflow-hidden group cursor-pointer shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 {/* Thumbnail */}
                 <div className="h-48 relative flex items-center justify-center bg-gray-50 overflow-hidden">
@@ -107,6 +100,7 @@ export default function Blog() {
                   </div>
                 </div>
               </article>
+              </Link>
             ))}
           </div>
         </div>
