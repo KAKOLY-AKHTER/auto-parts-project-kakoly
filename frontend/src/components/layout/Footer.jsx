@@ -21,7 +21,7 @@ const Footer = () => {
             </div>
             <div>
               <p className="text-white text-[13px] font-bold leading-none">Need help? Call us today</p>
-              <p className="text-slate-400 text-[11px] mt-0.5">(+68) 120034509 — Mon–Sat 7am to 7pm</p>
+              <p className="text-slate-400 text-[11px] mt-0.5">(415) 634-7777 — Available 24/7</p>
             </div>
           </div>
 
@@ -97,8 +97,8 @@ const Footer = () => {
               links: [
                 { label: "Blog",           to: "/blog" },
                 { label: "Contact",        to: "/contacts" },
+                { label: "FAQ",            to: "/faq" },
                 { label: "Return Policy",   to: "/return-policy" },
-                { label: "Online Support",  to: "/contacts" },
                 { label: "Privacy Policy",  to: "/privacy-policy" },
                 { label: "Terms of Service",to: "/terms" },
               ],
@@ -138,7 +138,7 @@ const Footer = () => {
                 {
                   icon: <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>,
                   circle: null,
-                  text: "(+68) 120034509",
+                  text: "(415) 634-7777",
                 },
                 {
                   icon: <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>,

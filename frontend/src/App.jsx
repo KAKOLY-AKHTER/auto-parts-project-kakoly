@@ -18,6 +18,7 @@ import ReturnPolicy from './pages/ReturnPolicy';
 import NotFound from './pages/NotFound';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
+import FAQ from './pages/FAQ';
 import ClientLayout from './pages/ClientLayout';
 import Dashboard      from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -72,6 +73,7 @@ export default function App() {
         <Route path="/support"         element={<Layout><Contact /></Layout>} />
         <Route path="/privacy-policy"  element={<Layout><PrivacyPolicy /></Layout>} />
         <Route path="/terms"           element={<Layout><Terms /></Layout>} />
+        <Route path="/faq"             element={<Layout><FAQ /></Layout>} />
         <Route path="/client-layout"   element={<ClientLayout />} />
 
         {/* Service & fleet pages */}
