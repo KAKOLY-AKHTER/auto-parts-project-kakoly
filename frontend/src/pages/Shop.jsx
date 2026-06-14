@@ -192,7 +192,8 @@ export default function Shop() {
                 </button>
               )}
               {/* Search button */}
-              <button className="px-7 m-1.5 rounded-xl font-black text-[13px] tracking-[1.5px] uppercase text-white border-none cursor-pointer shrink-0 transition-all"
+              <button onClick={() => { setActive("all"); setPage(1); }}
+                className="px-7 m-1.5 rounded-xl font-black text-[13px] tracking-[1.5px] uppercase text-white border-none cursor-pointer shrink-0 transition-all"
                 style={{ background:'linear-gradient(135deg,#dc2626,#b91c1c)', boxShadow:'0 4px 16px rgba(220,38,38,0.4)', fontFamily:"'Oswald',sans-serif" }}>
                 Search
               </button>
@@ -210,7 +211,7 @@ export default function Shop() {
               <div className="flex items-center justify-center gap-2 mt-5 flex-wrap">
                 <span className="text-slate-500 text-[12px]">Popular:</span>
                 {["All-Terrain Tires","Synthetic Oil","Brake Pads","Oil Filter","Performance Tires"].map(q => (
-                  <button key={q} onClick={() => setSearch(q)}
+                  <button key={q} onClick={() => { setSearch(q); setActive("all"); setPage(1); }}
                     className="px-3 py-1 rounded-full text-[11.5px] font-semibold cursor-pointer transition-all border-none"
                     style={{ background:'rgba(255,255,255,0.07)', color:'rgba(255,255,255,0.6)', border:'1px solid rgba(255,255,255,0.1)' }}
                     onMouseEnter={e => { e.currentTarget.style.background='rgba(220,38,38,0.15)'; e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='rgba(220,38,38,0.4)'; }}
