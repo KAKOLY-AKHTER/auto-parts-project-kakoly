@@ -26,7 +26,7 @@ const Footer = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-slate-500 text-[12px] hidden md:block">Same-day tire &amp; oil service available</span>
+            <span className="text-slate-300 text-[12px] hidden md:block">Same-day tire &amp; oil service available</span>
             <Link
               to="/contacts"
               className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white text-[11px] font-black tracking-[1.5px] uppercase rounded transition-colors duration-200 no-underline"
@@ -53,7 +53,7 @@ const Footer = () => {
                 style={{ filter: "brightness(1.9) contrast(1.2) saturate(1.15) drop-shadow(0 0 16px rgba(255,255,255,0.65)) drop-shadow(0 2px 24px rgba(220,38,38,0.7))" }}
               />
             </div>
-            <p className="text-slate-500 text-[12.5px] leading-relaxed mb-4">
+            <p className="text-slate-300 text-[12.5px] leading-relaxed mb-4">
               Fremont's trusted tire &amp; oil service since 1998. ASE-certified techs, same-day service, and prices you can count on.
             </p>
             <div className="flex items-center gap-2">
@@ -112,8 +112,8 @@ const Footer = () => {
                 {col.links.map(({ label, to }) => (
                   <li key={label}>
                     <Link to={to}
-                      className="text-slate-500 text-[12.5px] hover:text-white transition-all duration-300 inline-flex items-center gap-2.5 group no-underline">
-                      <span className="w-0.75 h-0.75 bg-slate-700 rounded-full group-hover:bg-red-500 transition-colors duration-300" />
+                      className="text-slate-300 text-[12.5px] hover:text-white transition-all duration-300 inline-flex items-center gap-2.5 group no-underline">
+                      <span className="w-0.75 h-0.75 bg-slate-500 rounded-full group-hover:bg-red-500 transition-colors duration-300" />
                       {label}
                     </Link>
                   </li>
@@ -152,7 +152,7 @@ const Footer = () => {
                       {icon}{circle}
                     </svg>
                   </div>
-                  <p className="text-slate-500 text-[12.5px] leading-relaxed pt-0.5">{text}</p>
+                  <p className="text-slate-300 text-[12.5px] leading-relaxed pt-0.5">{text}</p>
                 </div>
               ))}
 
@@ -166,8 +166,8 @@ const Footer = () => {
                     ["Sunday",    "9:00 am – 5:00 pm"],
                   ].map(([day, hrs]) => (
                     <div key={day} className="flex justify-between text-[11.5px]">
-                      <span className="text-slate-500">{day}</span>
-                      <span className="text-slate-400 font-medium">{hrs}</span>
+                      <span className="text-slate-300">{day}</span>
+                      <span className="text-white font-medium">{hrs}</span>
                     </div>
                   ))}
                 </div>
@@ -182,14 +182,14 @@ const Footer = () => {
       {/* ── BOTTOM BAR ── */}
       <div className="border-t border-slate-800/50 relative z-10">
         <div className="max-w-7xl mx-auto px-5 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-slate-600 text-[12px]">
-            © 2026 <span className="text-slate-400 font-semibold">TireOil</span>. All rights reserved.
+          <p className="text-slate-300 text-[12px]">
+            © 2026 <span className="text-white font-semibold">TireOil</span>. All rights reserved.
           </p>
 
           {/* Trust badges */}
           <div className="flex items-center gap-4">
             {["ASE Certified", "Price Match", "Same-Day Service"].map((badge) => (
-              <div key={badge} className="flex items-center gap-1.5 text-[10px] text-slate-600">
+              <div key={badge} className="flex items-center gap-1.5 text-[10px] text-slate-300">
                 <svg viewBox="0 0 24 24" className="w-3 h-3 text-red-600" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
