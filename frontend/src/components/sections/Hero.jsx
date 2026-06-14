@@ -200,18 +200,22 @@ const ANIM_CSS = `
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 5px; padding: 10px 4px; border-radius: 9px; cursor: pointer;
     transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.15s;
-    background: rgba(255,255,255,0.18) !important;
-    border: 1.5px solid rgba(255,255,255,0.62) !important;
+    background: rgba(255,255,255,0.05) !important;
+    border: 1.5px solid rgba(255,255,255,0.12) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
   }
   .svc-tile:hover {
-    background: rgba(255,255,255,0.28) !important;
-    border-color: rgba(255,255,255,0.88) !important;
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.28) !important;
     transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 16px rgba(0,0,0,0.3);
   }
   .svc-tile.sel {
-    background: rgba(227,6,19,0.40) !important;
+    background: rgba(227,6,19,0.30) !important;
     border-color: #e30613 !important;
-    box-shadow: 0 0 20px rgba(227,6,19,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+    box-shadow: 0 0 18px rgba(227,6,19,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
     transform: translateY(-1px);
   }
   /* input */
@@ -678,8 +682,8 @@ export default function Hero() {
                           className={`svc-tile${sel?" sel":""}`}
                           onClick={() => { setService(sel?"":s.value); setErr(""); }}
                           style={{
-                            background: sel ? "rgba(227,6,19,0.40)" : "rgba(255,255,255,0.18)",
-                            border:`1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.62)"}`,
+                            background: sel ? "rgba(227,6,19,0.30)" : "rgba(255,255,255,0.05)",
+                            border:`1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.12)"}`,
                           }}>
                           <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "#fff", transition:"color 0.18s" }} />
                           <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color:"#fff" }}>{s.label}</span>
