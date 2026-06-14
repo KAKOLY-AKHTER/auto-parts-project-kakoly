@@ -707,21 +707,21 @@ export default function Hero() {
                     <div>
                       <label style={{ display:"block", color:"rgba(255,255,255,0.90)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Full Name</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-user" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.65)", fontSize:11, pointerEvents:"none" }} />
+                        <i className="fas fa-user" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.90)", fontSize:13, pointerEvents:"none" }} />
                         <input type="text" value={name} onChange={e=>{setName(e.target.value);setErr("");}} placeholder="John Smith" className="hf-input" />
                       </div>
                     </div>
                     <div>
                       <label style={{ display:"block", color:"rgba(255,255,255,0.90)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Phone</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-phone" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.65)", fontSize:11, pointerEvents:"none" }} />
+                        <i className="fas fa-phone" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.90)", fontSize:13, pointerEvents:"none" }} />
                         <input type="tel" value={phone} onChange={e=>{setPhone(e.target.value);setErr("");}} placeholder="(415) 000-0000" className="hf-input" />
                       </div>
                     </div>
                     <div style={{ gridColumn:"1/-1" }}>
                       <label style={{ display:"block", color:"rgba(255,255,255,0.90)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Email Address</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-envelope" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.65)", fontSize:11, pointerEvents:"none" }} />
+                        <i className="fas fa-envelope" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.90)", fontSize:13, pointerEvents:"none" }} />
                         <input type="email" value={email} onChange={e=>{setEmail(e.target.value);setErr("");}} placeholder="your@email.com" className="hf-input" />
                       </div>
                     </div>
@@ -852,21 +852,21 @@ export default function Hero() {
                     <div>
                       <label style={{ display:"block", color:"rgba(255,255,255,0.90)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Full Name</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-user" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.65)", fontSize:11, pointerEvents:"none" }} />
+                        <i className="fas fa-user" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.90)", fontSize:13, pointerEvents:"none" }} />
                         <input type="text" value={name} onChange={e=>{setName(e.target.value);setErr("");}} placeholder="John Smith" className="hf-input" />
                       </div>
                     </div>
                     <div>
                       <label style={{ display:"block", color:"rgba(255,255,255,0.90)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Phone</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-phone" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.65)", fontSize:11, pointerEvents:"none" }} />
+                        <i className="fas fa-phone" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.90)", fontSize:13, pointerEvents:"none" }} />
                         <input type="tel" value={phone} onChange={e=>{setPhone(e.target.value);setErr("");}} placeholder="(415) 000-0000" className="hf-input" />
                       </div>
                     </div>
                     <div style={{ gridColumn:"1/-1" }}>
                       <label style={{ display:"block", color:"rgba(255,255,255,0.90)", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Email Address</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-envelope" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.65)", fontSize:11, pointerEvents:"none" }} />
+                        <i className="fas fa-envelope" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.90)", fontSize:13, pointerEvents:"none" }} />
                         <input type="email" value={email} onChange={e=>{setEmail(e.target.value);setErr("");}} placeholder="your@email.com" className="hf-input" />
                       </div>
                     </div>
