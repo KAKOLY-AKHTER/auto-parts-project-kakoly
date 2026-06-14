@@ -20,6 +20,7 @@ const wishlistRoutes  = require('./routes/wishlist');
 const referralRoutes  = require('./routes/referrals');
 const userRoutes        = require('./routes/users');
 const newsletterRoutes  = require('./routes/newsletter');
+const settingsRoutes    = require('./routes/settings');
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use('/api/wishlist',   wishlistRoutes);
 app.use('/api/referrals', referralRoutes);
 app.use('/api/users',      userRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/settings',   settingsRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 

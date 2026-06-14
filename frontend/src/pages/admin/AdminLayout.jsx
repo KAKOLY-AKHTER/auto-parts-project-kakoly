@@ -7,6 +7,7 @@ const NAV = [
   { key:"orders",    icon:"fa-box",           label:"Orders"         },
   { key:"products",  icon:"fa-tags",          label:"Products"       },
   { key:"customers", icon:"fa-users",         label:"Customers"      },
+  { key:"settings",  icon:"fa-gear",          label:"Settings"       },
 ];
 
 export default function AdminLayout({ active, setActive, user, onLogout, children }) {

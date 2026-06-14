@@ -7,6 +7,7 @@ import AdminContacts  from "./admin/AdminContacts";
 import AdminOrders    from "./admin/AdminOrders";
 import AdminProducts  from "./admin/AdminProducts";
 import AdminCustomers from "./admin/AdminCustomers";
+import AdminSettings  from "./admin/AdminSettings";
 
 export default function AdminDashboard() {
   const [token,  setToken]  = useState(() => localStorage.getItem("adminToken") || "");
@@ -33,6 +34,7 @@ export default function AdminDashboard() {
     orders:    <AdminOrders    token={token} />,
     products:  <AdminProducts  token={token} />,
     customers: <AdminCustomers token={token} />,
+    settings:  <AdminSettings  token={token} />,
   };
 
   return (

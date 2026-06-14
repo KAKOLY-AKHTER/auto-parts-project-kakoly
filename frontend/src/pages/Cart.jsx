@@ -5,23 +5,33 @@ import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
 import API from '../config';
-const SHIPPING_THRESHOLD = 99;
-const SHIPPING_COST = 9.99;
-const TAX_RATE = 0.0875;
+
+const FALLBACK = { taxRate: 0.0875, shippingCost: 9.99, shippingThreshold: 99, referralDiscount: 0.10 };
 
 export default function Cart() {
   const { items, removeItem, updateQty, clearCart, count, subtotal } = useCart();
 
+  const [settings,    setSettings]    = useState(FALLBACK);
   const [hasDiscount, setHasDiscount] = useState(false);
 
-  const shipping   = subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
-  const tax        = subtotal * TAX_RATE;
-  const discountAmt = hasDiscount ? parseFloat((subtotal * 0.10).toFixed(2)) : 0;
-  const total      = subtotal + shipping + tax - discountAmt;
+  const shipping    = subtotal >= settings.shippingThreshold ? 0 : settings.shippingCost;
+  const tax         = subtotal * settings.taxRate;
+  const discountAmt = hasDiscount ? parseFloat((subtotal * settings.referralDiscount).toFixed(2)) : 0;
+  const total       = subtotal + shipping + tax - discountAmt;
 
   const [form, setForm] = useState({ name:'', email:'', phone:'', address:'' });
 
+  const checkDiscount = (email) => {
+    if (!email) return;
+    fetch(`${API}/referrals/discount?email=${encodeURIComponent(email)}`)
+      .then(r => r.json())
+      .then(d => setHasDiscount(!!d.hasDiscount))
+      .catch(() => {});
+  };
+
   useEffect(() => {
+    fetch(`${API}/settings`).then(r => r.json()).then(d => setSettings({ ...FALLBACK, ...d })).catch(() => {});
+
     const unsub = onAuthStateChanged(auth, (u) => {
       if (u) {
         setForm(f => ({
@@ -29,10 +39,7 @@ export default function Cart() {
           name:  f.name  || u.displayName || '',
           email: f.email || u.email || '',
         }));
-        fetch(`${API}/referrals/discount?email=${encodeURIComponent(u.email)}`)
-          .then(r => r.json())
-          .then(d => setHasDiscount(!!d.hasDiscount))
-          .catch(() => {});
+        checkDiscount(u.email);
       }
     });
     return () => unsub();
@@ -124,7 +131,7 @@ export default function Cart() {
             <div className="mt-4 pt-4 border-t border-gray-100 space-y-1.5">
               <div className="flex justify-between text-[13px] text-gray-500"><span>Subtotal</span><span>${success.subtotal?.toFixed(2)}</span></div>
               <div className="flex justify-between text-[13px] text-gray-500"><span>Shipping</span><span>{success.shipping === 0 ? 'FREE' : `$${success.shipping?.toFixed(2)}`}</span></div>
-              <div className="flex justify-between text-[13px] text-gray-500"><span>Tax (8.75%)</span><span>${success.tax?.toFixed(2)}</span></div>
+              <div className="flex justify-between text-[13px] text-gray-500"><span>Tax</span><span>${success.tax?.toFixed(2)}</span></div>
               <div className="flex justify-between text-[16px] font-black text-gray-900 pt-1.5 border-t border-gray-200"><span>Total</span><span className="text-red-600">${success.total?.toFixed(2)}</span></div>
             </div>
           </div>
@@ -298,7 +305,7 @@ export default function Cart() {
                     </div>
                   )}
                   <div className="flex justify-between text-[14px] text-gray-500">
-                    <span>Tax (8.75%)</span>
+                    <span>Tax ({(settings.taxRate * 100).toFixed(2)}%)</span>
                     <span className="font-semibold text-gray-700">${tax.toFixed(2)}</span>
                   </div>
                   {hasDiscount && (
@@ -330,6 +337,7 @@ export default function Cart() {
                         type={f.type}
                         value={form[f.key]}
                         onChange={e => set(f.key, e.target.value)}
+                        onBlur={f.key === 'email' ? e => checkDiscount(e.target.value) : undefined}
                         placeholder={f.placeholder}
                         required={f.key !== 'phone'}
                         className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-800 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-50 transition-all placeholder-gray-300"

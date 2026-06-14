@@ -245,6 +245,19 @@ export default function SignUp() {
                 </p>
               </div>
 
+              {/* Referral banner */}
+              {searchParams.get('ref') && (
+                <div style={{ background:'linear-gradient(135deg,#f0fdf4,#dcfce7)', border:'1.5px solid #86efac', borderRadius:12, padding:'14px 18px', marginBottom:20, display:'flex', alignItems:'flex-start', gap:12 }}>
+                  <div style={{ width:32, height:32, borderRadius:8, background:'#22c55e', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1 }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" style={{ width:16, height:16 }}><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div>
+                    <div style={{ fontWeight:700, fontSize:14, color:'#15803d', marginBottom:3 }}>You were referred — 10% off your first order!</div>
+                    <div style={{ fontSize:12, color:'#166534' }}>Sign up now and the discount will be automatically applied at checkout.</div>
+                  </div>
+                </div>
+              )}
+
               {/* Error */}
               {error && (
                 <div className="flex gap-2.5 items-start bg-red-50 border border-red-100 text-red-600 rounded-xl px-4 py-3 mb-5 text-[13px]">
