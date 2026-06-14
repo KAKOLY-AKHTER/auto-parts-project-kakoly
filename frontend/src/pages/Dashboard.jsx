@@ -22,7 +22,7 @@ const NAV = [
   { id:'orders',         icon:'fa-box',                label:'My Orders'        },
   { id:'services',       icon:'fa-screwdriver-wrench', label:'Service Requests' },
   { id:'garage',         icon:'fa-car',                label:'My Garage'        },
-  { id:'notifications',  icon:'fa-bell',               label:'Notifications', badge:3 },
+  { id:'notifications',  icon:'fa-bell',               label:'Notifications' },
   { id:'rewards',        icon:'fa-star',               label:'Rewards'          },
   { id:'wishlist',       icon:'fa-heart',              label:'Wishlist'         },
   { id:'reviews',        icon:'fa-star-half-stroke',   label:'Reviews'          },
