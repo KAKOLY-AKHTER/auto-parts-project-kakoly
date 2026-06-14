@@ -207,16 +207,22 @@ export default function Shop() {
             )}
 
             {/* Quick searches */}
-            {!search && (
+            {!search && active === "all" && (
               <div className="flex items-center justify-center gap-2 mt-5 flex-wrap">
                 <span className="text-slate-500 text-[12px]">Popular:</span>
-                {["All-Terrain Tires","Synthetic Oil","Brake Pads","Oil Filter","Performance Tires"].map(q => (
-                  <button key={q} onClick={() => { setSearch(q); setActive("all"); setPage(1); }}
+                {[
+                  { label:"All-Terrain Tires",  q:"All-Terrain",  cat:"all"     },
+                  { label:"Synthetic Oil",       q:"Synthetic",    cat:"oil"     },
+                  { label:"Brake Pads",          q:"Brake Pads",   cat:"all"     },
+                  { label:"Oil Filter",          q:"Oil Filter",   cat:"all"     },
+                  { label:"Performance Tires",   q:"",             cat:"tire"    },
+                ].map(({ label, q, cat }) => (
+                  <button key={label} onClick={() => { setSearch(q); setActive(cat); setPage(1); }}
                     className="px-3 py-1 rounded-full text-[11.5px] font-semibold cursor-pointer transition-all border-none"
                     style={{ background:'rgba(255,255,255,0.07)', color:'rgba(255,255,255,0.6)', border:'1px solid rgba(255,255,255,0.1)' }}
                     onMouseEnter={e => { e.currentTarget.style.background='rgba(220,38,38,0.15)'; e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='rgba(220,38,38,0.4)'; }}
                     onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.07)'; e.currentTarget.style.color='rgba(255,255,255,0.6)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)'; }}>
-                    {q}
+                    {label}
                   </button>
                 ))}
               </div>
