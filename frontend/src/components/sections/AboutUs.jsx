@@ -54,10 +54,10 @@ export default function AboutUs() {
                   src="/about-img.png"
                   alt="Tire Service Professional"
                   className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
-                  style={{ filter: "brightness(1.08) contrast(1.12) saturate(1.1)" }}
+                  style={{ filter: "brightness(1.25) contrast(1.15) saturate(1.2)" }}
                 />
                 {/* Top dark vignette */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/55 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/30 pointer-events-none" />
 
                 {/* ASE Certified glass badge */}
                 <div className="absolute top-4 left-4 z-10 flex items-center gap-2"
