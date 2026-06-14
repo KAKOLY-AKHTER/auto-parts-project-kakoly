@@ -1,7 +1,7 @@
 const router  = require('express').Router();
 const Booking = require('../models/Booking');
 const { protect, admin } = require('../middleware/authMiddleware');
-const { sendBookingConfirmation } = require('../utils/mailer');
+const { sendBookingConfirmation, sendBookingStatusUpdate } = require('../utils/mailer');
 
 // POST create — public (guests can book without login)
 router.post('/', async (req, res) => {
@@ -87,6 +87,17 @@ router.patch('/:id/status', protect, admin, async (req, res) => {
     );
     if (!booking) return res.status(404).json({ message: 'Booking not found' });
     res.json(booking);
+    if (booking.email && ['confirmed','completed','cancelled'].includes(req.body.status)) {
+      sendBookingStatusUpdate({
+        to:      booking.email,
+        name:    booking.name,
+        service: booking.service,
+        date:    booking.date,
+        time:    booking.time,
+        status:  req.body.status,
+        refId:   booking._id.toString().slice(-8).toUpperCase(),
+      }).catch(err => console.error('[EMAIL ERROR]', err.message));
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

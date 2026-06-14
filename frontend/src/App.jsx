@@ -14,6 +14,9 @@ import Blog from './pages/Blog';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import ReturnPolicy from './pages/ReturnPolicy';
+import NotFound from './pages/NotFound';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
 import ClientLayout from './pages/ClientLayout';
 import Dashboard      from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -62,10 +65,12 @@ export default function App() {
         <Route path="/shop"           element={<Layout><Shop /></Layout>} />
         <Route path="/cart"           element={<Layout><Cart /></Layout>} />
         <Route path="/product-details/:id" element={<Layout><ProductDetail /></Layout>} />
-        <Route path="/return-policy"  element={<Layout><ReturnPolicy /></Layout>} />
-        <Route path="/money-back"     element={<Layout><ReturnPolicy /></Layout>} />
-        <Route path="/support"        element={<Layout><Contact /></Layout>} />
-        <Route path="/client-layout"  element={<ClientLayout />} />
+        <Route path="/return-policy"   element={<Layout><ReturnPolicy /></Layout>} />
+        <Route path="/money-back"      element={<Layout><ReturnPolicy /></Layout>} />
+        <Route path="/support"         element={<Layout><Contact /></Layout>} />
+        <Route path="/privacy-policy"  element={<Layout><PrivacyPolicy /></Layout>} />
+        <Route path="/terms"           element={<Layout><Terms /></Layout>} />
+        <Route path="/client-layout"   element={<ClientLayout />} />
 
         {/* Service & fleet pages */}
         <Route path="/fleet-services"     element={<Layout><FleetServices /></Layout>} />
@@ -88,6 +93,9 @@ export default function App() {
         <Route path="/quality-parts"   element={<Layout><QualityParts /></Layout>} />
         <Route path="/pricing"         element={<Layout><Pricing /></Layout>} />
         <Route path="/satisfaction"    element={<Layout><Satisfaction /></Layout>} />
+
+        {/* 404 catch-all */}
+        <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
     </Router>
     </CartProvider>

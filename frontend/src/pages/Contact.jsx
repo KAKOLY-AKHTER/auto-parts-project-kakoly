@@ -31,8 +31,8 @@ const infoCards = [
       </svg>
     ),
     label: "Call Us",
-    value: "(+68) 120-034-509",
-    sub: "Mon – Sat · 7am to 7pm",
+    value: "(415) 634-7777",
+    sub: "Available 24/7",
   },
   {
     icon: (

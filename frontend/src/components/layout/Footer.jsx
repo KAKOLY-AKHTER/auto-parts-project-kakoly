@@ -97,9 +97,10 @@ const Footer = () => {
               links: [
                 { label: "Blog",           to: "/blog" },
                 { label: "Contact",        to: "/contacts" },
-                { label: "Return Policy",  to: "/return-policy" },
-                { label: "Online Support", to: "/contacts" },
-                { label: "Money Back",     to: "/money-back" },
+                { label: "Return Policy",   to: "/return-policy" },
+                { label: "Online Support",  to: "/contacts" },
+                { label: "Privacy Policy",  to: "/privacy-policy" },
+                { label: "Terms of Service",to: "/terms" },
               ],
             },
           ].map((col) => (
