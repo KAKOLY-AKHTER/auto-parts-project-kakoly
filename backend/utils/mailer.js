@@ -308,4 +308,48 @@ async function sendBookingStatusUpdate({ to, name, service, date, time, status, 
   }
 }
 
-module.exports = { sendBookingConfirmation, sendOrderConfirmation, sendContactNotification, sendOrderStatusUpdate, sendBookingStatusUpdate };
+async function sendNewsletterConfirmation({ email }) {
+  if (!guard()) return;
+  console.log(`[MAIL] newsletter → ${email}`);
+  try {
+    const { error } = await getClient().emails.send({
+      from:    fromAddr(),
+      to:      email,
+      subject: 'You\'re subscribed — 24HR Fremont Tire & Auto',
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0f0f17;color:#fff;border-radius:12px;overflow:hidden">
+          <div style="background:#e30613;padding:28px 32px">
+            <h1 style="margin:0;font-size:28px;letter-spacing:0.05em">24HR FREMONT TIRE & AUTO</h1>
+            <p style="margin:6px 0 0;opacity:0.85;font-size:14px">Newsletter Subscription Confirmed</p>
+          </div>
+          <div style="padding:32px">
+            <p style="font-size:17px;margin-bottom:6px">Welcome aboard! 🎉</p>
+            <p style="color:rgba(255,255,255,0.7);line-height:1.75;margin-top:0">
+              You've been added to our monthly newsletter. Expect expert tire & oil tips, maintenance reminders, and exclusive Bay Area deals — straight to your inbox.
+            </p>
+            <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px 24px;margin:24px 0">
+              <p style="margin:0 0 10px;color:rgba(255,255,255,0.5);font-size:11px;letter-spacing:0.08em;text-transform:uppercase">What you'll receive</p>
+              <ul style="margin:0;padding-left:18px;color:rgba(255,255,255,0.75);font-size:14px;line-height:2">
+                <li>Monthly maintenance tips</li>
+                <li>Exclusive subscriber discounts</li>
+                <li>Seasonal vehicle care reminders</li>
+                <li>New service & product announcements</li>
+              </ul>
+            </div>
+            <p style="color:rgba(255,255,255,0.45);font-size:12px">You can unsubscribe at any time by replying to this email with "unsubscribe".</p>
+            <p style="color:rgba(255,255,255,0.55);font-size:13px">Questions? Call us: <strong style="color:#fff">(415) 634-7777</strong></p>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);padding:16px 32px;font-size:12px;color:rgba(255,255,255,0.3);text-align:center">
+            24HR Fremont Tire & Auto · Fremont, CA · Available 24/7
+          </div>
+        </div>
+      `,
+    });
+    if (error) throw new Error(error.message);
+    console.log(`[MAIL] newsletter sent OK → ${email}`);
+  } catch (err) {
+    console.error('[EMAIL ERROR]', err.message);
+  }
+}
+
+module.exports = { sendBookingConfirmation, sendOrderConfirmation, sendContactNotification, sendOrderStatusUpdate, sendBookingStatusUpdate, sendNewsletterConfirmation };

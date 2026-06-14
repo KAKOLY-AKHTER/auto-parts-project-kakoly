@@ -1,10 +1,37 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { blogPosts as posts } from '../data/blogPosts';
+import API from '../config';
 
 const featured = posts[0];
 const rest = posts.slice(1);
 
 export default function Blog() {
+  const [email, setEmail]   = useState('');
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error | duplicate
+  const [msg, setMsg]       = useState('');
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus('loading');
+    try {
+      const res = await fetch(`${API}/newsletter/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (res.status === 409) { setStatus('duplicate'); setMsg('You\'re already subscribed!'); return; }
+      if (!res.ok) { setStatus('error'); setMsg(data.message || 'Something went wrong.'); return; }
+      setStatus('success');
+      setEmail('');
+    } catch {
+      setStatus('error');
+      setMsg('Could not connect. Please try again.');
+    }
+  };
+
   return (
     <main>
 
@@ -111,15 +138,41 @@ export default function Blog() {
         <div className="max-w-2xl mx-auto px-5 text-center">
           <h2 className="text-white font-black text-4xl mb-4 tracking-tight">Get Auto Tips in Your Inbox</h2>
           <p className="text-red-100 text-[15px] mb-8">Join 5,000+ Bay Area drivers who get our monthly maintenance tips and exclusive deals.</p>
-          <form className="flex gap-3 max-w-md mx-auto" onSubmit={e => e.preventDefault()}>
-            <input type="email" placeholder="your@email.com"
-              className="flex-1 px-5 py-3.5 rounded-xl text-[14px] outline-none text-gray-900"
-              style={{ border: "none" }} />
-            <button type="submit" className="px-6 py-3.5 bg-gray-900 hover:bg-black text-white font-bold text-[13px] rounded-xl transition-colors shrink-0 border-none cursor-pointer">
-              Subscribe
-            </button>
-          </form>
-          <p className="text-red-200 text-[11px] mt-4">No spam. Unsubscribe anytime.</p>
+
+          {status === 'success' ? (
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" className="w-7 h-7"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <p className="text-white font-bold text-lg">You're subscribed!</p>
+              <p className="text-red-100 text-[14px]">Check your inbox for a confirmation email.</p>
+            </div>
+          ) : (
+            <>
+              <form className="flex gap-3 max-w-md mx-auto" onSubmit={handleSubscribe}>
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={e => { setEmail(e.target.value); setStatus('idle'); }}
+                  required
+                  className="flex-1 px-5 py-3.5 rounded-xl text-[14px] outline-none text-gray-900"
+                  style={{ border: "none" }}
+                />
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="px-6 py-3.5 bg-gray-900 hover:bg-black text-white font-bold text-[13px] rounded-xl transition-colors shrink-0 border-none cursor-pointer disabled:opacity-60"
+                >
+                  {status === 'loading' ? '...' : 'Subscribe'}
+                </button>
+              </form>
+              {(status === 'error' || status === 'duplicate') && (
+                <p className="text-yellow-200 text-[12px] mt-3">{msg}</p>
+              )}
+              <p className="text-red-200 text-[11px] mt-4">No spam. Unsubscribe anytime.</p>
+            </>
+          )}
         </div>
       </section>
 

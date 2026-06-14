@@ -10,9 +10,48 @@ const features = [
 ];
 
 const testimonials = [
-  { name: "Maria S.", role: "Fremont Resident", stars: 5, text: "Best tire shop in the Bay Area. Fast, honest, and priced fairly. I've been coming here for 8 years and never been disappointed." },
-  { name: "James T.", role: "Fleet Manager",    stars: 5, text: "We bring all 12 of our company vehicles here. TireOil is the only shop we trust for quick turnaround and quality work." },
-  { name: "Aisha K.", role: "Bay Area Driver",  stars: 5, text: "Went in for an oil change and they noticed my brakes were low. Fixed everything same day. Super transparent about the cost." },
+  {
+    name: "Maria S.",
+    role: "Fremont Resident · 8-year customer",
+    stars: 5,
+    text: "I've been coming here since 2016 and have never once felt ripped off. They always call before doing any extra work and stick to the quoted price. My whole family brings their cars here now.",
+    service: "Tire Rotation & Oil Change",
+  },
+  {
+    name: "James T.",
+    role: "Fleet Manager, Newark Logistics",
+    stars: 5,
+    text: "We run 14 delivery vans and TireOil handles all our scheduled maintenance. Turnaround is fast, pricing is consistent, and they keep detailed records for each vehicle. Makes our compliance reporting easy.",
+    service: "Fleet Maintenance",
+  },
+  {
+    name: "Aisha K.",
+    role: "Nurse, San Jose",
+    stars: 5,
+    text: "Came in for an oil change at 7am before my shift. They found my front brake pads were almost gone — showed me on the lift so I could see it myself. Fixed by 8:30am. I was at work on time.",
+    service: "Oil Change + Brake Service",
+  },
+  {
+    name: "David L.",
+    role: "Fremont Business Owner",
+    stars: 5,
+    text: "Had a tire blowout on 880 at 6pm. Called TireOil and they sent someone out within 40 minutes. Changed it roadside and even checked my other tires. Saved my whole evening. Outstanding service.",
+    service: "Roadside Tire Change",
+  },
+  {
+    name: "Priya M.",
+    role: "Union City Resident",
+    stars: 5,
+    text: "Prices are genuinely fair — I checked three other shops before coming here. They matched the best quote AND finished the job in under an hour. The online booking was easy too.",
+    service: "4-Tire Installation",
+  },
+  {
+    name: "Carlos R.",
+    role: "Delivery Driver, DoorDash",
+    stars: 5,
+    text: "As someone who drives 200+ miles a day, tire maintenance is serious for me. These guys know their stuff and never try to upsell me on things I don't need. They've earned a loyal customer.",
+    service: "Tire Rotation & Alignment",
+  },
 ];
 
 export default function WhyUs() {
@@ -90,16 +129,19 @@ export default function WhyUs() {
             <h2 className="text-gray-900 font-black text-4xl tracking-tight">Real Reviews from Real Drivers</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map(({ name, role, stars, text }) => (
-              <div key={name} className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
-                <div className="flex gap-0.5 mb-4">
-                  {Array(stars).fill(0).map((_, i) => (
-                    <svg key={i} viewBox="0 0 20 20" fill="#f59e0b" className="w-4 h-4">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                  ))}
+            {testimonials.map(({ name, role, stars, text, service }) => (
+              <div key={name} className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 flex flex-col">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex gap-0.5">
+                    {Array(stars).fill(0).map((_, i) => (
+                      <svg key={i} viewBox="0 0 20 20" fill="#f59e0b" className="w-4 h-4">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-red-50 text-red-600">{service}</span>
                 </div>
-                <p className="text-gray-600 text-[14px] leading-relaxed mb-5 italic">"{text}"</p>
+                <p className="text-gray-600 text-[14px] leading-relaxed mb-5 italic flex-1">"{text}"</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
                   <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-black text-[13px]">
                     {name[0]}

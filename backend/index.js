@@ -18,7 +18,8 @@ const addressRoutes = require('./routes/addresses');
 const ticketRoutes   = require('./routes/tickets');
 const wishlistRoutes  = require('./routes/wishlist');
 const referralRoutes  = require('./routes/referrals');
-const userRoutes      = require('./routes/users');
+const userRoutes        = require('./routes/users');
+const newsletterRoutes  = require('./routes/newsletter');
 
 const app = express();
 
@@ -37,7 +38,8 @@ app.use('/api/addresses', addressRoutes);
 app.use('/api/tickets',   ticketRoutes);
 app.use('/api/wishlist',   wishlistRoutes);
 app.use('/api/referrals', referralRoutes);
-app.use('/api/users',    userRoutes);
+app.use('/api/users',      userRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
