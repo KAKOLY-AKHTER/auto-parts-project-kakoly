@@ -1,3 +1,4 @@
+import useSEO from '../hooks/useSEO';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -178,6 +179,10 @@ function AccordionItem({ q, a, isOpen, onToggle }) {
 }
 
 export default function FAQ() {
+  useSEO({
+    title: "FAQ — Frequently Asked Questions",
+    description: "Got questions about tire service, oil change, brake repair or mobile service in Fremont CA? Find answers to the most common questions here.",
+  });
   const [openItems, setOpenItems] = useState({ '0-0': true });
   const [activeCategory, setActiveCategory] = useState(null);
 

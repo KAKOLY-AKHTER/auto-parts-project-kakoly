@@ -1,3 +1,4 @@
+import useSEO from "../hooks/useSEO";
 import Header from "../components/layout/Header";
 import AboutUs from "../components/sections/AboutUs";
 import AwardBanner from "../components/sections/AwardBanner";
@@ -15,6 +16,10 @@ import RoadsideSection from "../components/sections/RoadsideSection";
 import IconsBar from "../components/sections/IconsBar";
 
 export default function Home() {
+  useSEO({
+    title: "24HR Mobile Tire & Oil Change Service in Fremont CA",
+    description: "24HR Fremont Tire & Auto — mobile tire service, oil change, brake repair, wheel alignment & roadside assistance in Fremont, CA. We come to you. Call (415) 634-7777.",
+  });
   return (
     <>
       <Header />

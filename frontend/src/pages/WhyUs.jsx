@@ -1,3 +1,4 @@
+import useSEO from '../hooks/useSEO';
 import { Link } from 'react-router-dom';
 
 const features = [
@@ -55,6 +56,10 @@ const testimonials = [
 ];
 
 export default function WhyUs() {
+  useSEO({
+    title: "Why Choose Us — Trusted Auto Service in Fremont CA",
+    description: "See why thousands of customers trust 24HR Fremont Tire & Auto. ASE-certified technicians, same-day service, honest pricing and 24/7 availability.",
+  });
   return (
     <main>
 

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://auto-parts-project-kakoly.vercel.app/sitemap.xml

@@ -1,6 +1,11 @@
+import useSEO from '../hooks/useSEO';
 import { Link } from 'react-router-dom';
 
 export default function About() {
+  useSEO({
+    title: "About Us — 24HR Fremont Tire & Auto",
+    description: "Learn about 24HR Fremont Tire & Auto — your local mobile auto service team in Fremont, CA. ASE-certified, fully equipped, available 24/7.",
+  });
   return (
     <main>
 

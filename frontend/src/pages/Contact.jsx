@@ -1,3 +1,4 @@
+import useSEO from "../hooks/useSEO";
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import API from "../config";
@@ -74,6 +75,10 @@ function isOpenNow() {
 }
 
 export default function Contact() {
+  useSEO({
+    title: "Contact Us — Get a Free Quote",
+    description: "Contact 24HR Fremont Tire & Auto for a free estimate. Mobile tire service, oil change, brake repair and roadside assistance in Fremont, CA. Call (415) 634-7777.",
+  });
   const [searchParams] = useSearchParams();
   const [vis, setVis] = useState(false);
   const ref = useRef(null);

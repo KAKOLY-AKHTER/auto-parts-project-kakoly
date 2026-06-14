@@ -1,3 +1,4 @@
+import useSEO from '../hooks/useSEO';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { blogPosts as posts } from '../data/blogPosts';
@@ -7,6 +8,10 @@ const featured = posts[0];
 const rest = posts.slice(1);
 
 export default function Blog() {
+  useSEO({
+    title: "Auto Care Blog — Tips & Advice",
+    description: "Read expert auto care tips, tire maintenance advice, oil change guides and more from the team at 24HR Fremont Tire & Auto.",
+  });
   const [email, setEmail]   = useState('');
   const [status, setStatus] = useState('idle'); // idle | loading | success | error | duplicate
   const [msg, setMsg]       = useState('');

@@ -1,3 +1,4 @@
+import useSEO from '../hooks/useSEO';
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -30,6 +31,10 @@ function Stars({ rating }) {
 }
 
 export default function Shop() {
+  useSEO({
+    title: "Shop Auto Parts — Tires, Oil, Brakes & More",
+    description: "Buy quality auto parts online — tires, motor oil, brake pads, filters, batteries and more. Fast shipping. Shop 24HR Fremont Tire & Auto.",
+  });
   const [searchParams] = useSearchParams();
   const [products,    setProducts]    = useState([]);
   const [loading,     setLoading]     = useState(true);
