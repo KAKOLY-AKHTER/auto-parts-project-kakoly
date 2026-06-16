@@ -1,13 +1,96 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useCart } from '../context/CartContext';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-
 import API from '../config';
 
 const FALLBACK = { taxRate: 0.0875, shippingCost: 9.99, shippingThreshold: 99, referralDiscount: 0.10 };
 
+const STRIPE_PK = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+const stripeIsConfigured = STRIPE_PK && !STRIPE_PK.includes('REPLACE');
+const stripePromise = stripeIsConfigured ? loadStripe(STRIPE_PK) : null;
+
+/* ─── Stripe inner payment form ─────────────────────────────── */
+function StripePayForm({ total, orderData, onSuccess, onError }) {
+  const stripe   = useStripe();
+  const elements = useElements();
+  const [paying, setPaying]     = useState(false);
+  const [cardErr, setCardErr]   = useState('');
+
+  const handlePay = async (e) => {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+    setCardErr(''); setPaying(true);
+    try {
+      const res = await fetch(`${API}/payment/create-intent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: Math.round(total * 100) }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: { card: elements.getElement(CardElement) },
+      });
+
+      if (result.error) throw new Error(result.error.message);
+
+      // Payment succeeded — save the order
+      const orderRes = await fetch(`${API}/orders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...orderData, paymentStatus: 'paid', paymentId: result.paymentIntent.id }),
+      });
+      if (!orderRes.ok) throw new Error('Order save failed.');
+      const order = await orderRes.json();
+      onSuccess(order);
+    } catch (err) {
+      setCardErr(err.message || 'Payment failed. Please try again.');
+      onError();
+    } finally {
+      setPaying(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handlePay} className="space-y-4">
+      <div className="border border-gray-200 rounded-xl px-4 py-4 bg-gray-50">
+        <CardElement options={{
+          style: {
+            base: { fontSize: '15px', color: '#1f2937', '::placeholder': { color: '#9ca3af' }, fontFamily: 'system-ui, sans-serif' },
+            invalid: { color: '#dc2626' },
+          },
+          hidePostalCode: false,
+        }} />
+      </div>
+
+      {cardErr && (
+        <div className="text-red-500 text-[13px] bg-red-50 border border-red-100 rounded-xl px-4 py-3">
+          {cardErr}
+        </div>
+      )}
+
+      <button type="submit" disabled={paying || !stripe}
+        className="w-full py-4 rounded-xl text-white font-black text-[14px] tracking-wider uppercase border-none cursor-pointer transition-all"
+        style={{ background: paying ? '#fca5a5' : '#dc2626', boxShadow: paying ? 'none' : '0 6px 24px rgba(220,38,38,0.35)' }}>
+        {paying ? 'Processing Payment…' : `Pay $${total.toFixed(2)} Now`}
+      </button>
+
+      <div className="flex items-center justify-center gap-2 text-[11px] text-gray-400">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        Secured by Stripe · 256-bit encryption
+      </div>
+    </form>
+  );
+}
+
+/* ─── Main Cart component ────────────────────────────────────── */
 export default function Cart() {
   const { items, removeItem, updateQty, clearCart, count, subtotal } = useCart();
 
@@ -19,58 +102,67 @@ export default function Cart() {
   const discountAmt = hasDiscount ? parseFloat((subtotal * settings.referralDiscount).toFixed(2)) : 0;
   const total       = subtotal + shipping + tax - discountAmt;
 
-  const [form, setForm] = useState({ name:'', email:'', phone:'', address:'' });
+  const [form, setForm]         = useState({ name:'', email:'', phone:'', address:'' });
+  const [step, setStep]         = useState('form'); // 'form' | 'payment'
+  const [placing,  setPlacing]  = useState(false);
+  const [success,  setSuccess]  = useState(null);
+  const [error,    setError]    = useState('');
 
-  const checkDiscount = (email) => {
+  const checkDiscount = useCallback((email) => {
     if (!email) return;
     fetch(`${API}/referrals/discount?email=${encodeURIComponent(email)}`)
       .then(r => r.json())
       .then(d => setHasDiscount(!!d.hasDiscount))
       .catch(() => {});
-  };
+  }, []);
 
   useEffect(() => {
     fetch(`${API}/settings`).then(r => r.json()).then(d => setSettings({ ...FALLBACK, ...d })).catch(() => {});
-
     const unsub = onAuthStateChanged(auth, (u) => {
       if (u) {
-        setForm(f => ({
-          ...f,
-          name:  f.name  || u.displayName || '',
-          email: f.email || u.email || '',
-        }));
+        setForm(f => ({ ...f, name: f.name || u.displayName || '', email: f.email || u.email || '' }));
         checkDiscount(u.email);
       }
     });
     return () => unsub();
-  }, []);
-  const [placing,  setPlacing]  = useState(false);
-  const [success,  setSuccess]  = useState(null);
-  const [error,    setError]    = useState('');
+  }, [checkDiscount]);
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
-  const handleCheckout = async (e) => {
+  const orderData = {
+    userEmail: form.email.toLowerCase(),
+    userName:  form.name,
+    items:     items.map(i => ({ id:i.id, name:i.name, price:i.price, qty:i.qty, img:i.img, catLabel:i.catLabel })),
+    subtotal:  parseFloat(subtotal.toFixed(2)),
+    shipping:  parseFloat(shipping.toFixed(2)),
+    tax:       parseFloat(tax.toFixed(2)),
+    discount:  discountAmt,
+    total:     parseFloat(total.toFixed(2)),
+    address:   form.address,
+    phone:     form.phone,
+  };
+
+  // Called when form is submitted
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.address) { setError('Please fill in name, email, and address.'); return; }
     if (items.length === 0) { setError('Your cart is empty.'); return; }
-    setError(''); setPlacing(true);
+    setError('');
+    if (stripeIsConfigured) {
+      setStep('payment');
+    } else {
+      // No Stripe — place order directly (cash / pay at store)
+      placeCODOrder();
+    }
+  };
+
+  const placeCODOrder = async () => {
+    setPlacing(true);
     try {
       const res = await fetch(`${API}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userEmail: form.email.toLowerCase(),
-          userName:  form.name,
-          items:     items.map(i => ({ id:i.id, name:i.name, price:i.price, qty:i.qty, img:i.img, catLabel:i.catLabel })),
-          subtotal:  parseFloat(subtotal.toFixed(2)),
-          shipping:  parseFloat(shipping.toFixed(2)),
-          tax:       parseFloat(tax.toFixed(2)),
-          discount:  discountAmt,
-          total:     parseFloat(total.toFixed(2)),
-          address:   form.address,
-          phone:     form.phone,
-        }),
+        body: JSON.stringify({ ...orderData, paymentStatus: 'pending' }),
       });
       if (!res.ok) throw new Error();
       const order = await res.json();
@@ -88,6 +180,18 @@ export default function Cart() {
     } finally {
       setPlacing(false);
     }
+  };
+
+  const handlePaymentSuccess = (order) => {
+    if (hasDiscount) {
+      fetch(`${API}/referrals/redeem`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ referredEmail: form.email.toLowerCase() }),
+      }).catch(() => {});
+    }
+    clearCart();
+    setSuccess(order);
   };
 
   /* ── ORDER SUCCESS ── */
@@ -109,14 +213,15 @@ export default function Cart() {
           </div>
           <h2 className="text-gray-900 font-black text-3xl mb-3">Thank You, {success.userName || 'Customer'}!</h2>
           <p className="text-gray-500 text-[15px] leading-relaxed mb-2">
-            Your order has been placed successfully.
+            {success.paymentStatus === 'paid'
+              ? 'Payment received. Your order is confirmed!'
+              : 'Your order has been placed. Please pay on delivery.'}
           </p>
           <div className="inline-flex items-center gap-2 bg-gray-100 rounded-full px-5 py-2 mb-8">
             <span className="text-gray-500 text-[12px] font-semibold">Order ID:</span>
             <span className="text-gray-800 font-black text-[12px] tracking-wider">{success._id?.slice(-10).toUpperCase()}</span>
           </div>
 
-          {/* Order summary */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-left mb-8">
             <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase mb-4">Order Summary</div>
             {success.items?.map(i => (
@@ -220,7 +325,6 @@ export default function Cart() {
             {/* ── CART ITEMS ── */}
             <div className="flex-1">
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                   <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase">Your Items</div>
                   <button onClick={clearCart}
@@ -230,26 +334,18 @@ export default function Cart() {
                 </div>
 
                 {items.map((item, idx) => (
-                  <div key={item.id}
-                    className="flex items-center gap-4 px-6 py-5"
+                  <div key={item.id} className="flex items-center gap-4 px-6 py-5"
                     style={{ borderBottom: idx < items.length - 1 ? '1px solid #f3f4f6' : 'none' }}>
-                    {/* Image */}
                     <div className="w-20 h-20 rounded-xl bg-gray-50 flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden">
                       <img src={item.img} alt={item.name}
                         className="max-h-full max-w-full object-contain p-2"
                         onError={e => e.target.style.display='none'} />
                     </div>
-
-                    {/* Info */}
                     <div className="flex-1 min-w-0">
                       <div className="text-red-600 text-[9.5px] font-black tracking-[2px] uppercase mb-0.5">{item.catLabel}</div>
                       <div className="text-gray-900 font-bold text-[14px] leading-snug mb-2">{item.name}</div>
-                      <div className="flex items-center gap-1 text-[11px] text-gray-400 font-medium">
-                        <span>${item.price.toFixed(2)} each</span>
-                      </div>
+                      <div className="text-[11px] text-gray-400 font-medium">${item.price.toFixed(2)} each</div>
                     </div>
-
-                    {/* Qty controls */}
                     <div className="flex items-center gap-2 shrink-0">
                       <button onClick={() => updateQty(item.id, item.qty - 1)}
                         className="w-8 h-8 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-red-50 hover:border-red-200 hover:text-red-600 font-black text-[16px] cursor-pointer transition-all flex items-center justify-center leading-none">
@@ -261,8 +357,6 @@ export default function Cart() {
                         +
                       </button>
                     </div>
-
-                    {/* Line total */}
                     <div className="text-right shrink-0 min-w-[72px]">
                       <div className="text-gray-900 font-black text-[16px]">${(item.price * item.qty).toFixed(2)}</div>
                       <button onClick={() => removeItem(item.id)}
@@ -274,7 +368,6 @@ export default function Cart() {
                 ))}
               </div>
 
-              {/* Back to shop */}
               <Link to="/shop"
                 className="no-underline mt-4 inline-flex items-center gap-2 text-[13px] text-gray-400 hover:text-red-500 font-semibold transition-colors">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5"><polyline points="15 18 9 12 15 6"/></svg>
@@ -282,7 +375,7 @@ export default function Cart() {
               </Link>
             </div>
 
-            {/* ── RIGHT COLUMN: SUMMARY + CHECKOUT ── */}
+            {/* ── RIGHT COLUMN ── */}
             <div className="lg:w-[400px] shrink-0">
 
               {/* Order Summary */}
@@ -299,11 +392,6 @@ export default function Cart() {
                       {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
                     </span>
                   </div>
-                  {shipping > 0 && (
-                    <div className="text-[11px] text-green-600 bg-green-50 rounded-lg px-3 py-2">
-                      Add ${(SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping!
-                    </div>
-                  )}
                   <div className="flex justify-between text-[14px] text-gray-500">
                     <span>Tax ({(settings.taxRate * 100).toFixed(2)}%)</span>
                     <span className="font-semibold text-gray-700">${tax.toFixed(2)}</span>
@@ -321,51 +409,118 @@ export default function Cart() {
                 </div>
               </div>
 
-              {/* Checkout Form */}
+              {/* Checkout / Payment */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase mb-5">Checkout Details</div>
-                <form onSubmit={handleCheckout} className="space-y-4">
-                  {[
-                    { key:'name',    label:'Full Name',       placeholder:'Your full name',        type:'text'  },
-                    { key:'email',   label:'Email Address',   placeholder:'your@email.com',        type:'email' },
-                    { key:'phone',   label:'Phone (optional)',placeholder:'(415) 000-0000',        type:'tel'   },
-                    { key:'address', label:'Delivery Address',placeholder:'Street, City, State, ZIP', type:'text' },
-                  ].map(f => (
-                    <div key={f.key}>
-                      <label className="block text-[11px] font-black text-gray-500 tracking-[0.08em] uppercase mb-1.5">{f.label}</label>
-                      <input
-                        type={f.type}
-                        value={form[f.key]}
-                        onChange={e => set(f.key, e.target.value)}
-                        onBlur={f.key === 'email' ? e => checkDiscount(e.target.value) : undefined}
-                        placeholder={f.placeholder}
-                        required={f.key !== 'phone'}
-                        className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-800 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-50 transition-all placeholder-gray-300"
-                      />
+
+                {/* Step indicator */}
+                {stripeIsConfigured && (
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="flex items-center gap-1.5">
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black transition-colors ${step === 'form' ? 'bg-red-600 text-white' : 'bg-green-500 text-white'}`}>
+                        {step === 'form' ? '1' : '✓'}
+                      </div>
+                      <span className="text-[12px] font-bold text-gray-600">Details</span>
                     </div>
-                  ))}
-
-                  {error && (
-                    <div className="text-red-500 text-[13px] bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-                      {error}
+                    <div className="flex-1 h-px bg-gray-200" />
+                    <div className="flex items-center gap-1.5">
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black transition-colors ${step === 'payment' ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+                        2
+                      </div>
+                      <span className="text-[12px] font-bold text-gray-600">Payment</span>
                     </div>
-                  )}
-
-                  <button type="submit" disabled={placing}
-                    className="w-full py-4 rounded-xl text-white font-black text-[14px] tracking-wider uppercase border-none cursor-pointer transition-all"
-                    style={{ background: placing ? '#fca5a5' : '#dc2626', boxShadow: placing ? 'none' : '0 6px 24px rgba(220,38,38,0.35)' }}>
-                    {placing
-                      ? 'Placing Order…'
-                      : hasDiscount
-                        ? `Place Order — $${total.toFixed(2)} (10% off!)`
-                        : `Place Order — $${total.toFixed(2)}`}
-                  </button>
-
-                  <div className="flex items-center justify-center gap-2 text-[11px] text-gray-400 pt-1">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                    Secure checkout · 30-day returns
                   </div>
-                </form>
+                )}
+
+                {step === 'form' && (
+                  <>
+                    <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase mb-5">Checkout Details</div>
+                    <form onSubmit={handleFormSubmit} className="space-y-4">
+                      {[
+                        { key:'name',    label:'Full Name',        placeholder:'Your full name',           type:'text'  },
+                        { key:'email',   label:'Email Address',    placeholder:'your@email.com',           type:'email' },
+                        { key:'phone',   label:'Phone (optional)', placeholder:'(415) 000-0000',           type:'tel'   },
+                        { key:'address', label:'Delivery Address', placeholder:'Street, City, State, ZIP', type:'text'  },
+                      ].map(f => (
+                        <div key={f.key}>
+                          <label className="block text-[11px] font-black text-gray-500 tracking-[0.08em] uppercase mb-1.5">{f.label}</label>
+                          <input
+                            type={f.type}
+                            value={form[f.key]}
+                            onChange={e => set(f.key, e.target.value)}
+                            onBlur={f.key === 'email' ? e => checkDiscount(e.target.value) : undefined}
+                            placeholder={f.placeholder}
+                            required={f.key !== 'phone'}
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-800 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-50 transition-all placeholder-gray-300"
+                          />
+                        </div>
+                      ))}
+
+                      {error && (
+                        <div className="text-red-500 text-[13px] bg-red-50 border border-red-100 rounded-xl px-4 py-3">
+                          {error}
+                        </div>
+                      )}
+
+                      <button type="submit" disabled={placing}
+                        className="w-full py-4 rounded-xl text-white font-black text-[14px] tracking-wider uppercase border-none cursor-pointer transition-all"
+                        style={{ background: placing ? '#fca5a5' : '#dc2626', boxShadow: placing ? 'none' : '0 6px 24px rgba(220,38,38,0.35)' }}>
+                        {placing
+                          ? 'Placing Order…'
+                          : stripeIsConfigured
+                            ? `Proceed to Payment — $${total.toFixed(2)}`
+                            : hasDiscount
+                              ? `Place Order — $${total.toFixed(2)} (10% off!)`
+                              : `Place Order — $${total.toFixed(2)}`}
+                      </button>
+
+                      {!stripeIsConfigured && (
+                        <div className="flex items-center justify-center gap-2 text-[11px] text-amber-600 bg-amber-50 rounded-lg px-3 py-2">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5 shrink-0">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                          </svg>
+                          Pay on Delivery — card payments coming soon
+                        </div>
+                      )}
+
+                      {stripeIsConfigured && (
+                        <div className="flex items-center justify-center gap-2 text-[11px] text-gray-400 pt-1">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+                          </svg>
+                          Secure checkout · 30-day returns
+                        </div>
+                      )}
+                    </form>
+                  </>
+                )}
+
+                {step === 'payment' && stripeIsConfigured && (
+                  <>
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase">Card Payment</div>
+                      <button onClick={() => setStep('form')}
+                        className="text-[11px] text-gray-400 hover:text-red-500 font-semibold border-none bg-transparent cursor-pointer transition-colors">
+                        ← Edit Details
+                      </button>
+                    </div>
+
+                    {/* Accepted cards */}
+                    <div className="flex items-center gap-2 mb-4">
+                      {['VISA', 'MC', 'AMEX', 'DISC'].map(c => (
+                        <span key={c} className="px-2.5 py-1 rounded border border-gray-200 text-[10px] font-black text-gray-500 bg-gray-50">{c}</span>
+                      ))}
+                    </div>
+
+                    <Elements stripe={stripePromise}>
+                      <StripePayForm
+                        total={total}
+                        orderData={orderData}
+                        onSuccess={handlePaymentSuccess}
+                        onError={() => {}}
+                      />
+                    </Elements>
+                  </>
+                )}
               </div>
             </div>
           </div>
