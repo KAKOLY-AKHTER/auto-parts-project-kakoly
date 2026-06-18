@@ -199,20 +199,24 @@ const ANIM_CSS = `
   .svc-tile {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 5px; padding: 10px 4px; border-radius: 9px; cursor: pointer;
-    transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.15s;
-    background: rgba(255,255,255,0.06) !important;
-    border: 1.5px solid rgba(255,255,255,0.12) !important;
+    transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease, border-radius 0.25s ease;
+    background: rgba(255,255,255,0.07) !important;
+    border: 1.5px solid rgba(255,255,255,0.15) !important;
   }
   .svc-tile:hover {
-    background: rgba(255,255,255,0.11) !important;
-    border-color: rgba(255,255,255,0.25) !important;
-    transform: translateY(-2px);
-  }
-  .svc-tile.sel {
     background: rgba(227,6,19,0.18) !important;
     border-color: #e30613 !important;
-    box-shadow: 0 0 14px rgba(227,6,19,0.35);
-    transform: translateY(-1px);
+    border-radius: 18px !important;
+    box-shadow: 0 0 16px rgba(227,6,19,0.30);
+    transform: translateY(-3px);
+  }
+  .svc-tile:hover i, .svc-tile:hover span { color: #fff !important; }
+  .svc-tile.sel {
+    background: rgba(227,6,19,0.25) !important;
+    border-color: #e30613 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 0 18px rgba(227,6,19,0.45);
+    transform: translateY(-2px);
   }
   /* input */
   .hf-input {
@@ -679,8 +683,8 @@ export default function Hero() {
                             background: sel ? "rgba(227,6,19,0.10)" : "rgba(0,0,0,0.06)",
                             border:`1.5px solid ${sel ? "#e30613" : "rgba(0,0,0,0.14)"}`,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "rgba(255,255,255,0.70)", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#e30613" : "rgba(255,255,255,0.80)" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#fff" : "rgba(255,255,255,0.85)", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "rgba(255,255,255,0.90)" }}>{s.label}</span>
                         </button>
                       );
                     })}
@@ -821,8 +825,8 @@ export default function Hero() {
                             background: sel ? "rgba(227,6,19,0.40)" : "rgba(255,255,255,0.18)",
                             border: `1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.62)"}`,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "rgba(255,255,255,0.70)", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#e30613" : "rgba(255,255,255,0.80)" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#fff" : "rgba(255,255,255,0.85)", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "rgba(255,255,255,0.90)" }}>{s.label}</span>
                         </button>
                       );
                     })}
