@@ -190,11 +190,47 @@ const ANIM_CSS = `
     0%,100% { box-shadow: 0 6px 28px rgba(227,6,19,0.55), inset 0 1px 0 rgba(255,255,255,0.15); }
     50%     { box-shadow: 0 8px 38px rgba(227,6,19,0.85), 0 0 0 5px rgba(227,6,19,0.18), inset 0 1px 0 rgba(255,255,255,0.2); }
   }
+  @keyframes tilePop {
+    from { opacity: 0; transform: scale(0.72) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes inputSlide {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes headerFadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes redBarPulse {
+    0%,100% { box-shadow: 0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4); }
+    50%     { box-shadow: 0 3px 28px rgba(227,6,19,1), 0 1px 10px rgba(227,6,19,0.8); }
+  }
+  @keyframes openNowPing {
+    0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+    60%     { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+  }
   /* form card entrance */
   .hero-form-overlay > div {
     animation: formSlideIn 0.55s cubic-bezier(0.22,1,0.36,1) 1.1s both;
-    border-top: 3px solid #e30613;
   }
+  /* form header fade */
+  .hf-header { animation: headerFadeDown 0.4s ease 0.2s both; }
+  /* tile stagger pop */
+  .svc-tile:nth-child(1) { animation: tilePop 0.32s cubic-bezier(0.34,1.56,0.64,1) 0.08s both; }
+  .svc-tile:nth-child(2) { animation: tilePop 0.32s cubic-bezier(0.34,1.56,0.64,1) 0.15s both; }
+  .svc-tile:nth-child(3) { animation: tilePop 0.32s cubic-bezier(0.34,1.56,0.64,1) 0.22s both; }
+  .svc-tile:nth-child(4) { animation: tilePop 0.32s cubic-bezier(0.34,1.56,0.64,1) 0.29s both; }
+  .svc-tile:nth-child(5) { animation: tilePop 0.32s cubic-bezier(0.34,1.56,0.64,1) 0.36s both; }
+  .svc-tile:nth-child(6) { animation: tilePop 0.32s cubic-bezier(0.34,1.56,0.64,1) 0.43s both; }
+  .svc-tile:nth-child(7) { animation: tilePop 0.32s cubic-bezier(0.34,1.56,0.64,1) 0.50s both; }
+  .svc-tile:nth-child(8) { animation: tilePop 0.32s cubic-bezier(0.34,1.56,0.64,1) 0.57s both; }
+  /* input slide in */
+  .hf-input { animation: inputSlide 0.38s ease 0.55s both; }
+  /* red top bar pulse */
+  .hf-top-bar { animation: redBarPulse 2.5s ease-in-out 1s infinite; }
+  /* open now ping */
+  .hf-open-ping { animation: openNowPing 1.8s ease-in-out infinite; }
   /* service tile hover */
   .svc-tile {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -628,10 +664,10 @@ export default function Hero() {
             boxShadow:"0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
           }}>
             {/* ── RED TOP BORDER ── */}
-            <div style={{ height:4, background:"linear-gradient(90deg,#7f0000 0%,#e30613 35%,#ff5555 50%,#e30613 65%,#7f0000 100%)", boxShadow:"0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4)" }} />
+            <div className="hf-top-bar" style={{ height:4, background:"linear-gradient(90deg,#7f0000 0%,#e30613 35%,#ff5555 50%,#e30613 65%,#7f0000 100%)", boxShadow:"0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4)" }} />
 
             {/* ── HEADER ── */}
-            <div style={{ padding:"14px 18px 12px", display:"flex", alignItems:"center", gap:12, borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+            <div className="hf-header" style={{ padding:"14px 18px 12px", display:"flex", alignItems:"center", gap:12, borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
               <div style={{ width:36, height:36, borderRadius:10, background:"linear-gradient(135deg,rgba(227,6,19,0.25),rgba(227,6,19,0.1))", border:"1px solid rgba(227,6,19,0.5)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                 <i className="fas fa-wrench" style={{ color:"#e30613", fontSize:14 }} />
               </div>
@@ -640,7 +676,7 @@ export default function Hero() {
                 <div style={{ color:"rgba(255,255,255,0.45)", fontSize:10.5, marginTop:2, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
               </div>
               <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(34,197,94,0.08)", border:"1px solid rgba(34,197,94,0.25)", borderRadius:99, padding:"4px 10px", flexShrink:0 }}>
-                <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
+                <div className="hf-open-ping" style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
                 <span style={{ color:"#22c55e", fontSize:9, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em" }}>OPEN NOW</span>
               </div>
             </div>
@@ -771,10 +807,10 @@ export default function Hero() {
             boxShadow:"0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
           }}>
             {/* ── RED TOP BORDER ── */}
-            <div style={{ height:4, background:"linear-gradient(90deg,#7f0000 0%,#e30613 35%,#ff5555 50%,#e30613 65%,#7f0000 100%)", boxShadow:"0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4)" }} />
+            <div className="hf-top-bar" style={{ height:4, background:"linear-gradient(90deg,#7f0000 0%,#e30613 35%,#ff5555 50%,#e30613 65%,#7f0000 100%)", boxShadow:"0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4)" }} />
 
             {/* ── HEADER ── */}
-            <div style={{ padding:"14px 18px 12px", display:"flex", alignItems:"center", gap:12, borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+            <div className="hf-header" style={{ padding:"14px 18px 12px", display:"flex", alignItems:"center", gap:12, borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
               <div style={{ width:36, height:36, borderRadius:10, background:"linear-gradient(135deg,rgba(227,6,19,0.25),rgba(227,6,19,0.1))", border:"1px solid rgba(227,6,19,0.5)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                 <i className="fas fa-wrench" style={{ color:"#e30613", fontSize:14 }} />
               </div>
@@ -783,7 +819,7 @@ export default function Hero() {
                 <div style={{ color:"rgba(255,255,255,0.45)", fontSize:10.5, marginTop:2, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
               </div>
               <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(34,197,94,0.08)", border:"1px solid rgba(34,197,94,0.25)", borderRadius:99, padding:"4px 10px", flexShrink:0 }}>
-                <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
+                <div className="hf-open-ping" style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
                 <span style={{ color:"#22c55e", fontSize:9, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em" }}>OPEN NOW</span>
               </div>
             </div>
