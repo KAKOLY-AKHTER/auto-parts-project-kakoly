@@ -512,7 +512,7 @@ export default function Cart() {
                       <div className="mb-5">
                         <PayPalScriptProvider options={{ clientId: PAYPAL_CID, currency: 'USD' }}>
                           <PayPalButtons
-                            style={{ layout: 'vertical', color: 'black', shape: 'rect', label: 'paypal', height: 48 }}
+                            style={{ layout: 'vertical', color: 'blue', shape: 'pill', label: 'checkout', height: 50 }}
                             createOrder={async () => {
                               const res = await fetch(`${API}/payment/paypal/create-order`, {
                                 method: 'POST',
