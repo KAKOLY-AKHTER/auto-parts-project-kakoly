@@ -61,18 +61,18 @@ function StripePayForm({ total, orderData, onSuccess, onError }) {
 
   return (
     <form onSubmit={handlePay} className="space-y-4">
-      <div className="rounded-xl px-4 py-4" style={{ background: '#1f2937', border: '1px solid #374151' }}>
+      <div className="border border-gray-200 rounded-xl px-4 py-4 bg-gray-50">
         <CardElement options={{
           style: {
-            base: { fontSize: '15px', color: '#ffffff', '::placeholder': { color: '#6b7280' }, fontFamily: 'system-ui, sans-serif' },
-            invalid: { color: '#f87171' },
+            base: { fontSize: '15px', color: '#1f2937', '::placeholder': { color: '#9ca3af' }, fontFamily: 'system-ui, sans-serif' },
+            invalid: { color: '#dc2626' },
           },
           hidePostalCode: false,
         }} />
       </div>
 
       {cardErr && (
-        <div className="text-red-400 text-[13px] rounded-xl px-4 py-3" style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.3)' }}>
+        <div className="text-red-500 text-[13px] bg-red-50 border border-red-100 rounded-xl px-4 py-3">
           {cardErr}
         </div>
       )}
@@ -83,7 +83,7 @@ function StripePayForm({ total, orderData, onSuccess, onError }) {
         {paying ? 'Processing Payment…' : `Pay $${total.toFixed(2)} Now`}
       </button>
 
-      <div className="flex items-center justify-center gap-2 text-[11px] text-gray-500">
+      <div className="flex items-center justify-center gap-2 text-[11px] text-gray-400">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5">
           <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
         </svg>
@@ -382,38 +382,38 @@ export default function Cart() {
             <div className="lg:w-[400px] shrink-0">
 
               {/* Order Summary */}
-              <div className="rounded-2xl border shadow-sm p-6 mb-5" style={{ background: '#111827', borderColor: '#374151' }}>
-                <div className="font-black text-gray-200 text-[12px] tracking-widest uppercase mb-5">Order Summary</div>
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-5">
+                <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase mb-5">Order Summary</div>
                 <div className="space-y-3 mb-5">
-                  <div className="flex justify-between text-[14px] text-gray-400">
+                  <div className="flex justify-between text-[14px] text-gray-500">
                     <span>Subtotal ({count} items)</span>
-                    <span className="font-semibold text-gray-200">${subtotal.toFixed(2)}</span>
+                    <span className="font-semibold text-gray-700">${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-[14px] text-gray-400">
+                  <div className="flex justify-between text-[14px] text-gray-500">
                     <span>Shipping</span>
-                    <span className={shipping === 0 ? "text-green-400 font-bold" : "font-semibold text-gray-200"}>
+                    <span className={shipping === 0 ? "text-green-600 font-bold" : "font-semibold text-gray-700"}>
                       {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
                     </span>
                   </div>
-                  <div className="flex justify-between text-[14px] text-gray-400">
+                  <div className="flex justify-between text-[14px] text-gray-500">
                     <span>Tax ({(settings.taxRate * 100).toFixed(2)}%)</span>
-                    <span className="font-semibold text-gray-200">${tax.toFixed(2)}</span>
+                    <span className="font-semibold text-gray-700">${tax.toFixed(2)}</span>
                   </div>
                   {hasDiscount && (
-                    <div className="flex justify-between text-[14px] text-green-400 rounded-lg px-3 py-2" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)' }}>
+                    <div className="flex justify-between text-[14px] text-green-600 bg-green-50 rounded-lg px-3 py-2">
                       <span className="font-bold">Referral Discount (10%)</span>
                       <span className="font-bold">−${discountAmt.toFixed(2)}</span>
                     </div>
                   )}
                 </div>
-                <div className="flex justify-between items-center pt-4 border-t" style={{ borderColor: '#374151' }}>
-                  <span className="text-white font-black text-[16px]">Total</span>
-                  <span className="text-red-400 font-black text-[22px]">${total.toFixed(2)}</span>
+                <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                  <span className="text-gray-900 font-black text-[16px]">Total</span>
+                  <span className="text-red-600 font-black text-[22px]">${total.toFixed(2)}</span>
                 </div>
               </div>
 
               {/* Checkout / Payment */}
-              <div className="rounded-2xl border shadow-sm p-6" style={{ background: '#111827', borderColor: '#374151' }}>
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
 
                 {/* Step indicator */}
                 {stripeIsConfigured && (
@@ -422,22 +422,21 @@ export default function Cart() {
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black transition-colors ${step === 'form' ? 'bg-red-600 text-white' : 'bg-green-500 text-white'}`}>
                         {step === 'form' ? '1' : '✓'}
                       </div>
-                      <span className="text-[12px] font-bold text-gray-300">Details</span>
+                      <span className="text-[12px] font-bold text-gray-600">Details</span>
                     </div>
-                    <div className="flex-1 h-px" style={{ background: '#374151' }} />
+                    <div className="flex-1 h-px bg-gray-200" />
                     <div className="flex items-center gap-1.5">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black transition-colors ${step === 'payment' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
-                        style={step !== 'payment' ? { background: '#374151' } : {}}>
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black transition-colors ${step === 'payment' ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
                         2
                       </div>
-                      <span className="text-[12px] font-bold text-gray-300">Payment</span>
+                      <span className="text-[12px] font-bold text-gray-600">Payment</span>
                     </div>
                   </div>
                 )}
 
                 {step === 'form' && (
                   <>
-                    <div className="font-black text-gray-100 text-[12px] tracking-widest uppercase mb-5">Checkout Details</div>
+                    <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase mb-5">Checkout Details</div>
                     <form onSubmit={handleFormSubmit} className="space-y-4">
                       {[
                         { key:'name',    label:'Full Name',        placeholder:'Your full name',           type:'text'  },
@@ -446,7 +445,7 @@ export default function Cart() {
                         { key:'address', label:'Delivery Address', placeholder:'Street, City, State, ZIP', type:'text'  },
                       ].map(f => (
                         <div key={f.key}>
-                          <label className="block text-[11px] font-black text-gray-400 tracking-[0.08em] uppercase mb-1.5">{f.label}</label>
+                          <label className="block text-[11px] font-black text-gray-500 tracking-[0.08em] uppercase mb-1.5">{f.label}</label>
                           <input
                             type={f.type}
                             value={form[f.key]}
@@ -454,14 +453,13 @@ export default function Cart() {
                             onBlur={f.key === 'email' ? e => checkDiscount(e.target.value) : undefined}
                             placeholder={f.placeholder}
                             required={f.key !== 'phone'}
-                            className="w-full rounded-xl px-4 py-3 text-[14px] text-white outline-none focus:border-red-500 focus:ring-2 transition-all"
-                            style={{ background: '#1f2937', border: '1px solid #374151', color: '#fff' }}
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-800 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-50 transition-all placeholder-gray-300"
                           />
                         </div>
                       ))}
 
                       {error && (
-                        <div className="text-red-400 text-[13px] rounded-xl px-4 py-3" style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.3)' }}>
+                        <div className="text-red-500 text-[13px] bg-red-50 border border-red-100 rounded-xl px-4 py-3">
                           {error}
                         </div>
                       )}
@@ -488,7 +486,7 @@ export default function Cart() {
                       )}
 
                       {stripeIsConfigured && (
-                        <div className="flex items-center justify-center gap-2 text-[11px] text-gray-500 pt-1">
+                        <div className="flex items-center justify-center gap-2 text-[11px] text-gray-400 pt-1">
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5">
                             <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
                           </svg>
@@ -502,9 +500,9 @@ export default function Cart() {
                 {step === 'payment' && (stripeIsConfigured || paypalIsConfigured) && (
                   <>
                     <div className="flex items-center justify-between mb-5">
-                      <div className="font-black text-gray-100 text-[12px] tracking-widest uppercase">Payment</div>
+                      <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase">Payment</div>
                       <button onClick={() => setStep('form')}
-                        className="text-[11px] text-gray-500 hover:text-red-400 font-semibold border-none bg-transparent cursor-pointer transition-colors">
+                        className="text-[11px] text-gray-400 hover:text-red-500 font-semibold border-none bg-transparent cursor-pointer transition-colors">
                         ← Edit Details
                       </button>
                     </div>
@@ -550,9 +548,9 @@ export default function Cart() {
                     {/* Divider */}
                     {paypalIsConfigured && stripeIsConfigured && (
                       <div className="flex items-center gap-3 mb-5">
-                        <div className="flex-1 h-px" style={{ background: '#374151' }} />
-                        <span className="text-[11px] text-gray-500 font-semibold">or pay with card</span>
-                        <div className="flex-1 h-px" style={{ background: '#374151' }} />
+                        <div className="flex-1 h-px bg-gray-100" />
+                        <span className="text-[11px] text-gray-400 font-semibold">or pay with card</span>
+                        <div className="flex-1 h-px bg-gray-100" />
                       </div>
                     )}
 
@@ -561,7 +559,7 @@ export default function Cart() {
                       <>
                         <div className="flex items-center gap-2 mb-4">
                           {['VISA', 'MC', 'AMEX', 'DISC'].map(c => (
-                            <span key={c} className="px-2.5 py-1 rounded text-[10px] font-black text-gray-400" style={{ border: '1px solid #374151', background: '#1f2937' }}>{c}</span>
+                            <span key={c} className="px-2.5 py-1 rounded border border-gray-200 text-[10px] font-black text-gray-500 bg-gray-50">{c}</span>
                           ))}
                         </div>
                         <Elements stripe={stripePromise}>
