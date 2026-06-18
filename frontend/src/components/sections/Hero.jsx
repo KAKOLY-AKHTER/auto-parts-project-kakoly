@@ -670,7 +670,7 @@ export default function Hero() {
                       <span style={{ color:"#fff", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>1</span>
                     </div>
                     <span style={{ color:"#fff", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
-                    {service && <span style={{ marginLeft:"auto", color:"#e30613", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>✓ SELECTED</span>}
+                    {service && <span style={{ marginLeft:"auto", color:"#22c55e", fontSize:11, fontWeight:900, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.10em", textShadow:"0 0 8px rgba(34,197,94,0.6)" }}>✓ SELECTED</span>}
                   </div>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
                     {SERVICES.map(s => {
@@ -680,11 +680,12 @@ export default function Hero() {
                           className={`svc-tile${sel?" sel":""}`}
                           onClick={() => { setService(sel?"":s.value); setErr(""); }}
                           style={{
-                            background: sel ? "rgba(227,6,19,0.10)" : "rgba(0,0,0,0.06)",
-                            border:`1.5px solid ${sel ? "#e30613" : "rgba(0,0,0,0.14)"}`,
+                            background: sel ? "rgba(227,6,19,0.22)" : "rgba(255,255,255,0.06)",
+                            border:`1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.35)"}`,
+                            borderRadius: sel ? 18 : 9,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#fff" : "rgba(255,255,255,0.85)", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "rgba(255,255,255,0.90)" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#fff" : "rgba(255,255,255,0.90)", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "rgba(255,255,255,0.95)" }}>{s.label}</span>
                         </button>
                       );
                     })}
@@ -812,7 +813,7 @@ export default function Hero() {
                       <span style={{ color:"#fff", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>1</span>
                     </div>
                     <span style={{ color:"#fff", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
-                    {service && <span style={{ marginLeft:"auto", color:"#e30613", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.06em" }}>✓ SELECTED</span>}
+                    {service && <span style={{ marginLeft:"auto", color:"#22c55e", fontSize:11, fontWeight:900, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.10em", textShadow:"0 0 8px rgba(34,197,94,0.6)" }}>✓ SELECTED</span>}
                   </div>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
                     {SERVICES.map(s => {
@@ -822,11 +823,12 @@ export default function Hero() {
                           className={`svc-tile${sel?" sel":""}`}
                           onClick={() => { setService(sel?"":s.value); setErr(""); }}
                           style={{
-                            background: sel ? "rgba(227,6,19,0.40)" : "rgba(255,255,255,0.18)",
-                            border: `1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.62)"}`,
+                            background: sel ? "rgba(227,6,19,0.22)" : "rgba(255,255,255,0.06)",
+                            border: `1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.35)"}`,
+                            borderRadius: sel ? 18 : 9,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#fff" : "rgba(255,255,255,0.85)", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "rgba(255,255,255,0.90)" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#fff" : "rgba(255,255,255,0.90)", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "rgba(255,255,255,0.95)" }}>{s.label}</span>
                         </button>
                       );
                     })}
