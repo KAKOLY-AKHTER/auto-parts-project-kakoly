@@ -234,7 +234,7 @@ const ANIM_CSS = `
   /* service tile hover */
   .svc-tile {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 7px; padding: 14px 6px; border-radius: 10px; cursor: pointer;
+    gap: 5px; padding: 10px 4px; border-radius: 9px; cursor: pointer;
     transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease, border-radius 0.25s ease;
     background: #ffffff !important;
     border: 1.5px solid rgba(0,0,0,0.18) !important;
@@ -257,9 +257,9 @@ const ANIM_CSS = `
   /* input */
   .hf-input {
     width: 100%; background: #f8f8f8;
-    border: 1.5px solid rgba(0,0,0,0.15); border-radius: 10px; outline: none;
-    color: #111; font-size: 14px; font-family: 'Inter',sans-serif;
-    padding: 13px 13px 13px 36px; box-sizing: border-box;
+    border: 1.5px solid rgba(0,0,0,0.15); border-radius: 8px; outline: none;
+    color: #111; font-size: 13px; font-family: 'Inter',sans-serif;
+    padding: 10px 10px 10px 32px; box-sizing: border-box;
     transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     position: relative; z-index: 1;
   }
@@ -393,9 +393,9 @@ const ANIM_CSS = `
     .hero-form-overlay {
       display: block;
       position: absolute;
-      bottom: 30px;
+      bottom: 28px;
       right: 28px;
-      width: 420px;
+      width: 370px;
       z-index: 20;
     }
     .hero-form-mobile {
@@ -667,17 +667,17 @@ export default function Hero() {
             <div className="hf-top-bar" style={{ height:4, background:"linear-gradient(90deg,#7f0000 0%,#e30613 35%,#ff5555 50%,#e30613 65%,#7f0000 100%)", boxShadow:"0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4)" }} />
 
             {/* ── HEADER ── */}
-            <div className="hf-header" style={{ padding:"18px 22px 16px", display:"flex", alignItems:"center", gap:14, background:"#111111", borderBottom:"2px solid #e30613" }}>
-              <div style={{ width:44, height:44, borderRadius:12, background:"rgba(227,6,19,0.15)", border:"1.5px solid rgba(227,6,19,0.5)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                <i className="fas fa-wrench" style={{ color:"#e30613", fontSize:18 }} />
+            <div className="hf-header" style={{ padding:"13px 16px 11px", display:"flex", alignItems:"center", gap:11, background:"#111111", borderBottom:"2px solid #e30613" }}>
+              <div style={{ width:36, height:36, borderRadius:10, background:"rgba(227,6,19,0.15)", border:"1.5px solid rgba(227,6,19,0.5)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                <i className="fas fa-wrench" style={{ color:"#e30613", fontSize:15 }} />
               </div>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:18, color:"#ffffff", letterSpacing:"0.07em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
-                <div style={{ color:"rgba(255,255,255,0.55)", fontSize:12, marginTop:3, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
+                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:15, color:"#ffffff", letterSpacing:"0.07em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
+                <div style={{ color:"rgba(255,255,255,0.50)", fontSize:10.5, marginTop:2, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
               </div>
-              <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(34,197,94,0.12)", border:"1px solid rgba(34,197,94,0.35)", borderRadius:99, padding:"5px 12px", flexShrink:0 }}>
-                <div className="hf-open-ping" style={{ width:7, height:7, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
-                <span style={{ color:"#22c55e", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em" }}>OPEN NOW</span>
+              <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(34,197,94,0.12)", border:"1px solid rgba(34,197,94,0.35)", borderRadius:99, padding:"4px 10px", flexShrink:0 }}>
+                <div className="hf-open-ping" style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
+                <span style={{ color:"#22c55e", fontSize:9, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em" }}>OPEN NOW</span>
               </div>
             </div>
 
@@ -701,15 +701,15 @@ export default function Hero() {
               <form onSubmit={handleBook}>
 
                 {/* ── STEP 1 ── */}
-                <div style={{ padding:"16px 20px 10px" }}>
-                  <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
-                    <div style={{ width:24, height:24, borderRadius:"50%", background:"#e30613", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                      <span style={{ color:"#fff", fontSize:13, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>1</span>
+                <div style={{ padding:"11px 14px 8px" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:9 }}>
+                    <div style={{ width:20, height:20, borderRadius:"50%", background:"#e30613", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                      <span style={{ color:"#fff", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>1</span>
                     </div>
-                    <span style={{ color:"#111111", fontSize:13, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
-                    {service && <span style={{ marginLeft:"auto", color:"#22c55e", fontSize:12, fontWeight:900, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.10em", textShadow:"0 0 8px rgba(34,197,94,0.6)" }}>✓ SELECTED</span>}
+                    <span style={{ color:"#111111", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
+                    {service && <span style={{ marginLeft:"auto", color:"#22c55e", fontSize:11, fontWeight:900, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.10em", textShadow:"0 0 8px rgba(34,197,94,0.6)" }}>✓ SELECTED</span>}
                   </div>
-                  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:7 }}>
+                  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
                     {SERVICES.map(s => {
                       const sel = service === s.value;
                       return (
@@ -722,8 +722,8 @@ export default function Hero() {
                             borderRadius: sel ? 18 : 9,
                             boxShadow: sel ? "0 4px 14px rgba(227,6,19,0.35)" : "none",
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:18, color: sel ? "#fff" : "#111111", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:11.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "#111111" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#fff" : "#111111", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "#111111" }}>{s.label}</span>
                         </button>
                       );
                     })}
@@ -733,14 +733,14 @@ export default function Hero() {
                 <div style={{ height:1, background:"rgba(0,0,0,0.08)", margin:"0 16px" }} />
 
                 {/* ── STEP 2 ── */}
-                <div style={{ padding:"14px 20px 10px" }}>
-                  <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
-                    <div style={{ width:24, height:24, borderRadius:"50%", background: name&&phone&&email ? "#22c55e" : "rgba(0,0,0,0.15)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"background 0.3s" }}>
-                      <span style={{ color:"#fff", fontSize:13, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{name&&phone&&email ? "✓" : "2"}</span>
+                <div style={{ padding:"10px 14px 8px" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:9 }}>
+                    <div style={{ width:20, height:20, borderRadius:"50%", background: name&&phone&&email ? "#22c55e" : "rgba(0,0,0,0.15)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"background 0.3s" }}>
+                      <span style={{ color:"#fff", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{name&&phone&&email ? "✓" : "2"}</span>
                     </div>
-                    <span style={{ color:"#111111", fontSize:13, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Your Details</span>
+                    <span style={{ color:"#111111", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Your Details</span>
                   </div>
-                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:9 }}>
+                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:7 }}>
                     <div>
                       <label style={{ display:"block", color:"#111111", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Full Name</label>
                       <div style={{ position:"relative" }}>
@@ -772,7 +772,7 @@ export default function Hero() {
                 )}
 
                 {/* ── SUBMIT ── */}
-                <div style={{ padding:"8px 20px 16px" }}>
+                <div style={{ padding:"6px 14px 14px" }}>
                   <button type="submit" disabled={submitting} className="hf-submit">
                     {submitting
                       ? <><i className="fas fa-spinner fa-spin" style={{fontSize:13}}/> Sending Request…</>
@@ -811,17 +811,17 @@ export default function Hero() {
             <div className="hf-top-bar" style={{ height:4, background:"linear-gradient(90deg,#7f0000 0%,#e30613 35%,#ff5555 50%,#e30613 65%,#7f0000 100%)", boxShadow:"0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4)" }} />
 
             {/* ── HEADER ── */}
-            <div className="hf-header" style={{ padding:"18px 22px 16px", display:"flex", alignItems:"center", gap:14, background:"#111111", borderBottom:"2px solid #e30613" }}>
-              <div style={{ width:44, height:44, borderRadius:12, background:"rgba(227,6,19,0.15)", border:"1.5px solid rgba(227,6,19,0.5)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                <i className="fas fa-wrench" style={{ color:"#e30613", fontSize:18 }} />
+            <div className="hf-header" style={{ padding:"13px 16px 11px", display:"flex", alignItems:"center", gap:11, background:"#111111", borderBottom:"2px solid #e30613" }}>
+              <div style={{ width:36, height:36, borderRadius:10, background:"rgba(227,6,19,0.15)", border:"1.5px solid rgba(227,6,19,0.5)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                <i className="fas fa-wrench" style={{ color:"#e30613", fontSize:15 }} />
               </div>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:18, color:"#ffffff", letterSpacing:"0.07em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
-                <div style={{ color:"rgba(255,255,255,0.55)", fontSize:12, marginTop:3, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
+                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:15, color:"#ffffff", letterSpacing:"0.07em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
+                <div style={{ color:"rgba(255,255,255,0.50)", fontSize:10.5, marginTop:2, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
               </div>
-              <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(34,197,94,0.12)", border:"1px solid rgba(34,197,94,0.35)", borderRadius:99, padding:"5px 12px", flexShrink:0 }}>
-                <div className="hf-open-ping" style={{ width:7, height:7, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
-                <span style={{ color:"#22c55e", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em" }}>OPEN NOW</span>
+              <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(34,197,94,0.12)", border:"1px solid rgba(34,197,94,0.35)", borderRadius:99, padding:"4px 10px", flexShrink:0 }}>
+                <div className="hf-open-ping" style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
+                <span style={{ color:"#22c55e", fontSize:9, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.08em" }}>OPEN NOW</span>
               </div>
             </div>
 
@@ -866,8 +866,8 @@ export default function Hero() {
                             border: `1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.35)"}`,
                             borderRadius: sel ? 18 : 9,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:18, color: sel ? "#fff" : "#111111", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:11.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "#111111" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#fff" : "#111111", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#fff" : "#111111" }}>{s.label}</span>
                         </button>
                       );
                     })}
@@ -918,7 +918,7 @@ export default function Hero() {
                 )}
 
                 {/* ── SUBMIT ── */}
-                <div style={{ padding:"8px 20px 16px" }}>
+                <div style={{ padding:"6px 14px 14px" }}>
                   <button type="submit" disabled={submitting} className="hf-submit">
                     {submitting
                       ? <><i className="fas fa-spinner fa-spin" style={{fontSize:13}}/> Sending Request…</>
