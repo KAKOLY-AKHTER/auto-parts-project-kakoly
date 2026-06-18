@@ -22,7 +22,9 @@ router.post('/create-intent', async (req, res) => {
 });
 
 /* ── PayPal helpers ───────────────────────────────────────────── */
-const PAYPAL_BASE = 'https://api-m.paypal.com';
+const PAYPAL_BASE = process.env.PAYPAL_MODE === 'live'
+  ? 'https://api-m.paypal.com'
+  : 'https://api-m.sandbox.paypal.com';
 
 async function getPaypalToken() {
   const clientId = process.env.PAYPAL_CLIENT_ID;
