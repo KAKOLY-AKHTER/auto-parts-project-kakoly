@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { useCart } from '../context/CartContext';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -9,8 +10,10 @@ import API from '../config';
 
 const FALLBACK = { taxRate: 0.0875, shippingCost: 9.99, shippingThreshold: 99, referralDiscount: 0.10 };
 
-const STRIPE_PK = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-const stripeIsConfigured = STRIPE_PK && !STRIPE_PK.includes('REPLACE');
+const STRIPE_PK  = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+const PAYPAL_CID = import.meta.env.VITE_PAYPAL_CLIENT_ID;
+const stripeIsConfigured = STRIPE_PK  && !STRIPE_PK.includes('REPLACE');
+const paypalIsConfigured = PAYPAL_CID && !PAYPAL_CID.includes('REPLACE');
 const stripePromise = stripeIsConfigured ? loadStripe(STRIPE_PK) : null;
 
 /* ─── Stripe inner payment form ─────────────────────────────── */
@@ -494,31 +497,81 @@ export default function Cart() {
                   </>
                 )}
 
-                {step === 'payment' && stripeIsConfigured && (
+                {step === 'payment' && (stripeIsConfigured || paypalIsConfigured) && (
                   <>
                     <div className="flex items-center justify-between mb-5">
-                      <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase">Card Payment</div>
+                      <div className="font-black text-gray-700 text-[12px] tracking-widest uppercase">Payment</div>
                       <button onClick={() => setStep('form')}
                         className="text-[11px] text-gray-400 hover:text-red-500 font-semibold border-none bg-transparent cursor-pointer transition-colors">
                         ← Edit Details
                       </button>
                     </div>
 
-                    {/* Accepted cards */}
-                    <div className="flex items-center gap-2 mb-4">
-                      {['VISA', 'MC', 'AMEX', 'DISC'].map(c => (
-                        <span key={c} className="px-2.5 py-1 rounded border border-gray-200 text-[10px] font-black text-gray-500 bg-gray-50">{c}</span>
-                      ))}
-                    </div>
+                    {/* PayPal */}
+                    {paypalIsConfigured && (
+                      <div className="mb-5">
+                        <PayPalScriptProvider options={{ clientId: PAYPAL_CID, currency: 'USD' }}>
+                          <PayPalButtons
+                            style={{ layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal', height: 48 }}
+                            createOrder={async () => {
+                              const res = await fetch(`${API}/payment/paypal/create-order`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ amount: total }),
+                              });
+                              const data = await res.json();
+                              if (!res.ok) throw new Error(data.message);
+                              return data.orderID;
+                            }}
+                            onApprove={async (data) => {
+                              const res = await fetch(`${API}/payment/paypal/capture-order`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ orderID: data.orderID }),
+                              });
+                              const capture = await res.json();
+                              if (!res.ok) throw new Error(capture.message);
+                              const orderRes = await fetch(`${API}/orders`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ ...orderData, paymentStatus: 'paid', paymentId: capture.id, paymentMethod: 'paypal' }),
+                              });
+                              if (!orderRes.ok) throw new Error('Order save failed.');
+                              handlePaymentSuccess(await orderRes.json());
+                            }}
+                            onError={(err) => console.error('PayPal error:', err)}
+                          />
+                        </PayPalScriptProvider>
+                      </div>
+                    )}
 
-                    <Elements stripe={stripePromise}>
-                      <StripePayForm
-                        total={total}
-                        orderData={orderData}
-                        onSuccess={handlePaymentSuccess}
-                        onError={() => {}}
-                      />
-                    </Elements>
+                    {/* Divider */}
+                    {paypalIsConfigured && stripeIsConfigured && (
+                      <div className="flex items-center gap-3 mb-5">
+                        <div className="flex-1 h-px bg-gray-100" />
+                        <span className="text-[11px] text-gray-400 font-semibold">or pay with card</span>
+                        <div className="flex-1 h-px bg-gray-100" />
+                      </div>
+                    )}
+
+                    {/* Stripe card */}
+                    {stripeIsConfigured && (
+                      <>
+                        <div className="flex items-center gap-2 mb-4">
+                          {['VISA', 'MC', 'AMEX', 'DISC'].map(c => (
+                            <span key={c} className="px-2.5 py-1 rounded border border-gray-200 text-[10px] font-black text-gray-500 bg-gray-50">{c}</span>
+                          ))}
+                        </div>
+                        <Elements stripe={stripePromise}>
+                          <StripePayForm
+                            total={total}
+                            orderData={orderData}
+                            onSuccess={handlePaymentSuccess}
+                            onError={() => {}}
+                          />
+                        </Elements>
+                      </>
+                    )}
                   </>
                 )}
               </div>
