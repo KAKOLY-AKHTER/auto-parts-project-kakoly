@@ -626,8 +626,9 @@ export default function Hero() {
             borderRadius:14, overflow:"hidden",
             border:"1.5px solid rgba(255,255,255,0.08)",
             boxShadow:"0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
-            borderTop:"3px solid #e30613",
           }}>
+            {/* ── RED TOP BORDER ── */}
+            <div style={{ height:4, background:"linear-gradient(90deg,#7f0000 0%,#e30613 35%,#ff5555 50%,#e30613 65%,#7f0000 100%)", boxShadow:"0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4)" }} />
 
             {/* ── HEADER ── */}
             <div style={{ padding:"14px 18px 12px", display:"flex", alignItems:"center", gap:12, borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
@@ -768,8 +769,9 @@ export default function Hero() {
             borderRadius:14, overflow:"hidden",
             border:"1.5px solid rgba(255,255,255,0.08)",
             boxShadow:"0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
-            borderTop:"3px solid #e30613",
           }}>
+            {/* ── RED TOP BORDER ── */}
+            <div style={{ height:4, background:"linear-gradient(90deg,#7f0000 0%,#e30613 35%,#ff5555 50%,#e30613 65%,#7f0000 100%)", boxShadow:"0 3px 16px rgba(227,6,19,0.65), 0 1px 4px rgba(227,6,19,0.4)" }} />
 
             {/* ── HEADER ── */}
             <div style={{ padding:"14px 18px 12px", display:"flex", alignItems:"center", gap:12, borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
