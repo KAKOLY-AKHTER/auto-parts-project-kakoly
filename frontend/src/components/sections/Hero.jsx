@@ -200,36 +200,36 @@ const ANIM_CSS = `
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 5px; padding: 10px 4px; border-radius: 9px; cursor: pointer;
     transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.15s;
-    background: rgba(0,0,0,0.06) !important;
-    border: 1.5px solid rgba(0,0,0,0.14) !important;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1.5px solid rgba(255,255,255,0.12) !important;
   }
   .svc-tile:hover {
-    background: rgba(0,0,0,0.11) !important;
-    border-color: rgba(0,0,0,0.28) !important;
+    background: rgba(255,255,255,0.11) !important;
+    border-color: rgba(255,255,255,0.25) !important;
     transform: translateY(-2px);
   }
   .svc-tile.sel {
-    background: rgba(227,6,19,0.10) !important;
+    background: rgba(227,6,19,0.18) !important;
     border-color: #e30613 !important;
-    box-shadow: 0 0 14px rgba(227,6,19,0.25);
+    box-shadow: 0 0 14px rgba(227,6,19,0.35);
     transform: translateY(-1px);
   }
   /* input */
   .hf-input {
-    width: 100%; background: rgba(0,0,0,0.05);
-    border: 1.5px solid rgba(0,0,0,0.18); border-radius: 8px; outline: none;
-    color: #111; font-size: 13px; font-family: 'Inter',sans-serif;
+    width: 100%; background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.14); border-radius: 8px; outline: none;
+    color: #fff; font-size: 13px; font-family: 'Inter',sans-serif;
     padding: 11px 11px 11px 32px; box-sizing: border-box;
     transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     position: relative; z-index: 1;
   }
   .hf-input:focus {
     border-color: #e30613;
-    background: rgba(227,6,19,0.04);
-    box-shadow: 0 0 0 3px rgba(227,6,19,0.12);
+    background: rgba(227,6,19,0.08);
+    box-shadow: 0 0 0 3px rgba(227,6,19,0.18);
     animation: inputFocusPulse 0.5s ease-out;
   }
-  .hf-input::placeholder { color: rgba(0,0,0,0.35); }
+  .hf-input::placeholder { color: rgba(255,255,255,0.28); }
   /* submit button */
   .hf-submit {
     width: 100%; border: none; color: #fff; border-radius: 10px; padding: 13px 20px;
@@ -618,10 +618,10 @@ export default function Hero() {
           {/* ── BOOKING FORM (mobile — shown inside left panel) ── */}
           <div className="hero-form-mobile" style={{ marginTop:16 }}>
           <div style={{
-            background:"#ffffff",
+            background:"#0f1117",
             borderRadius:14, overflow:"hidden",
-            border:"1.5px solid rgba(0,0,0,0.10)",
-            boxShadow:"0 20px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.06)",
+            border:"1.5px solid rgba(255,255,255,0.08)",
+            boxShadow:"0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
             borderTop:"3px solid #e30613",
           }}>
 
@@ -631,8 +631,8 @@ export default function Hero() {
                 <i className="fas fa-wrench" style={{ color:"#e30613", fontSize:14 }} />
               </div>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:15, color:"#111", letterSpacing:"0.07em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
-                <div style={{ color:"rgba(0,0,0,0.50)", fontSize:10.5, marginTop:2, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
+                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:15, color:"#fff", letterSpacing:"0.07em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
+                <div style={{ color:"rgba(255,255,255,0.45)", fontSize:10.5, marginTop:2, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
               </div>
               <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(34,197,94,0.08)", border:"1px solid rgba(34,197,94,0.25)", borderRadius:99, padding:"4px 10px", flexShrink:0 }}>
                 <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
@@ -665,7 +665,7 @@ export default function Hero() {
                     <div style={{ width:20, height:20, borderRadius:"50%", background:"#e30613", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                       <span style={{ color:"#fff", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>1</span>
                     </div>
-                    <span style={{ color:"#111", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
+                    <span style={{ color:"#fff", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
                     {service && <span style={{ marginLeft:"auto", color:"#e30613", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>✓ SELECTED</span>}
                   </div>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
@@ -679,43 +679,43 @@ export default function Hero() {
                             background: sel ? "rgba(227,6,19,0.10)" : "rgba(0,0,0,0.06)",
                             border:`1.5px solid ${sel ? "#e30613" : "rgba(0,0,0,0.14)"}`,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "#333", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#e30613" : "#111" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "rgba(255,255,255,0.70)", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#e30613" : "rgba(255,255,255,0.80)" }}>{s.label}</span>
                         </button>
                       );
                     })}
                   </div>
                 </div>
 
-                <div style={{ height:1, background:"rgba(0,0,0,0.08)", margin:"0 16px" }} />
+                <div style={{ height:1, background:"rgba(255,255,255,0.07)", margin:"0 16px" }} />
 
                 {/* ── STEP 2 ── */}
                 <div style={{ padding:"10px 16px 8px" }}>
                   <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
-                    <div style={{ width:20, height:20, borderRadius:"50%", background: name&&phone&&email ? "#22c55e" : "rgba(0,0,0,0.15)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"background 0.3s" }}>
+                    <div style={{ width:20, height:20, borderRadius:"50%", background: name&&phone&&email ? "#22c55e" : "rgba(255,255,255,0.12)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"background 0.3s" }}>
                       <span style={{ color:"#fff", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{name&&phone&&email ? "✓" : "2"}</span>
                     </div>
-                    <span style={{ color:"#111", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Your Details</span>
+                    <span style={{ color:"#fff", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Your Details</span>
                   </div>
                   <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:7 }}>
                     <div>
-                      <label style={{ display:"block", color:"#222", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Full Name</label>
+                      <label style={{ display:"block", color:"rgba(255,255,255,0.65)", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Full Name</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-user" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(0,0,0,0.45)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
+                        <i className="fas fa-user" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.35)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
                         <input type="text" value={name} onChange={e=>{setName(e.target.value);setErr("");}} placeholder="John Smith" className="hf-input" />
                       </div>
                     </div>
                     <div>
-                      <label style={{ display:"block", color:"#222", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Phone</label>
+                      <label style={{ display:"block", color:"rgba(255,255,255,0.65)", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Phone</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-phone" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(0,0,0,0.45)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
+                        <i className="fas fa-phone" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.35)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
                         <input type="tel" value={phone} onChange={e=>{setPhone(e.target.value);setErr("");}} placeholder="(415) 000-0000" className="hf-input" />
                       </div>
                     </div>
                     <div style={{ gridColumn:"1/-1" }}>
-                      <label style={{ display:"block", color:"#222", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Email Address</label>
+                      <label style={{ display:"block", color:"rgba(255,255,255,0.65)", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Email Address</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-envelope" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(0,0,0,0.45)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
+                        <i className="fas fa-envelope" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.35)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
                         <input type="email" value={email} onChange={e=>{setEmail(e.target.value);setErr("");}} placeholder="your@email.com" className="hf-input" />
                       </div>
                     </div>
@@ -736,7 +736,7 @@ export default function Hero() {
                       : <><i className="fas fa-arrow-right" style={{fontSize:13}}/> Get Free Quote</>
                     }
                   </button>
-                  <div style={{ display:"flex", justifyContent:"space-between", marginTop:10, padding:"8px 4px 0", borderTop:"1px solid rgba(0,0,0,0.08)" }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", marginTop:10, padding:"8px 4px 0", borderTop:"1px solid rgba(255,255,255,0.07)" }}>
                     {[
                       { icon:"fa-bolt",          text:"Same-Day Available" },
                       { icon:"fa-shield-halved",  text:"Licensed & Insured" },
@@ -744,7 +744,7 @@ export default function Hero() {
                     ].map(t => (
                       <div key={t.text} style={{ display:"flex", alignItems:"center", gap:5 }}>
                         <i className={`fas ${t.icon}`} style={{ color:"#e30613", fontSize:10 }} />
-                        <span style={{ color:"rgba(0,0,0,0.50)", fontSize:10.5, fontFamily:"'Inter',sans-serif" }}>{t.text}</span>
+                        <span style={{ color:"rgba(255,255,255,0.50)", fontSize:10.5, fontFamily:"'Inter',sans-serif" }}>{t.text}</span>
                       </div>
                     ))}
                   </div>
@@ -759,10 +759,10 @@ export default function Hero() {
         {/* ── BOOKING FORM OVERLAY (desktop — bottom right) ── */}
         <div className="hero-form-overlay">
           <div style={{
-            background:"#ffffff",
+            background:"#0f1117",
             borderRadius:14, overflow:"hidden",
-            border:"1.5px solid rgba(0,0,0,0.10)",
-            boxShadow:"0 20px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.06)",
+            border:"1.5px solid rgba(255,255,255,0.08)",
+            boxShadow:"0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
             borderTop:"3px solid #e30613",
           }}>
 
@@ -772,8 +772,8 @@ export default function Hero() {
                 <i className="fas fa-wrench" style={{ color:"#e30613", fontSize:14 }} />
               </div>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:15, color:"#111", letterSpacing:"0.07em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
-                <div style={{ color:"rgba(0,0,0,0.50)", fontSize:10.5, marginTop:2, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
+                <div style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:15, color:"#fff", letterSpacing:"0.07em", textTransform:"uppercase", lineHeight:1 }}>Book a Service</div>
+                <div style={{ color:"rgba(255,255,255,0.45)", fontSize:10.5, marginTop:2, fontFamily:"'Inter',sans-serif" }}>Free estimate · No commitment · We come to you</div>
               </div>
               <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(34,197,94,0.08)", border:"1px solid rgba(34,197,94,0.25)", borderRadius:99, padding:"4px 10px", flexShrink:0 }}>
                 <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
@@ -807,7 +807,7 @@ export default function Hero() {
                     <div style={{ width:20, height:20, borderRadius:"50%", background:"#e30613", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                       <span style={{ color:"#fff", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>1</span>
                     </div>
-                    <span style={{ color:"#111", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
+                    <span style={{ color:"#fff", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
                     {service && <span style={{ marginLeft:"auto", color:"#e30613", fontSize:10, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.06em" }}>✓ SELECTED</span>}
                   </div>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
@@ -821,8 +821,8 @@ export default function Hero() {
                             background: sel ? "rgba(227,6,19,0.40)" : "rgba(255,255,255,0.18)",
                             border: `1.5px solid ${sel ? "#e30613" : "rgba(255,255,255,0.62)"}`,
                           }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "#333", transition:"color 0.18s" }} />
-                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#e30613" : "#111" }}>{s.label}</span>
+                          <i className={`fas ${s.icon}`} style={{ fontSize:15, color: sel ? "#e30613" : "rgba(255,255,255,0.70)", transition:"color 0.18s" }} />
+                          <span style={{ fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:10.5, letterSpacing:"0.04em", textTransform:"uppercase", textAlign:"center", lineHeight:1.3, color: sel ? "#e30613" : "rgba(255,255,255,0.80)" }}>{s.label}</span>
                         </button>
                       );
                     })}
@@ -830,36 +830,36 @@ export default function Hero() {
                 </div>
 
                 {/* divider */}
-                <div style={{ height:1, background:"rgba(0,0,0,0.08)", margin:"0 16px" }} />
+                <div style={{ height:1, background:"rgba(255,255,255,0.07)", margin:"0 16px" }} />
 
                 {/* ── STEP 2: DETAILS ── */}
                 <div style={{ padding:"10px 16px 8px" }}>
                   <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
-                    <div style={{ width:20, height:20, borderRadius:"50%", background: name&&phone&&email ? "#22c55e" : "rgba(0,0,0,0.15)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"background 0.3s" }}>
+                    <div style={{ width:20, height:20, borderRadius:"50%", background: name&&phone&&email ? "#22c55e" : "rgba(255,255,255,0.12)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"background 0.3s" }}>
                       <span style={{ color:"#fff", fontSize:11, fontWeight:700, fontFamily:"'Oswald',sans-serif" }}>{name&&phone&&email ? "✓" : "2"}</span>
                     </div>
-                    <span style={{ color:"#111", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Your Details</span>
+                    <span style={{ color:"#fff", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Your Details</span>
                   </div>
 
                   <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:7 }}>
                     <div>
-                      <label style={{ display:"block", color:"#222", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Full Name</label>
+                      <label style={{ display:"block", color:"rgba(255,255,255,0.65)", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Full Name</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-user" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(0,0,0,0.45)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
+                        <i className="fas fa-user" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.35)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
                         <input type="text" value={name} onChange={e=>{setName(e.target.value);setErr("");}} placeholder="John Smith" className="hf-input" />
                       </div>
                     </div>
                     <div>
-                      <label style={{ display:"block", color:"#222", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Phone</label>
+                      <label style={{ display:"block", color:"rgba(255,255,255,0.65)", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Phone</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-phone" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(0,0,0,0.45)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
+                        <i className="fas fa-phone" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.35)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
                         <input type="tel" value={phone} onChange={e=>{setPhone(e.target.value);setErr("");}} placeholder="(415) 000-0000" className="hf-input" />
                       </div>
                     </div>
                     <div style={{ gridColumn:"1/-1" }}>
-                      <label style={{ display:"block", color:"#222", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Email Address</label>
+                      <label style={{ display:"block", color:"rgba(255,255,255,0.65)", fontSize:11.5, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Email Address</label>
                       <div style={{ position:"relative" }}>
-                        <i className="fas fa-envelope" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(0,0,0,0.45)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
+                        <i className="fas fa-envelope" style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", color:"rgba(255,255,255,0.35)", fontSize:13, pointerEvents:"none", zIndex:2 }} />
                         <input type="email" value={email} onChange={e=>{setEmail(e.target.value);setErr("");}} placeholder="your@email.com" className="hf-input" />
                       </div>
                     </div>
@@ -881,7 +881,7 @@ export default function Hero() {
                     }
                   </button>
 
-                  <div style={{ display:"flex", justifyContent:"space-between", marginTop:10, padding:"8px 4px 0", borderTop:"1px solid rgba(0,0,0,0.08)" }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", marginTop:10, padding:"8px 4px 0", borderTop:"1px solid rgba(255,255,255,0.07)" }}>
                     {[
                       { icon:"fa-bolt",          text:"Same-Day Available" },
                       { icon:"fa-shield-halved",  text:"Licensed & Insured" },
@@ -889,7 +889,7 @@ export default function Hero() {
                     ].map(t => (
                       <div key={t.text} style={{ display:"flex", alignItems:"center", gap:5 }}>
                         <i className={`fas ${t.icon}`} style={{ color:"#e30613", fontSize:10 }} />
-                        <span style={{ color:"rgba(0,0,0,0.50)", fontSize:10.5, fontFamily:"'Inter',sans-serif" }}>{t.text}</span>
+                        <span style={{ color:"rgba(255,255,255,0.50)", fontSize:10.5, fontFamily:"'Inter',sans-serif" }}>{t.text}</span>
                       </div>
                     ))}
                   </div>
