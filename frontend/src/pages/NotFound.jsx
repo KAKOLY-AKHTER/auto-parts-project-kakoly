@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 export default function NotFound() {
   return (
-    <div style={{
+    <div className="mt-[60px] md:mt-[180px]" style={{
       minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: '#080810', marginTop: 20, padding: '40px 20px', textAlign: 'center',
+      background: '#080810', padding: '40px 20px', textAlign: 'center',
     }}>
       <div style={{ maxWidth: 540 }}>
 
