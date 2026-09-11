@@ -415,6 +415,13 @@ const ANIM_CSS = `
     .sbtn-title { font-size: 14px !important; white-space: nowrap; }
   }
 
+  /* hero title responsive */
+  @media (max-width: 639px) {
+    .hero-title-big     { font-size: clamp(56px, 18vw, 100px) !important; }
+    .hero-title-fremont { font-size: clamp(60px, 20vw, 106px) !important; }
+    .svc-grid           { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+
   /* ─────── STATS BAR — RESPONSIVE ─────── */
   .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); }
   .stat-link { border-right: 1px solid rgba(255,255,255,0.08); }
@@ -579,7 +586,7 @@ export default function Hero() {
           </p>
 
           {/* 24HR */}
-          <div style={{
+          <div className="hero-title-big" style={{
             fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
             fontSize: "clamp(100px,12vw,168px)",
             fontWeight: 400, lineHeight: 0.88, letterSpacing: "0.01em",
@@ -590,7 +597,7 @@ export default function Hero() {
           </div>
 
           {/* FREMONT + RED BAR — same width wrapper */}
-          <div style={{
+          <div className="hero-title-fremont" style={{
             fontFamily: "'Bebas Neue','Barlow Condensed',sans-serif",
             fontSize: "clamp(106px,14.5vw,200px)",
             fontWeight: 400, lineHeight: 0.84, letterSpacing: "0.01em",
@@ -709,7 +716,7 @@ export default function Hero() {
                     <span style={{ color:"#111111", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
                     {service && <span style={{ marginLeft:"auto", color:"#22c55e", fontSize:11, fontWeight:900, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.10em", textShadow:"0 0 8px rgba(34,197,94,0.6)" }}>✓ SELECTED</span>}
                   </div>
-                  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
+                  <div className="svc-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
                     {SERVICES.map(s => {
                       const sel = service === s.value;
                       return (
@@ -854,7 +861,7 @@ export default function Hero() {
                     <span style={{ color:"#111111", fontSize:12, fontWeight:700, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.14em", textTransform:"uppercase" }}>Select Your Service</span>
                     {service && <span style={{ marginLeft:"auto", color:"#22c55e", fontSize:11, fontWeight:900, fontFamily:"'Oswald',sans-serif", letterSpacing:"0.10em", textShadow:"0 0 8px rgba(34,197,94,0.6)" }}>✓ SELECTED</span>}
                   </div>
-                  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
+                  <div className="svc-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:5 }}>
                     {SERVICES.map(s => {
                       const sel = service === s.value;
                       return (

@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <div style={{
       minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: '#080810', padding: '40px 20px', textAlign: 'center',
+      background: '#080810', marginTop: 20, padding: '40px 20px', textAlign: 'center',
     }}>
       <div style={{ maxWidth: 540 }}>
 
